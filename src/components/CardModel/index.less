@@ -18,27 +18,29 @@
   float: left;
 }
 .card {
+  display: flex;
+  flex-direction: column;
   border-top: 4px solid #F57323;
   height: 100%;
   width:48%;
   background-color: #FFF;
   box-shadow: 0 2px 4px #DEE9F4;
-  float: left;
+  .cardTitle {
+    display: flex;
+  }
   .cardbox {
+    display: flex;
     width: 100%;
-    padding-top: 40px;
-    padding-left: 7%;
-    height: 100%;
+    height: auto;
+    flex-grow: 1;
+    align-items: center;
     .boxImg {
       width: 45%;
       height: auto;
-      float: left;
       padding: 20px;
+      margin-left: 20px;
       border: 1px solid #CCC;
       border-radius: 5px;
-      display: table-cell;
-      vertical-align:middle;
-      text-align:center;
 
       img {
         margin: 0 auto;
@@ -50,8 +52,8 @@
     }
     ul {
       width: 55%;
-      float: left;
       padding-left: 4%;
+      margin: 0;
       .textarea {
         border: none;
         resize: none;
@@ -90,12 +92,9 @@
   .backingBoxImg {
       width: 45%;
       height: auto;
-      float: left;
       padding: 0px;
       border-radius: 5px;
-      display: table-cell;
-      vertical-align:middle;
-      text-align:center;
+      margin-left: 20px;
       img {
         margin: 0 auto;
         text-align:center;

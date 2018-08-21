@@ -9,8 +9,10 @@ export default class BackingCard extends Component {
     const {backingData, styleWidth} = this.props
     return (
       <div style={{width: styleWidth}} className={`${styles.card} ${styles.backingCard}`}>
-        <span className={styles.title}>背衬介绍</span>
-        <div className={styles.triangle} />
+        <div className={styles.cardTitle}>
+          <span className={styles.title}>背衬介绍</span>
+          <div className={styles.triangle} />
+        </div>
         {backingData? (
           <div className={styles.cardbox}>
             <div className={styles.backingBoxImg}>

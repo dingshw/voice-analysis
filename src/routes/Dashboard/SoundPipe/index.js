@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
 import BackingCard from 'components/CardModel/BackingCard'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
-import styles from './index.less';
+import styles from '../index.less';
 
 const Option = Select.Option;
 
@@ -76,24 +76,11 @@ export default class SoundPipe extends Component {
     const { sampleData, backingData, soundPipeData } = this.props
     const { selectSampleData, selectBackingData } = this.state
 
-    const selectAnalysisName = `${selectSampleData.name  } ${  selectBackingData.name}`
+    const selectAnalysisName = {backgroundtype: selectBackingData.name, samplename: selectSampleData.name}
     return (
       <div className={styles.main}>
         <div className={styles.headerBox}>
           <div className={styles.soundHead}>
-            <span>背衬选择</span>
-            <Select
-              showSearch
-              style={{ width: 200 }}
-              placeholder="请选择背衬"
-              optionFilterProp="children"
-              onChange={this.handleBackingChange.bind(this)}
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-            >
-              {
-                backingData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
-              }
-            </Select>
             <span>样品选择</span>
             <Select
               showSearch
@@ -105,6 +92,19 @@ export default class SoundPipe extends Component {
             >
               {
                 sampleData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              }
+            </Select>
+            <span>背衬选择</span>
+            <Select
+              showSearch
+              style={{ width: 200 }}
+              placeholder="请选择背衬"
+              optionFilterProp="children"
+              onChange={this.handleBackingChange.bind(this)}
+              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+            >
+              {
+                backingData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
               }
             </Select>
           </div>

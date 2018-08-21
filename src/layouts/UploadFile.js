@@ -8,14 +8,11 @@ export default class UploadFile extends Component {
 
   render () {
     const props = {
-      action: '/excelUpload/uploadExcle',
-      // lcalhost:8080/excelUpload/uploadExcle
-      headers: {
-        authorization: 'authorization-text',
-      },
+      // action: '/excelUpload/uploadExcle',
+      action: '//jsonplaceholder.typicode.com/posts/',
       multiple: false,
       withCredentials: true,
-      name: 'excelName',
+      name: 'file',
       accept: '.xlsx',
       onChange(info) {
         if (info.file.status !== 'uploading') {

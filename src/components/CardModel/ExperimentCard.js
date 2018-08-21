@@ -8,8 +8,10 @@ export default class ExperimentCard extends Component {
     const {experimentData, styleWidth, styleMarginLeft} = this.props;
     return (
       <div style={styleWidth && styleMarginLeft ? {width: styleWidth, marginLeft: styleMarginLeft} : {}} className={styles.card}>
-        <span className={styles.title}>试验模型</span>
-        <div className={styles.triangle} />
+        <div className={styles.cardTitle}>
+          <span className={styles.title}>试验模型</span>
+          <div className={styles.triangle} />
+        </div>
         {experimentData? (
           <div className={styles.cardbox}>
             <div className={styles.boxImg}>

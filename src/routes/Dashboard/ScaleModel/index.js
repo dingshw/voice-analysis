@@ -5,7 +5,7 @@ import SampleCard from 'components/CardModel/SampleCard'
 import BackingCard from 'components/CardModel/BackingCard'
 import ExperimentCard from 'components/CardModel/ExperimentCard'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
-import styles from './index.less';
+import styles from '../index.less';
 
 const Option = Select.Option;
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Button, Slider, InputNumber, Row, Col, Tag, Tooltip } from 'antd'
+import { Button, Slider, InputNumber, Row, Col, Tag, Tooltip, message } from 'antd'
 import _ from 'lodash'
 import echarts from 'echarts2/echarts' // 必须
 import 'echarts2/component/tooltip'
@@ -58,8 +58,34 @@ export default class ParamAnalysis extends Component {
     });
   }
 
+  checkAnalysisData = (selectAnalysisName) => {
+    for(const key in selectAnalysisName) {
+      if(Object.prototype.hasOwnProperty.call(selectAnalysisName, key)) {
+        if(!selectAnalysisName[key]) {
+          let errMsg = '请选择'
+          switch(key) {
+            case 'backgroundtype':
+              errMsg = '请选择背衬'
+              break
+            case 'samplename':
+              errMsg = '请选择样品'
+              break
+            default:
+              errMsg = '请选择下拉框内容'
+              break
+          }
+          message.error(errMsg);
+          return false
+        }
+      }
+    }
+    return true
+  }
+
   addCompareAnalysisData = () => {
     const { compareAnalysisData, analysisParam } = this.state
+    const { selectAnalysisName } = this.props
+    if(!this.checkAnalysisData(selectAnalysisName)) { return; }
     compareAnalysisData.push(analysisParam)
     this.setState({compareAnalysisData})
   }
@@ -83,9 +109,13 @@ export default class ParamAnalysis extends Component {
   }
 
   showAnalysisData = () => {
-    const { handleAnalysisData } = this.props
+    const { handleAnalysisData, selectAnalysisName } = this.props
+    if(!this.checkAnalysisData(selectAnalysisName)) { return; }
     const { analysisParam } = this.state
-    handleAnalysisData(analysisParam)
+    const param = _.cloneDeep(analysisParam)
+    param.rateMin = analysisParam.rateMin * 1000
+    param.rateMax = analysisParam.rateMax * 1000
+    handleAnalysisData(param)
   }
 
   formatAnalysisData = (analysisData, categories, seriesData) => {
@@ -185,14 +215,50 @@ export default class ParamAnalysis extends Component {
       this.changeChartData(analysisData)
     }
     const marks = {
-      0: '0M',
-      10: '1OK',
-      20: '2OK',
+      0: '0',
+      5: '5K',
+      10: '10K',
+      15: '15K',
+      20: '20K',
+      25: '25K',
       30: {
         style: {
           color: '#f50',
         },
         label: <strong>30K</strong>,
+      },
+    };
+
+    const paMarks = {
+      0: '0',
+      0.5: '0.5',
+      1.0: '1.0',
+      1.5: '1.5',
+      2.0: '2.0',
+      2.5: '2.5',
+      3.0: '3.0',
+      3.5: '3.5',
+      4.0: '4.0',
+      4.5: {
+        style: {
+          color: '#f50',
+        },
+        label: <strong>4.5</strong>,
+      },
+    };
+
+    const tMarks = {
+      0: '0',
+      5: '5',
+      10: '10',
+      15: '15',
+      20: '20',
+      25: '25',
+      30: {
+        style: {
+          color: '#f50',
+        },
+        label: <strong>30</strong>,
       },
     };
 
@@ -247,18 +313,20 @@ export default class ParamAnalysis extends Component {
                     min={0}
                     max={4.5}
                     step={0.5}
+                    marks={paMarks}
                     value={analysisParam.press}
                     onChange={this.onChangeAnalysisData.bind(this, 'press')}
                   />
                 </Col>
-                <Col span={4}>
+                <Col span={5}>
                   <InputNumber
                     min={0}
                     max={4.5}
+                    step={0.5}
                     value={analysisParam.press}
                     onChange={this.onChangeAnalysisData.bind(this, 'press')}
-                    formatter={value => `${value}Mpa`}
-                    parser={value => value.replace('Mpa', '')}
+                    formatter={value => `${value}MPa`}
+                    parser={value => value.replace('MPa', '')}
                     style={{ width: '100%' }}
                   />
                 </Col>
@@ -269,6 +337,8 @@ export default class ParamAnalysis extends Component {
                   <Slider
                     min={0}
                     max={30}
+                    step={5}
+                    marks={tMarks}
                     value={analysisParam.temparture}
                     onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
                   />
@@ -277,6 +347,7 @@ export default class ParamAnalysis extends Component {
                   <InputNumber
                     min={0}
                     max={30}
+                    step={5}
                     value={analysisParam.temparture}
                     onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
                     formatter={value => `${value}度`}
@@ -302,22 +373,24 @@ export default class ParamAnalysis extends Component {
             </div> */}
           </div>
           <div className={styles.calculateChart}>
-            <div id="mainChart" className={styles.chartArea}>
-              暂无数据
-            </div>
             <div className={styles.chartItems}>
               <span>已加入的对比数据</span>
-              {compareAnalysisData && compareAnalysisData.map((item, index) => {
-                const tag = `对比数据${index}`
-                const isLongTag = tag.length > 10;
-                const tagElem = (
-                  <Tag key={tag} className={styles.chartItem} closable={index !== 0} afterClose={() => this.removeAnalysisData(index)}>
-                    {isLongTag ? `${tag.slice(0, 10)}...` : tag}
-                  </Tag>
-                );
-                return isLongTag ? <Tooltip className={styles.chartItem} title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
-              })}
+              <div className={styles.itemList}>
+                {compareAnalysisData && compareAnalysisData.map((item, index) => {
+                  const tag = `对比数据${index}`
+                  const isLongTag = tag.length > 10;
+                  const tagElem = (
+                    <Tag key={tag} className={styles.chartItem} closable={index !== 0} afterClose={() => this.removeAnalysisData(index)}>
+                      {isLongTag ? `${tag.slice(0, 10)}...` : tag}
+                    </Tag>
+                  );
+                  return isLongTag ? <Tooltip className={styles.chartItem} title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
+                })}
+              </div>
               <Button type="primary" className={styles.startBtn}>开始对比</Button>
+            </div>
+            <div id="mainChart" className={styles.chartArea}>
+              <h4 className={styles.noDataSpan}>暂无数据</h4>
             </div>
           </div>
         </div>

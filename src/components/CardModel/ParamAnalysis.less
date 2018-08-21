@@ -19,7 +19,7 @@
 }
 .paramAnalysis {
   width: 100%;
-  height: 55%;
+  height: 58%;
   background: white;
   border-top: 4px solid #2FB3B0;
   box-shadow: 0 2px 4px #DEE9F4;
@@ -34,7 +34,7 @@
     height: 100%;
     padding: 40px 20px 10px 20px;
     .calculate {
-      width: 38%;
+      width: 42%;
       float: left;
       display: block;
       margin-right: 2%;
@@ -58,7 +58,7 @@
         .calculateBtns {
           width: 194px;
           margin: auto;
-          margin-top: 33px;
+          margin-top: 15px;
           .showNum {
             width: 86px;
             height: 28px;
@@ -117,30 +117,45 @@
 
   }
   .calculateChart {
-    width: 60%;
+    width: 56%;
     height: 100%;
     float: right;
     display: block;
     background: #F4F4F4;
     border: 1px solid #E6E6E6;
     border-radius: 3px;
-    .chartArea {
-      float: left;
-      width: 80%;
-      height: 100%;
-      padding-top: 40px;
-    }
+    display: flex;
+    flex-direction: column;
     .chartItems {
-      margin-top: 98px;
-      float: right;
-      width: 20%;
-      .chartItem {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 50px;
+      padding: 0 20px;
+      span {
+        width: 120px;
+        white-space: nowrap;
         margin-top: 10px;
-        line-height: 29px;
-        height: 29px;
+      }
+      .itemList {
+        flex-grow: 1;
+        white-space: nowrap;
+        overflow: auto;
+        .chartItem {
+          line-height: 29px;
+          height: 29px;
+        }
       }
       .startBtn {
-        margin-top: 20px;
+        width: 86px;
+      }
+    }
+    .chartArea {
+      width: 100%;
+      flex: 1;
+      .noDataSpan {
+        margin: 40px auto;
+        width: 120px;
       }
     }
   }

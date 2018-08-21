@@ -8,8 +8,10 @@ export default class SampleCard extends Component {
     const {sampleData, styleWidth} = this.props;
     return (
       <div style={{width: styleWidth}} className={styles.card}>
-        <span className={styles.title}>样品介绍</span>
-        <div className={styles.triangle} />
+        <div className={styles.cardTitle}>
+          <span className={styles.title}>样品介绍</span>
+          <div className={styles.triangle} />
+        </div>
         {sampleData? (
           <div className={styles.cardbox}>
             <div className={styles.boxImg}>

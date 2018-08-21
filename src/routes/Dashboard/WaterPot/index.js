@@ -4,7 +4,7 @@ import SampleCard from 'components/CardModel/SampleCard'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
 import ExperimentCard from 'components/CardModel/ExperimentCard'
 import TestSystem from 'components/CardModel/TestSystem'
-import styles from './index.less';
+import styles from '../index.less';
 
 const Option = Select.Option;
 
