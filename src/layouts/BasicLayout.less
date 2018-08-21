@@ -1,0 +1,29 @@
+.container {
+  height: 100%;
+}
+.headerTools {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: #FFFFFF;
+}
+.toolsButton {
+  width: 86px;
+  height: 28px;
+  margin: 0 20px;
+  .upload {
+    :global {
+      .ant-upload.ant-upload-select {
+        display: block;
+        .ant-btn {
+          height: 28px;
+        }
+      }
+      .ant-upload-list {
+        display: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+.title {
+  width: 140px;
+  height: 32px;
+  background-color: #F57323;
+  color: white;
+  text-align: center;
+  line-height: 32px;
+  padding-left: 10px;
+  float: left;
+}
+.triangle {
+  border-bottom: 32px solid transparent;
+  border-top: 0px solid transparent;
+  border-left:20px solid #F57323;
+  /*border-right: 150px solid red;*/
+  width: 20px;
+  height: 16px;
+  float: left;
+}
+.card {
+  border-top: 4px solid #F57323;
+  height: 100%;
+  width:48%;
+  background-color: #FFF;
+  box-shadow: 0 2px 4px #DEE9F4;
+  float: left;
+  .cardbox {
+    width: 100%;
+    padding-top: 40px;
+    padding-left: 7%;
+    height: 100%;
+    .boxImg {
+      width: 45%;
+      height: auto;
+      float: left;
+      padding: 20px;
+      border: 1px solid #CCC;
+      border-radius: 5px;
+      display: table-cell;
+      vertical-align:middle;
+      text-align:center;
+
+      img {
+        margin: 0 auto;
+        text-align:center;
+        vertical-align: middle;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    ul {
+      width: 55%;
+      float: left;
+      padding-left: 4%;
+      .textarea {
+        border: none;
+        resize: none;
+      }
+      span {
+        color: #4A4A4A;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      li {
+        list-style:none;
+        background:url(../../../public/li.svg) no-repeat left;
+        padding-left:15px;
+        line-height: 28px;
+        height: 28px;
+        display:block;
+        span:first-child {
+          color: #9B9B9B;
+          font-size: 12px;
+          width: 80px;
+          height: 28px;
+          display: inline-block;
+        }
+        span:nth-child(2) {
+          color: #000000;
+          font-size: 12px;
+          margin-left: 10px;
+          display: contents;
+        }
+      }
+    }
+  }
+}
+.backingCard {
+  float: right;
+  .backingBoxImg {
+      width: 45%;
+      height: auto;
+      float: left;
+      padding: 0px;
+      border-radius: 5px;
+      display: table-cell;
+      vertical-align:middle;
+      text-align:center;
+      img {
+        margin: 0 auto;
+        text-align:center;
+        vertical-align: middle;
+        width: 100%;
+        height: 100%;
+      }
+  }
+}
