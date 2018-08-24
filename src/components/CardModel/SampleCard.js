@@ -17,7 +17,7 @@ export default class SampleCard extends Component {
             <div className={styles.boxImg}>
               <img src={sample} alt="样品" />
             </div>
-            <ul>
+            <ul className={styles.itemUl}>
               <li><span>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</span><span>{sampleData.name || ''}</span></li>
               <li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度</span><span>{sampleData.density || ''}</span></li>
               <li><span>弹性模量</span><span>{sampleData.flexibleModel || ''}</span></li>

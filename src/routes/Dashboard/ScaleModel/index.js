@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
 import BackingCard from 'components/CardModel/BackingCard'
 import ExperimentCard from 'components/CardModel/ExperimentCard'
+import ExperimentCondition from 'components/CardModel/ExperimentCondition'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
 import styles from '../index.less';
 
@@ -122,8 +123,8 @@ export default class SoundPipe extends Component {
           </Select>
         </div>
         <div className={styles.mainCard}>
-          <SampleCard sampleData={selectSampleData} styleWidth="32%" />
-          <ExperimentCard experimentData={selectSampleData} styleWidth="32%" styleMarginLeft="2%" />
+          <ExperimentCard experimentData={selectSampleData} styleWidth="32%" />
+          <ExperimentCondition experimentData={selectSampleData} styleWidth="32%" styleMarginLeft="2%" />
           <BackingCard backingData={selectBackingData} styleWidth="32%" />
         </div>
         <ParamAnalysis analysisData={soundPipeData} selectAnalysisName={selectAnalysisName} handleAnalysisData={this.handleSoundPipeData.bind(this)} />

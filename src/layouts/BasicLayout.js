@@ -12,6 +12,7 @@ import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
 import SiderMenu from '../components/SiderMenu';
 import UploadFile from './UploadFile'
+import ReduceReport from './ReduceReport'
 import NotFound from '../routes/Exception/404';
 import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
@@ -251,10 +252,10 @@ export default class BasicLayout extends React.PureComponent {
                 <a href={excel}>模板下载</a>
               </Button>
               <UploadFile />
-              <Button type="primary" className={styles.toolsButton}>生成报告</Button>
+              <ReduceReport />
             </div>
           </Header>
-          <Content style={{ height: '86%', padding: '0 20px', background:'#f6f9fc' }}>
+          <Content id='indexMain' style={{ height: '86%', padding: '0 20px', background:'#f6f9fc' }}>
             <Switch>
               {redirectData.map(item => (
                 <Redirect key={item.from} exact from={item.from} to={item.to} />

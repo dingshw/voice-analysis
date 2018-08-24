@@ -32,6 +32,7 @@
     "echarts": "^4.1.0",
     "echarts2": "^2.2.7000101",
     "enquire-js": "^0.2.1",
+    "html2canvas": "^1.0.0-alpha.12",
     "lodash": "^4.17.10",
     "lodash-decorators": "^6.0.0",
     "moment": "^2.19.3",
@@ -45,6 +46,7 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.4.1",
     "react-fittext": "^1.0.0",
+    "react-slick": "^0.23.1",
     "setprototypeof": "^1.1.0",
     "url-polyfill": "^1.0.10"
   },

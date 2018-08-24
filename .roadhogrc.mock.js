@@ -119,7 +119,17 @@ const proxy = {
             "logo": null,
             "other": "文字文字",
             "samplePk": "faae722c-a685-44e6-973e-6bfcde20e417"
-        }
+        },
+        {
+          "ts": 1532767399000,
+          "pk": "5948ffbb-c18d-4f45-8747-773485bdd690",
+          "name": "50mm钢",
+          "frontMedium": "水",
+          "endMedium": "水",
+          "logo": null,
+          "other": "文字文字",
+          "samplePk": "faae722c-a685-44e6-973e-6bfcde20e417"
+      }
     ]
   },
   'GET /metaMng/small/sample': {

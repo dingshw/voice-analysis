@@ -4,7 +4,7 @@
   background-color: #F57323;
   color: white;
   text-align: center;
-  line-height: 32px;
+  line-height: 26px;
   padding-left: 10px;
   float: left;
 }
@@ -27,12 +27,12 @@
   box-shadow: 0 2px 4px #DEE9F4;
   .cardTitle {
     display: flex;
+    overflow: hidden;
   }
   .cardbox {
     display: flex;
     width: 100%;
-    height: auto;
-    flex-grow: 1;
+    height: 100%;
     align-items: center;
     .boxImg {
       width: 45%;
@@ -50,7 +50,28 @@
         height: 100%;
       }
     }
-    ul {
+    .experimentImg {
+      padding: 0;
+      border: none;
+      :global {
+        .ant-carousel {
+          ul {
+            height: 15px;
+            li {
+              height: 100%;
+              button {
+                height: 100%;
+                background: #F57323;
+                font-size: 12px;
+                color: #000000;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .itemUl {
       width: 55%;
       padding-left: 4%;
       margin: 0;
@@ -90,17 +111,45 @@
 .backingCard {
   float: right;
   .backingBoxImg {
-      width: 45%;
-      height: auto;
-      padding: 0px;
-      border-radius: 5px;
-      margin-left: 20px;
-      img {
-        margin: 0 auto;
-        text-align:center;
-        vertical-align: middle;
-        width: 100%;
-        height: 100%;
+    width: 45%;
+    height: 100%;
+    padding: 20px 0 20px 20px;
+    border-radius: 5px;
+    display: flex;
+    span {
+      text-align: center;
+    }
+    .imgWater {
+      flex: 4;
+      background: #8ED7FF;
+      border: 1px solid #8ED7FF;
+      &:hover {
+        border: 1px solid #F57323;
       }
+    }
+    .imgSample {
+      flex: 3;
+      background: #616F7E;
+      border: 1px solid #616F7E;
+      &:hover {
+        border: 1px solid #F57323;
+      }
+    }
+    .imgBacking {
+      flex: 3;
+      background: #4F5663;
+      border: 1px solid #4F5663;
+      &:hover {
+        border: 1px solid #F57323;
+      }
+    }
+    .imgAir {
+      flex: 5;
+      background: #D6FFFF;
+      border: 1px solid #D6FFFF;
+      &:hover {
+        border: 1px solid #F57323;
+      }
+    }
   }
 }

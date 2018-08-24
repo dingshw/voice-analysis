@@ -18,7 +18,7 @@ export default class TestSystem extends Component {
             <div className={styles.backingBoxImg}>
               <img src={testmodel} alt="测试系统" />
             </div>
-            <ul>
+            <ul className={styles.itemUl}>
               <span>测试系统介绍</span>
               <li><span>名称</span><span>阿波罗</span></li>
               <textarea className={styles.textarea}>2331231231312233123123131223312312313122331231231312</textarea>
