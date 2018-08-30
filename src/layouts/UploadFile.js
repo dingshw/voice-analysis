@@ -8,12 +8,13 @@ export default class UploadFile extends Component {
 
   render () {
     const props = {
-      // action: '/excelUpload/uploadExcle',
-      action: '//jsonplaceholder.typicode.com/posts/',
+      action: '/excelUpload/uploadExcle',
+      // action: '//jsonplaceholder.typicode.com/posts/',
       multiple: false,
       withCredentials: true,
       name: 'file',
       accept: '.xlsx',
+      data: { catalog: 'smallDemo' },
       onChange(info) {
         if (info.file.status !== 'uploading') {
           console.log(info.file, info.fileList);

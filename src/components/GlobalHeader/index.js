@@ -66,6 +66,7 @@ export default class GlobalHeader extends PureComponent {
       logo,
       onNoticeVisibleChange,
       onMenuClick,
+      authoriyType
     } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
@@ -102,10 +103,12 @@ export default class GlobalHeader extends PureComponent {
           <span className={styles.banner}>声学参数处理与分析系统</span>
         </div>
         <div className={styles.right}>
-          <span className={`${styles.action} ${styles.management}`}>
-            <img className={styles.avatar} src={management} />
-            <span className={styles.name}>后台管理</span>
-          </span>
+          {/* {authoriyType === 'user' ? (
+            <span className={`${styles.action} ${styles.management}`}>
+              <img className={styles.avatar} src={management} />
+              <span className={styles.name}>后台管理</span>
+            </span>) : ''
+          } */}
           {currentUser.name ?
             <span className={`${styles.action} ${styles.logout}`} onClick={onMenuClick.bind(this, {key:'logout'})}>
               <img className={styles.avatar} src={logout} />

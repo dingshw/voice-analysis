@@ -20,6 +20,73 @@ import styles from './ParamAnalysis.less'
 
 let myChart = null
 let historyAnalysisData = []
+let analysisState = ""
+let chartOption = {
+  title: { text: '' },
+  tooltip: {},
+  toolbox: {
+    show: true,
+    left: '30px',
+    feature: {
+        dataZoom: {
+            yAxisIndex: 'none',
+            show: true,
+        },
+        dataView: {readOnly: false,show: true},
+        magicType: {type: ['line', 'bar'],show: true},
+        restore: {show: true},
+        saveAsImage: {show: true},
+    },
+  },
+  grid: {
+    x: 30,
+    x2: 40,
+    y: 30,
+    y2: 50,
+  },
+  legend: {
+    data:['反射系数','透射系数','吸声系数'],
+    x: 'center',
+    y: 'bottom',
+  },
+  xAxis: {
+    data: ['频率1', '频率2', '频率3'],
+  },
+  yAxis: {},
+  series: [
+    {
+      // 根据名字对应到相应的系列
+      name: '反射系数',
+      type: 'line',
+      data: [],
+      markLine: {
+          data: [
+              {type: 'average', name: '平均值'},
+          ],
+      },
+    }, {
+      // 根据名字对应到相应的系列
+      name: '透射系数',
+      type: 'line',
+      data: [],
+      markLine: {
+        data: [
+            {type: 'average', name: '平均值'},
+        ],
+      },
+    }, {
+      // 根据名字对应到相应的系列
+      name: '吸声系数',
+      type: 'line',
+      data: [],
+      markLine: {
+        data: [
+            {type: 'average', name: '平均值'},
+        ],
+      },
+    },
+  ],
+}
 
 export default class ParamAnalysis extends Component {
 
@@ -38,7 +105,38 @@ export default class ParamAnalysis extends Component {
     },
   }
 
+  componentWillMount() {
+    const { param } = this.props
+    const { analysisParam } = this.state
+    this.setState({analysisParam: _.merge(analysisParam, param)})
+  }
+
   componentDidMount() {
+    setTimeout(() => {
+      myChart = echarts.init(document.getElementById('mainChart'));
+      myChart.setOption(chartOption);
+    })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { analysisData, param } = nextProps
+    const { data, dataParam } = analysisData
+    const { analysisParam } = this.state
+
+    this.setState({analysisParam: _.merge(analysisParam, param)})
+
+    if(data && data.length>0) {
+      if(dataParam) {
+        if(analysisState === 'add') {
+          this.addCompareAnalysisData(analysisData)
+          analysisState = 'hasAdd'
+        }
+        if(analysisState === 'show' && !_.isEqual(data, historyAnalysisData)){
+          historyAnalysisData = _.cloneDeep(data)
+          this.changeChartData(data)
+        }
+      }
+    }
   }
 
   onChangeAnalysisData = (type, value) => {
@@ -82,16 +180,16 @@ export default class ParamAnalysis extends Component {
     return true
   }
 
-  addCompareAnalysisData = () => {
-    const { compareAnalysisData, analysisParam } = this.state
+  addCompareAnalysisData = (analysisData) => {
+    const { compareAnalysisData } = this.state
     const { selectAnalysisName } = this.props
     if(!this.checkAnalysisData(selectAnalysisName)) { return; }
-    compareAnalysisData.push(analysisParam)
+    compareAnalysisData.push(analysisData)
     this.setState({compareAnalysisData})
   }
 
   removeAnalysisData = (index) => {
-    let { compareAnalysisData } = this.state
+    const { compareAnalysisData } = this.state
     compareAnalysisData.splice(index, 1)
     this.setState({compareAnalysisData})
   }
@@ -99,16 +197,18 @@ export default class ParamAnalysis extends Component {
   handleAvg = () => {
     const { analysisAvg } = this.state
     const { analysisData } = this.props
+    const { data } = analysisData
     const categories = []
     const seriesData = {'refect': [], 'transmission': [], 'bondacust': []}
-    this.formatAnalysisData(analysisData, categories, seriesData)
+    this.formatAnalysisData(data, categories, seriesData)
     analysisAvg.bondacust = (_.sum(seriesData.bondacust)/seriesData.bondacust.length).toFixed(2)
     analysisAvg.refect = (_.sum(seriesData.refect)/seriesData.refect.length).toFixed(2)
     analysisAvg.transmission = (_.sum(seriesData.transmission)/seriesData.transmission.length).toFixed(2)
     this.setState({analysisAvg})
   }
 
-  showAnalysisData = () => {
+  showAnalysisData = (state) => {
+    analysisState = state
     const { handleAnalysisData, selectAnalysisName } = this.props
     if(!this.checkAnalysisData(selectAnalysisName)) { return; }
     const { analysisParam } = this.state
@@ -116,6 +216,22 @@ export default class ParamAnalysis extends Component {
     param.rateMin = analysisParam.rateMin * 1000
     param.rateMax = analysisParam.rateMax * 1000
     handleAnalysisData(param)
+  }
+
+  addCompareData = (state) => {
+    const { compareAnalysisData, analysisParam } = this.state
+    for(const dataMap of compareAnalysisData) {
+      if(dataMap && dataMap.dataParam) {
+        const param = _.cloneDeep(analysisParam)
+        param.rateMin = analysisParam.rateMin * 1000
+        param.rateMax = analysisParam.rateMax * 1000
+        if(_.isEqual(dataMap.dataParam, param)) {
+          message.info('已加入过对比数据')
+          return ;
+        }
+      }
+    }
+    this.showAnalysisData(state)
   }
 
   formatAnalysisData = (analysisData, categories, seriesData) => {
@@ -130,90 +246,109 @@ export default class ParamAnalysis extends Component {
     return {categories, seriesData}
   }
 
+  initSeries = (refectList = [], transmissionList = [], bondacustList = []) => {
+    const legendData = []
+    const series = []
+    refectList.forEach((value, index) => {
+      legendData.push(`反射系数${index}`)
+      series.push({
+        name: `反射系数${index}`,
+        type: 'line',
+        data: value || [],
+        markLine: {
+            data: [
+                {type: 'average', name: '平均值'},
+            ],
+        },
+      })
+    })
+    transmissionList.forEach((value, index) => {
+      legendData.push(`透射系数${index}`)
+      series.push({
+        name: `透射系数${index}`,
+        type: 'line',
+        data: value || [],
+        markLine: {
+            data: [
+                {type: 'average', name: '平均值'},
+            ],
+        },
+      })
+    })
+    bondacustList.forEach((value, index) => {
+      legendData.push(`吸声系数${index}`)
+      series.push({
+        name: `吸声系数${index}`,
+        type: 'line',
+        data: value || [],
+        markLine: {
+            data: [
+                {type: 'average', name: '平均值'},
+            ],
+        },
+      })
+    })
+    return {legendData, series}
+  }
+
   changeChartData = (analysisData) => {
-    let categories = []
-    let seriesData = {'refect': [], 'transmission': [], 'bondacust': []}
+    const categories = []
+    const seriesData = {'refect': [], 'transmission': [], 'bondacust': []}
     this.formatAnalysisData(analysisData, categories, seriesData)
     if(!myChart) {
       // 基于准备好的dom，初始化echarts实例
       myChart = echarts.init(document.getElementById('mainChart'));
     }
+    if(categories.length <=0) {
+      message.info('选择的参数，无分析数据')
+    }
+    myChart.clear()
     // 填入数据
-    myChart.setOption({
-      title: { text: '' },
-      tooltip: {},
-      toolbox: {
-        show: true,
-        left: '30px',
-        feature: {
-            dataZoom: {
-                yAxisIndex: 'none',
-                show: true,
-            },
-            dataView: {readOnly: false,show: true},
-            magicType: {type: ['line', 'bar'],show: true},
-            restore: {show: true},
-            saveAsImage: {show: true},
-        },
-      },
-      grid: {
-        x: 30,
-        x2: 40,
+    // chartOptionTemp.series
+    const chartOptionTemp = _.cloneDeep(chartOption)
+    chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    const chartMap = this.initSeries([seriesData.refect], [seriesData.transmission], [seriesData.bondacust])
+    chartOptionTemp.series = chartMap.series
+    chartOptionTemp.legend.data = chartMap.legendData
+    myChart.setOption(chartOptionTemp);
+  }
 
-      },
-      legend: {
-        data:['反射系数','透射系数','吸声系数'],
-        x: 'center',
-        y: 'bottom',
-      },
-      xAxis: {
-        data: categories || [],
-      },
-      yAxis: {},
-      series: [
-        {
-          // 根据名字对应到相应的系列
-          name: '反射系数',
-          type: 'line',
-          data: seriesData.refect || [],
-          markLine: {
-              data: [
-                  {type: 'average', name: '平均值'},
-              ],
-          },
-        }, {
-          // 根据名字对应到相应的系列
-          name: '透射系数',
-          type: 'line',
-          data: seriesData.transmission || [],
-          markLine: {
-            data: [
-                {type: 'average', name: '平均值'},
-            ],
-          },
-        }, {
-          // 根据名字对应到相应的系列
-          name: '吸声系数',
-          type: 'line',
-          data: seriesData.bondacust || [],
-          markLine: {
-            data: [
-                {type: 'average', name: '平均值'},
-            ],
-          },
-        },
-      ],
-    });
+  startContrast = () => {
+    const { compareAnalysisData } = this.state
+    const refectList = []
+    const transmissionList = []
+    const bondacustList = []
+    let categories = []
+    for(const analysisData of compareAnalysisData) {
+      categories = []
+      const seriesData = {'refect': [], 'transmission': [], 'bondacust': []}
+      this.formatAnalysisData(analysisData.data, categories, seriesData)
+      refectList.push(seriesData.refect)
+      transmissionList.push(seriesData.transmission)
+      bondacustList.push(seriesData.bondacust)
+    }
+    if(!myChart) {
+      // 基于准备好的dom，初始化echarts实例
+      myChart = echarts.init(document.getElementById('mainChart'));
+    }
+    if(categories.length <=0) {
+      message.info('选择的参数，无分析数据')
+    }
+    myChart.clear()
+    const chartMap = this.initSeries(refectList, transmissionList, bondacustList)
+    const chartOptionTemp = _.cloneDeep(chartOption)
+    chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    chartOptionTemp.series = chartMap.series
+    chartOptionTemp.legend.data = chartMap.legendData
+    if(chartMap.legendData.length>6) {
+      chartOptionTemp.grid.y2 = '80'
+    }
+    myChart.setOption(chartOptionTemp);
   }
 
   render () {
-    const { analysisData } = this.props
-    const { analysisParam, compareAnalysisData, analysisAvg } = this.state
+    const { analysisParam, compareAnalysisData } = this.state
 
-    if(analysisData && analysisData.length>0 && !_.isEqual(analysisData, historyAnalysisData)) {
-      historyAnalysisData = _.cloneDeep(analysisData)
-      this.changeChartData(analysisData)
-    }
     const marks = {
       0: '0',
       5: '5K',
@@ -357,8 +492,8 @@ export default class ParamAnalysis extends Component {
                 </Col>
               </Row>
               <div className={styles.calculateBtns}>
-                <Button type="primary" className={styles.showNum} onClick={this.showAnalysisData.bind(this)}>显示</Button>
-                <Button className={styles.addConstact} onClick={this.addCompareAnalysisData.bind(this)}>加入对比</Button>
+                <Button type="primary" className={styles.showNum} onClick={this.showAnalysisData.bind(this, 'show')}>显示</Button>
+                <Button className={styles.addConstact} onClick={this.addCompareData.bind(this, 'add')}>加入对比</Button>
               </div>
             </div>
             {/* <div className={styles.calculateAvg}>
@@ -387,7 +522,7 @@ export default class ParamAnalysis extends Component {
                   return isLongTag ? <Tooltip className={styles.chartItem} title={tag} key={tag}>{tagElem}</Tooltip> : tagElem;
                 })}
               </div>
-              <Button type="primary" className={styles.startBtn}>开始对比</Button>
+              <Button type="primary" className={styles.startBtn} onClick={this.startContrast}>开始对比</Button>
             </div>
             <div id="mainChart" className={styles.chartArea}>
               <h4 className={styles.noDataSpan}>暂无数据</h4>

@@ -10,8 +10,10 @@ export default class TestSystem extends Component {
     return (
       <div style={{width: styleWidth}} className={`${styles.card} ${styles.backingCard}`}>
         <div className={styles.cardTitle}>
-          <span className={styles.title}>测试系统</span>
-          <div className={styles.triangle} />
+          <div>
+            <span className={styles.title}>测试系统</span>
+            <div className={styles.triangle} />
+          </div>
         </div>
         {testData? (
           <div className={styles.cardbox}>

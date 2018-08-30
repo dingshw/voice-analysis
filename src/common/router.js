@@ -83,6 +83,36 @@ export const getRouterData = app => {
     '/scalemodel': {
       component: dynamicWrapper(app, [], () => import('../routes/Dashboard/ScaleModel/index')),
     },
+    '/msgmanage/sample': {
+      component: dynamicWrapper(app, ['soundpipe'], () => import('../routes/MsgManage/SampleManage')),
+    },
+    '/msgmanage/backing': {
+      component: dynamicWrapper(app, [], () => import('../routes/MsgManage/BackingManage')),
+    },
+    '/msgmanage/inner': {
+      component: dynamicWrapper(app, [], () => import('../routes/MsgManage/InnerManage')),
+    },
+    '/msgmanage/outer': {
+      component: dynamicWrapper(app, [], () => import('../routes/MsgManage/OuterManage')),
+    },
+    '/msgmanage/test': {
+      component: dynamicWrapper(app, [], () => import('../routes/MsgManage/TestManage')),
+    },
+    '/msgmanage/experment': {
+      component: dynamicWrapper(app, [], () => import('../routes/MsgManage/ExpermentManage')),
+    },
+    '/msgmanage/lay': {
+      component: dynamicWrapper(app, [], () => import('../routes/MsgManage/LayManage')),
+    },
+    '/datamanager/sounddata': {
+      component: dynamicWrapper(app, [], () => import('../routes/DataManager/SoundData')),
+    },
+    '/datamanager/waterpotdata': {
+      component: dynamicWrapper(app, [], () => import('../routes/DataManager/WaterPotData')),
+    },
+    '/datamanager/scaledata': {
+      component: dynamicWrapper(app, [], () => import('../routes/DataManager/ScaleData')),
+    },
     '/exception/403': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
     },

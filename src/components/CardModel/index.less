@@ -28,6 +28,19 @@
   .cardTitle {
     display: flex;
     overflow: hidden;
+    align-items: center;
+    justify-content: space-between;
+    .toolsIcon {
+      margin-right: 20px;
+      display: flex;
+      align-items: baseline;
+      .iconStyle {
+        font-size: 16;
+        color: #08c;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+    }
   }
   .cardbox {
     display: flex;
@@ -91,18 +104,24 @@
         line-height: 28px;
         height: 28px;
         display:block;
+        span {
+          display: inline-block;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+        }
         span:first-child {
           color: #9B9B9B;
           font-size: 12px;
-          width: 80px;
+          width: 40%;
           height: 28px;
           display: inline-block;
         }
         span:nth-child(2) {
+          width: 50%;
           color: #000000;
           font-size: 12px;
           margin-left: 10px;
-          display: contents;
         }
       }
     }
@@ -121,8 +140,22 @@
     }
     .imgWater {
       flex: 4;
-      background: #8ED7FF;
+      background: url(../../../public/water.png) repeat;
       border: 1px solid #8ED7FF;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      span {
+        border: 2px solid #008BFA;
+        display: inline-block;
+        width: 40px;
+        margin-bottom: 30px;
+        background: #FFF;
+        border-radius: 5px;
+        color: #008BFA;
+        font-weight: bold;
+        font-size: 12px;
+      }
       &:hover {
         border: 1px solid #F57323;
       }
@@ -131,22 +164,64 @@
       flex: 3;
       background: #616F7E;
       border: 1px solid #616F7E;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      span {
+        border: 2px solid #F57323;
+        display: inline-block;
+        width: 40px;
+        margin-bottom: 30px;
+        background: #FFF;
+        border-radius: 5px;
+        color: #F57323;
+        font-weight: bold;
+        font-size: 12px;
+      }
       &:hover {
         border: 1px solid #F57323;
       }
     }
     .imgBacking {
       flex: 3;
-      background: #4F5663;
+      background: url(../../../public/backing.png) repeat;
       border: 1px solid #4F5663;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      span {
+        border: 2px solid #8E9BAD;
+        display: inline-block;
+        width: 40px;
+        margin-bottom: 30px;
+        background: #FFF;
+        border-radius: 5px;
+        color: #8E9BAD;
+        font-weight: bold;
+        font-size: 12px;
+      }
       &:hover {
         border: 1px solid #F57323;
       }
     }
     .imgAir {
       flex: 5;
-      background: #D6FFFF;
+      background: url(../../../public/air.png) repeat;
       border: 1px solid #D6FFFF;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      span {
+        border: 2px solid #5AC3C1;
+        display: inline-block;
+        width: 40px;
+        margin-bottom: 30px;
+        background: #FFF;
+        border-radius: 5px;
+        color: #5AC3C1;
+        font-weight: bold;
+        font-size: 12px;
+      }
       &:hover {
         border: 1px solid #F57323;
       }

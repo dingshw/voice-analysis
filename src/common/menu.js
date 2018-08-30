@@ -4,21 +4,25 @@ const menuData = [
   {
     name: '声管小样数据',
     icon: 'public/nav001.svg',
+    authority: 'user', // 配置准入权限
     path: 'soundpipe',
   },
   {
     name: '水罐大样数据',
     icon: 'public/nav002.svg',
+    authority: 'user', // 配置准入权限
     path: 'waterpot',
   },
   {
     name: '缩放模型数据',
     icon: 'public/nav003.svg',
+    authority: 'user', // 配置准入权限
     path: 'scalemodel',
   },
   {
     name: '其他模型数据',
     icon: 'public/nav004.svg',
+    authority: 'user', // 配置准入权限
     path: 'othermodel',
   },
   {
@@ -38,6 +42,62 @@ const menuData = [
       {
         name: '注册结果',
         path: 'register-result',
+      },
+    ],
+  },
+  {
+    name: '信息管理',
+    icon: 'book',
+    path: 'msgmanage',
+    authority: 'admin',
+    children: [
+      {
+        name: '样品',
+        path: 'sample',
+      },
+      {
+        name: '背衬',
+        path: 'backing',
+      },
+      {
+        name: '内场实验模型',
+        path: 'inner',
+      },
+      {
+        name: '外场实验模型',
+        path: 'outer',
+      },
+      {
+        name: '测试系统管理',
+        path: 'test',
+      },
+      {
+        name: '试验情况',
+        path: 'experment',
+      },
+      {
+        name: '敷设方案',
+        path: 'lay',
+      },
+    ],
+  },
+  {
+    name: '数据管理',
+    icon: 'line-chart',
+    path: 'datamanager',
+    authority: 'admin',
+    children: [
+      {
+        name: '声管小样',
+        path: 'sounddata',
+      },
+      {
+        name: '水罐大样',
+        path: 'waterpotdata',
+      },
+      {
+        name: '缩放模型',
+        path: 'scaledata',
       },
     ],
   },

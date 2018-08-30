@@ -6,7 +6,7 @@ import BackingCard from 'components/CardModel/BackingCard'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
 import styles from '../index.less';
 
-const Option = Select.Option;
+const Option = Select && Select.Option;
 
 @connect(({ soundpipe }) => ({
   backingData: soundpipe.backingData,
@@ -59,14 +59,11 @@ export default class SoundPipe extends Component {
         "rateMax":"100"
 
       } */
-      const { selectBackingData, selectSampleData } = this.state
       const { dispatch } = this.props;
       dispatch({
         type: 'soundpipe/getSoundPipeData',
         payload: {
           ...dataMap,
-          backgroundtype: selectBackingData.name,
-          samplename: selectSampleData.name,
         },
       });
     }
@@ -77,6 +74,10 @@ export default class SoundPipe extends Component {
     const { selectSampleData, selectBackingData } = this.state
 
     const selectAnalysisName = {backgroundtype: selectBackingData.name, samplename: selectSampleData.name}
+    const param = {
+      backgroundtype: selectBackingData.name,
+      samplename: selectSampleData.name,
+    }
     return (
       <div className={styles.main}>
         <div className={styles.headerBox}>
@@ -113,7 +114,12 @@ export default class SoundPipe extends Component {
           <SampleCard sampleData={selectSampleData} />
           <BackingCard backingData={selectBackingData} />
         </div>
-        <ParamAnalysis analysisData={soundPipeData} selectAnalysisName={selectAnalysisName} handleAnalysisData={this.handleSoundPipeData.bind(this)} />
+        <ParamAnalysis
+          analysisData={soundPipeData}
+          selectAnalysisName={selectAnalysisName}
+          handleAnalysisData={this.handleSoundPipeData.bind(this)}
+          param={param}
+        />
       </div>);
   }
 }

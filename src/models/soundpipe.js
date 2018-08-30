@@ -6,7 +6,7 @@ export default {
   state: {
     backingData: [],
     sampleData: [],
-    soundPipeData: [],
+    soundPipeData: {},
   },
 
   effects: {
@@ -24,6 +24,7 @@ export default {
       const response = yield call(querySampleData);
       if(response) {
         const data = response.data || []
+
         yield put({
           type: 'changeSampleData',
           payload: data,
@@ -34,9 +35,10 @@ export default {
       const response = yield call(querySoundPipeData, payload);
       if(response) {
         const data = response.data || []
+        const dataMap = {dataParam: payload, data}
         yield put({
           type: 'soundPipeDataHandle',
-          payload: data,
+          payload: dataMap,
         });
       }
     },

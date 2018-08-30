@@ -14,8 +14,10 @@ export default class ExperimentCard extends Component {
     return (
       <div style={{width: styleWidth, marginLeft: styleMarginLeft}} className={styles.card}>
         <div className={styles.cardTitle}>
-          <span className={styles.title}>试验情况</span>
-          <div className={styles.triangle} />
+          <div>
+            <span className={styles.title}>试验情况</span>
+            <div className={styles.triangle} />
+          </div>
         </div>
         {experimentData? (
           <div className={styles.cardbox}>

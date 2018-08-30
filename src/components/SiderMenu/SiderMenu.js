@@ -13,11 +13,11 @@ const { SubMenu } = Menu;
 //   icon: 'http://demo.com/icon.png',
 //   icon: <Icon type="setting" />,
 const getIcon = icon => {
-  if (typeof icon === 'string') {
+  if (typeof icon === 'string' && icon.indexOf('/') >= 0) {
     return <img src={icon} alt="icon" className={`${styles.icon} sider-menu-item-img`} />;
+  } else {
+    return <Icon type={icon} />
   }
-
-  return icon;
 };
 
 /**

@@ -16,6 +16,7 @@ import ReduceReport from './ReduceReport'
 import NotFound from '../routes/Exception/404';
 import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
+import { getAuthority } from '../utils/authority';
 import { getMenuData } from '../common/menu';
 import logo from '../../public/logo.svg';
 import mobilelogo from '../../public/mobilelogo.png';
@@ -220,6 +221,7 @@ export default class BasicLayout extends React.PureComponent {
     } = this.props;
     const { isMobile: mb } = this.state;
     const baseRedirect = this.getBaseRedirect();
+    const authoriyType = getAuthority()
     const layout = (
       <Layout>
         <SiderMenu
@@ -246,14 +248,19 @@ export default class BasicLayout extends React.PureComponent {
               onCollapse={this.handleMenuCollapse}
               onMenuClick={this.handleMenuClick}
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
+              authoriyType={authoriyType}
             />
-            <div className={styles.headerTools}>
-              <Button type="primary" className={styles.toolsButton}>
-                <a href={excel}>模板下载</a>
-              </Button>
-              <UploadFile />
-              <ReduceReport />
-            </div>
+            {
+              authoriyType === 'user' ? (
+                <div className={styles.headerTools}>
+                  <Button type="primary" className={styles.toolsButton}>
+                    <a href={excel}>模板下载</a>
+                  </Button>
+                  <UploadFile />
+                  <ReduceReport />
+                </div>
+              ): ''
+            }
           </Header>
           <Content id='indexMain' style={{ height: '86%', padding: '0 20px', background:'#f6f9fc' }}>
             <Switch>
