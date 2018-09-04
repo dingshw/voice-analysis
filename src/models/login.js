@@ -15,12 +15,27 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
+      const data = {
+        status: 'ok',
+        type: 'account',
+        currentAuthority: 'guest',
+        userName:'用户',
+      }
+      if(response.data && response.data.userType !== '普通用户'){
+        data.currentAuthority = 'admin'
+        data.userName = response.data.username
+      } else if(response.data && response.data.userType === '普通用户'){
+        data.currentAuthority = 'user'
+        data.userName = response.data.username
+      } else {
+        data.status = 'error'
+      }
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: data,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (data.status === 'ok') {
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();

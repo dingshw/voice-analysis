@@ -43,29 +43,47 @@ const proxy = {
       address: 'Sidney No. 1 Lake Park',
     },
   ],
-  'POST /api/login/account': (req, res) => {
-    const { password, userName, type } = req.body;
-    if (password === '888888' && userName === 'admin') {
+  'POST /user/login': (req, res) => {
+    const { pass, username, type } = req.body;
+    if (pass === '888888' && username === 'admin') {
       res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
-      });
+        "success": true,
+        "message": "登录成功！",
+        "data": {
+            "ts": 1535719601000,
+            "id": 2,
+            "username": "user",
+            "pass": null,
+            "usertype": "超级用户"
+        }
+    });
       return;
     }
-    if (password === '123456' && userName === 'user') {
+    if (pass === '123456' && username === 'user') {
       res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'user',
-      });
+        "success": true,
+        "message": "登录成功！",
+        "data": {
+            "ts": 1535719601000,
+            "id": 2,
+            "username": "user",
+            "pass": null,
+            "usertype": "普通用户"
+        }
+    });
       return;
     }
     res.send({
-      status: 'error',
-      type,
-      currentAuthority: 'guest',
-    });
+      "success": true,
+      "message": "登录成功！",
+      "data": {
+          "ts": 1535719601000,
+          "id": 2,
+          "username": "user",
+          "pass": null,
+          "usertype": null
+      }
+  });
   },
   'POST /api/register': (req, res) => {
     res.send({ status: 'ok', currentAuthority: 'user' });
