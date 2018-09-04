@@ -21,7 +21,16 @@ import styles from './ParamAnalysis.less'
 let myChart = null
 let historyAnalysisData = []
 let analysisState = ""
-let chartOption = {
+const lengendMap = {
+  refect: '反射系数',
+  transmission: '投射系数',
+  bondacust: '吸声系数',
+  rate: '频率',
+  radiation: '辐射声功率',
+  radiationlose: '辐射声功率插入损失',
+  echoes: '回声降低',
+}
+const chartOption = {
   title: { text: '' },
   tooltip: {},
   toolbox: {
@@ -45,7 +54,7 @@ let chartOption = {
     y2: 50,
   },
   legend: {
-    data:['反射系数','透射系数','吸声系数'],
+    data:['指数1','指数2','指数3'],
     x: 'center',
     y: 'bottom',
   },
@@ -56,7 +65,7 @@ let chartOption = {
   series: [
     {
       // 根据名字对应到相应的系列
-      name: '反射系数',
+      name: '指数1',
       type: 'line',
       data: [],
       markLine: {
@@ -66,7 +75,7 @@ let chartOption = {
       },
     }, {
       // 根据名字对应到相应的系列
-      name: '透射系数',
+      name: '指数2',
       type: 'line',
       data: [],
       markLine: {
@@ -76,7 +85,7 @@ let chartOption = {
       },
     }, {
       // 根据名字对应到相应的系列
-      name: '吸声系数',
+      name: '指数3',
       type: 'line',
       data: [],
       markLine: {
@@ -156,10 +165,10 @@ export default class ParamAnalysis extends Component {
     });
   }
 
-  checkAnalysisData = (selectAnalysisName) => {
-    for(const key in selectAnalysisName) {
-      if(Object.prototype.hasOwnProperty.call(selectAnalysisName, key)) {
-        if(!selectAnalysisName[key]) {
+  checkAnalysisData = (param) => {
+    for(const key in param) {
+      if(Object.prototype.hasOwnProperty.call(param, key)) {
+        if(!param[key]) {
           let errMsg = '请选择'
           switch(key) {
             case 'backgroundtype':
@@ -167,6 +176,12 @@ export default class ParamAnalysis extends Component {
               break
             case 'samplename':
               errMsg = '请选择样品'
+              break
+            case 'testModelName':
+              errMsg = '请选择试验模型'
+              break
+            case 'testSystemName':
+              errMsg = '请选择试验系统'
               break
             default:
               errMsg = '请选择下拉框内容'
@@ -182,8 +197,8 @@ export default class ParamAnalysis extends Component {
 
   addCompareAnalysisData = (analysisData) => {
     const { compareAnalysisData } = this.state
-    const { selectAnalysisName } = this.props
-    if(!this.checkAnalysisData(selectAnalysisName)) { return; }
+    const { param } = this.props
+    if(!this.checkAnalysisData(param)) { return; }
     compareAnalysisData.push(analysisData)
     this.setState({compareAnalysisData})
   }
@@ -199,23 +214,33 @@ export default class ParamAnalysis extends Component {
     const { analysisData } = this.props
     const { data } = analysisData
     const categories = []
-    const seriesData = {'refect': [], 'transmission': [], 'bondacust': []}
+    const seriesData = {
+      'refect': [],
+      'transmission': [],
+      'bondacust': [],
+      radiation: [],
+      radiationlose: [],
+      echoes: [],
+    }
     this.formatAnalysisData(data, categories, seriesData)
-    analysisAvg.bondacust = (_.sum(seriesData.bondacust)/seriesData.bondacust.length).toFixed(2)
-    analysisAvg.refect = (_.sum(seriesData.refect)/seriesData.refect.length).toFixed(2)
-    analysisAvg.transmission = (_.sum(seriesData.transmission)/seriesData.transmission.length).toFixed(2)
+    analysisAvg.bondacust = seriesData.bondacust.length> 0 && (_.sum(seriesData.bondacust)/seriesData.bondacust.length).toFixed(2)
+    analysisAvg.refect = seriesData.refect.length> 0 && (_.sum(seriesData.refect)/seriesData.refect.length).toFixed(2)
+    analysisAvg.transmission = seriesData.transmission.length> 0 && (_.sum(seriesData.transmission)/seriesData.transmission.length).toFixed(2)
+    analysisAvg.radiation = seriesData.radiation.length> 0 && (_.sum(seriesData.radiation)/seriesData.radiation.length).toFixed(2)
+    analysisAvg.radiationlose = seriesData.radiationlose.length> 0 && (_.sum(seriesData.radiationlose)/seriesData.radiationlose.length).toFixed(2)
+    analysisAvg.echoes = seriesData.echoes.length> 0 && (_.sum(seriesData.echoes)/seriesData.echoes.length).toFixed(2)
     this.setState({analysisAvg})
   }
 
   showAnalysisData = (state) => {
     analysisState = state
-    const { handleAnalysisData, selectAnalysisName } = this.props
-    if(!this.checkAnalysisData(selectAnalysisName)) { return; }
+    const { handleAnalysisData, param } = this.props
+    if(!this.checkAnalysisData(param)) { return; }
     const { analysisParam } = this.state
-    const param = _.cloneDeep(analysisParam)
-    param.rateMin = analysisParam.rateMin * 1000
-    param.rateMax = analysisParam.rateMax * 1000
-    handleAnalysisData(param)
+    const params = _.cloneDeep(analysisParam)
+    params.rateMin = analysisParam.rateMin * 1000
+    params.rateMax = analysisParam.rateMax * 1000
+    handleAnalysisData(params)
   }
 
   addCompareData = (state) => {
@@ -241,59 +266,49 @@ export default class ParamAnalysis extends Component {
         seriesData.refect.push(analysisData[i].refect)
         seriesData.transmission.push(analysisData[i].transmission)
         seriesData.bondacust.push(analysisData[i].bondacust)
+        seriesData.radiation.push(analysisData[i].radiation)
+        seriesData.radiationlose.push(analysisData[i].radiationlose)
+        seriesData.echoes.push(analysisData[i].echoes)
       }
     }
     return {categories, seriesData}
   }
 
-  initSeries = (refectList = [], transmissionList = [], bondacustList = []) => {
+  initSeries = (seriesData) => {
     const legendData = []
     const series = []
-    refectList.forEach((value, index) => {
-      legendData.push(`反射系数${index}`)
-      series.push({
-        name: `反射系数${index}`,
-        type: 'line',
-        data: value || [],
-        markLine: {
-            data: [
-                {type: 'average', name: '平均值'},
-            ],
-        },
-      })
-    })
-    transmissionList.forEach((value, index) => {
-      legendData.push(`透射系数${index}`)
-      series.push({
-        name: `透射系数${index}`,
-        type: 'line',
-        data: value || [],
-        markLine: {
-            data: [
-                {type: 'average', name: '平均值'},
-            ],
-        },
-      })
-    })
-    bondacustList.forEach((value, index) => {
-      legendData.push(`吸声系数${index}`)
-      series.push({
-        name: `吸声系数${index}`,
-        type: 'line',
-        data: value || [],
-        markLine: {
-            data: [
-                {type: 'average', name: '平均值'},
-            ],
-        },
-      })
-    })
+    for(const key in seriesData) {
+      if(Object.hasOwnProperty.call(seriesData, key)) {
+        if(lengendMap[key]) {
+          seriesData[key].forEach((value, index) => {
+            legendData.push(`${lengendMap[key]}${index}`)
+            series.push({
+              name: `${lengendMap[key]}${index}`,
+              type: 'line',
+              data: value || [],
+              markLine: {
+                  data: [
+                      {type: 'average', name: '平均值'},
+                  ],
+              },
+            })
+          })
+        }
+      }
+    }
     return {legendData, series}
   }
 
   changeChartData = (analysisData) => {
     const categories = []
-    const seriesData = {'refect': [], 'transmission': [], 'bondacust': []}
+    const seriesData = {
+      'refect': [],
+      'transmission': [],
+      'bondacust': [],
+      radiation: [],
+      radiationlose: [],
+      echoes: [],
+    }
     this.formatAnalysisData(analysisData, categories, seriesData)
     if(!myChart) {
       // 基于准备好的dom，初始化echarts实例
@@ -307,7 +322,15 @@ export default class ParamAnalysis extends Component {
     // chartOptionTemp.series
     const chartOptionTemp = _.cloneDeep(chartOption)
     chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
-    const chartMap = this.initSeries([seriesData.refect], [seriesData.transmission], [seriesData.bondacust])
+    const seriesDataMap = {
+      'refect': [seriesData.refect],
+      'transmission': [seriesData.transmission],
+      'bondacust': [seriesData.bondacust],
+      radiation: [seriesData.radiation],
+      radiationlose: [seriesData.radiationlose],
+      echoes: [seriesData.echoes],
+    }
+    const chartMap = this.initSeries(seriesDataMap)
     chartOptionTemp.series = chartMap.series
     chartOptionTemp.legend.data = chartMap.legendData
     myChart.setOption(chartOptionTemp);
@@ -318,14 +341,27 @@ export default class ParamAnalysis extends Component {
     const refectList = []
     const transmissionList = []
     const bondacustList = []
+    const radiationList = []
+    const radiationloseList = []
+    const echoesList = []
     let categories = []
     for(const analysisData of compareAnalysisData) {
       categories = []
-      const seriesData = {'refect': [], 'transmission': [], 'bondacust': []}
+      const seriesData = {
+        'refect': [],
+        'transmission': [],
+        'bondacust': [],
+        radiation: [],
+        radiationlose: [],
+        echoes: [],
+      }
       this.formatAnalysisData(analysisData.data, categories, seriesData)
       refectList.push(seriesData.refect)
       transmissionList.push(seriesData.transmission)
       bondacustList.push(seriesData.bondacust)
+      radiationList.push(seriesData.radiationList)
+      radiationloseList.push(seriesData.radiationloseList)
+      echoesList.push(seriesData.echoesList)
     }
     if(!myChart) {
       // 基于准备好的dom，初始化echarts实例
@@ -335,7 +371,15 @@ export default class ParamAnalysis extends Component {
       message.info('选择的参数，无分析数据')
     }
     myChart.clear()
-    const chartMap = this.initSeries(refectList, transmissionList, bondacustList)
+    const seriesDataMap = {
+      'refect': refectList,
+      'transmission': transmissionList,
+      'bondacust': bondacustList,
+      radiation: radiationList,
+      radiationlose: radiationloseList,
+      echoes: echoesList,
+    }
+    const chartMap = this.initSeries(seriesDataMap)
     const chartOptionTemp = _.cloneDeep(chartOption)
     chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
     chartOptionTemp.series = chartMap.series

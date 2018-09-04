@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Select } from 'antd';
+import { Select, Button } from 'antd';
 import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
 import BackingCard from 'components/CardModel/BackingCard'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
+import UploadFile from '../UploadFile'
+import ReduceReport from '../ReduceReport'
 import styles from '../index.less';
+import excel from '../../../../public/SamoleData.xlsx'
 
 const Option = Select && Select.Option;
 
@@ -73,13 +76,19 @@ export default class SoundPipe extends Component {
     const { sampleData, backingData, soundPipeData } = this.props
     const { selectSampleData, selectBackingData } = this.state
 
-    const selectAnalysisName = {backgroundtype: selectBackingData.name, samplename: selectSampleData.name}
     const param = {
       backgroundtype: selectBackingData.name,
       samplename: selectSampleData.name,
     }
     return (
       <div className={styles.main}>
+        <div className={styles.headerTools}>
+          <Button type="primary" className={styles.toolsButton}>
+            <a href={excel}>模板下载</a>
+          </Button>
+          <UploadFile catalog="smallDemo" />
+          <ReduceReport />
+        </div>
         <div className={styles.headerBox}>
           <div className={styles.soundHead}>
             <span>样品选择</span>
@@ -116,7 +125,6 @@ export default class SoundPipe extends Component {
         </div>
         <ParamAnalysis
           analysisData={soundPipeData}
-          selectAnalysisName={selectAnalysisName}
           handleAnalysisData={this.handleSoundPipeData.bind(this)}
           param={param}
         />

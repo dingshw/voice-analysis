@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
 import html2canvas from 'html2canvas'
-import styles from './BasicLayout.less';
+import styles from './index.less';
 
 export default class ReduceReport extends Component {
 

@@ -11,8 +11,6 @@ import { enquireScreen, unenquireScreen } from 'enquire-js';
 import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
 import SiderMenu from '../components/SiderMenu';
-import UploadFile from './UploadFile'
-import ReduceReport from './ReduceReport'
 import NotFound from '../routes/Exception/404';
 import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
@@ -21,7 +19,6 @@ import { getMenuData } from '../common/menu';
 import logo from '../../public/logo.svg';
 import mobilelogo from '../../public/mobilelogo.png';
 import styles from './BasicLayout.less';
-import excel from '../../public/SamoleData.xlsx'
 
 const { Content, Header, Footer } = Layout;
 const { AuthorizedRoute, check } = Authorized;
@@ -238,7 +235,7 @@ export default class BasicLayout extends React.PureComponent {
           onCollapse={this.handleMenuCollapse}
         />
         <Layout>
-          <Header style={{ padding: 0,height: '11%' }}>
+          <Header style={{ padding: 0,height: '5%' }}>
             <GlobalHeader
               logo={logo}
               currentUser={currentUser}
@@ -250,19 +247,8 @@ export default class BasicLayout extends React.PureComponent {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
               authoriyType={authoriyType}
             />
-            {
-              authoriyType === 'user' ? (
-                <div className={styles.headerTools}>
-                  <Button type="primary" className={styles.toolsButton}>
-                    <a href={excel}>模板下载</a>
-                  </Button>
-                  <UploadFile />
-                  <ReduceReport />
-                </div>
-              ): ''
-            }
           </Header>
-          <Content id='indexMain' style={{ height: '86%', padding: '0 20px', background:'#f6f9fc' }}>
+          <Content id='indexMain' style={{ height: '92%', padding: '0 20px', background:'#f6f9fc' }}>
             <Switch>
               {redirectData.map(item => (
                 <Redirect key={item.from} exact from={item.from} to={item.to} />

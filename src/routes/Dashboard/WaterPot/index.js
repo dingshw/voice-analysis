@@ -1,44 +1,66 @@
 import React, { Component } from 'react';
-import { Select } from 'antd';
+import { Select, Button } from 'antd';
+import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
 import ExperimentCard from 'components/CardModel/ExperimentCard'
 import TestSystem from 'components/CardModel/TestSystem'
+import UploadFile from '../UploadFile'
+import ReduceReport from '../ReduceReport'
 import styles from '../index.less';
+import excel from '../../../../public/SamoleData.xlsx'
 
-const Option = Select.Option;
-
+const Option = Select && Select.Option;
+@connect(({ waterpot }) => ({
+  bigSampleData: waterpot.bigSampleData,
+  bigTestData: waterpot.bigTestData,
+  bigTestSystemsData: waterpot.bigTestSystemsData,
+  waterpotData: waterpot.waterpotData,
+}))
 export default class SoundPipe extends Component {
 
   state = {
-    selectSampleData: {},
-    selectExperimentData: {},
+    selectBigSampleData: {},
     selectTestData: {},
+    selectBigTestSystemsData: {},
+  }
+
+  componentDidMount () {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'waterpot/getBigSampleData',
+    });
+    dispatch({
+      type: 'waterpot/getBigTestData',
+    });
+    dispatch({
+      type: 'waterpot/getBigTestSystemsData',
+    });
   }
 
   handleSampleChange = (value) => {
-    const { sampleData } = this.props
-    for(const i in sampleData) {
-      if (sampleData[i] && sampleData[i].name === value) {
-        this.setState({selectSampleData: sampleData[i]})
+    const { bigSampleData } = this.props
+    for(const i in bigSampleData) {
+      if (bigSampleData[i] && bigSampleData[i].name === value) {
+        this.setState({selectBigSampleData: bigSampleData[i]})
       }
     }
   }
 
   handleExperimentChange = (value) => {
-    const { experimentData } = this.props
-    for(const i in experimentData) {
-      if (experimentData[i] && experimentData[i].name === value) {
-        this.setState({selectExperimentData: experimentData[i]})
+    const { bigTestData } = this.props
+    for(const i in bigTestData) {
+      if (bigTestData[i] && bigTestData[i].name === value) {
+        this.setState({selectTestData: bigTestData[i]})
       }
     }
   }
 
-  handleTestChange = (value) => {
-    const { testData } = this.props
-    for(const i in testData) {
-      if (testData[i] && testData[i].name === value) {
-        this.setState({selectTestData: testData[i]})
+  handleTestSystemChange = (value) => {
+    const { bigTestSystemsData } = this.props
+    for(const i in bigTestSystemsData) {
+      if (bigTestSystemsData[i] && bigTestSystemsData[i].name === value) {
+        this.setState({selectBigTestSystemsData: bigTestSystemsData[i]})
       }
     }
   }
@@ -46,33 +68,42 @@ export default class SoundPipe extends Component {
   handleWaterPotData = (dataMap) => {
     if(dataMap) {
       /* {
-        "samplename":"阿波罗",
-        "backgroundtype":"30mm",
+        "sampleName":"阿波罗",
+        "testModelName":"双层局域实尺度试验模型",
+        "testSystemName":"测试系统名称",
         "temparture":"15",
-        "press":"1",
-        "rateMin":"2",
-        "rateMax":"100"
+        "press":"1",	//压力
+        "rateMin":"10",//频率最小值
+        "rateMax":"20"//频率最大值
 
       } */
-      const { selectExperimentData, selectTestData, selectSampleData } = this.state
       const { dispatch } = this.props;
       dispatch({
-        type: 'soundpipe/getSoundPipeData',
+        type: 'waterpot/getWaterpotDataData',
         payload: {
           ...dataMap,
-          experimentname: selectExperimentData.name,
-          samplename: selectSampleData.name,
-          testname: selectTestData.name,
         },
       });
     }
   }
 
   render() {
-    const { selectSampleData, selectExperimentData, selectTestData } = this.state
-
+    const { selectBigSampleData, selectTestData, selectBigTestSystemsData } = this.state
+    const { bigSampleData, bigTestData, bigTestSystemsData, waterpotData } = this.props
+    const param = {
+      testModelName: selectTestData.name,
+      samplename: selectBigSampleData.name,
+      testSystemName: selectBigTestSystemsData.name,
+    }
     return (
       <div className={styles.main}>
+        <div className={styles.headerTools}>
+          <Button type="primary" className={styles.toolsButton}>
+            <a href={excel}>模板下载</a>
+          </Button>
+          <UploadFile catalog="bigDemo" />
+          <ReduceReport />
+        </div>
         <div className={styles.headerBox}>
           <span>样品选择</span>
           <Select
@@ -83,9 +114,9 @@ export default class SoundPipe extends Component {
             onChange={this.handleSampleChange.bind(this)}
             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="tom">Tom</Option>
+            {
+              bigSampleData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+            }
           </Select>
 
           <span>试验模型选择</span>
@@ -97,9 +128,9 @@ export default class SoundPipe extends Component {
             onChange={this.handleExperimentChange.bind(this)}
             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="tom">Tom</Option>
+            {
+              bigTestData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+            }
           </Select>
 
           <span>测试系统选择</span>
@@ -108,20 +139,24 @@ export default class SoundPipe extends Component {
             style={{ width: 200 }}
             placeholder="请选择系统"
             optionFilterProp="children"
-            onChange={this.handleTestChange.bind(this)}
+            onChange={this.handleTestSystemChange.bind(this)}
             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="tom">Tom</Option>
+            {
+              bigTestSystemsData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+            }
           </Select>
         </div>
         <div className={styles.mainCard}>
-          <SampleCard sampleData={selectSampleData} styleWidth="32%" />
-          <ExperimentCard experimentData={selectExperimentData} styleWidth="32%" styleMarginLeft="2%" />
-          <TestSystem testData={selectTestData} styleWidth="32%" />
+          <SampleCard sampleData={selectBigSampleData} styleWidth="32%" />
+          <ExperimentCard experimentData={selectTestData} styleWidth="32%" styleMarginLeft="2%" />
+          <TestSystem testData={selectBigTestSystemsData} styleWidth="32%" />
         </div>
-        <ParamAnalysis handleAnalysisData={this.handleWaterPotData.bind(this)} />
+        <ParamAnalysis
+          analysisData={waterpotData}
+          handleAnalysisData={this.handleWaterPotData.bind(this)}
+          param={param}
+        />
       </div>);
   }
 }

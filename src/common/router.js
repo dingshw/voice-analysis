@@ -78,7 +78,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['soundpipe'], () => import('../routes/Dashboard/SoundPipe/index')),
     },
     '/waterpot': {
-      component: dynamicWrapper(app, [], () => import('../routes/Dashboard/WaterPot/index')),
+      component: dynamicWrapper(app, ['waterpot'], () => import('../routes/Dashboard/WaterPot/index')),
     },
     '/scalemodel': {
       component: dynamicWrapper(app, [], () => import('../routes/Dashboard/ScaleModel/index')),
@@ -105,7 +105,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('../routes/MsgManage/LayManage')),
     },
     '/datamanager/sounddata': {
-      component: dynamicWrapper(app, [], () => import('../routes/DataManager/SoundData')),
+      component: dynamicWrapper(app, ['soundpipe'], () => import('../routes/DataManager/SoundData')),
     },
     '/datamanager/waterpotdata': {
       component: dynamicWrapper(app, [], () => import('../routes/DataManager/WaterPotData')),

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Select } from 'antd';
+import { Select, Button } from 'antd';
 import { connect } from 'dva';
-import SampleCard from 'components/CardModel/SampleCard'
 import BackingCard from 'components/CardModel/BackingCard'
 import ExperimentCard from 'components/CardModel/ExperimentCard'
 import ExperimentCondition from 'components/CardModel/ExperimentCondition'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
+import UploadFile from '../UploadFile'
+import ReduceReport from '../ReduceReport'
 import styles from '../index.less';
+import excel from '../../../../public/SamoleData.xlsx'
 
-const Option = Select.Option;
+const Option = Select && Select.Option;
 
 @connect(({ soundpipe }) => ({
   backingData: soundpipe.backingData,
@@ -81,6 +83,13 @@ export default class SoundPipe extends Component {
     const selectAnalysisName = `${selectSampleData.name  } ${  selectBackingData.name}`
     return (
       <div className={styles.main}>
+        <div className={styles.headerTools}>
+          <Button type="primary" className={styles.toolsButton}>
+            <a href={excel}>模板下载</a>
+          </Button>
+          <UploadFile />
+          <ReduceReport />
+        </div>
         <div className={styles.headerBox}>
           <span>试验模型</span>
           <Select

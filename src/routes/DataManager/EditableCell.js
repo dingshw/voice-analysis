@@ -1,16 +1,33 @@
 import React, {Component} from 'react'
-import { Input, InputNumber, Form } from 'antd';
+import { Input, Form, Select } from 'antd';
+import _ from 'lodash'
+
+const Option = Select && Select.Option
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
 
 export default class EditableCell extends Component {
   getInput = () => {
-    const {inputType} = this.props
-    if (inputType === 'number') {
-      return <InputNumber />;
+    const {inputType, record, dataIndex, selectdata} = this.props
+    if (inputType === 'select' && selectdata.length>0) {
+      return (
+        <Select defaultValue={record[dataIndex]}>
+          {
+            selectdata.map(item => {
+              if(_.isObject(item)) {
+                return (<Option key={item.name}>{item.name}</Option>)
+              } else {
+                return (<Option key={item}>{item}</Option>)
+              }
+            })
+          }
+        </Select>
+      )
     }
-    return <Input />;
+    return (
+      <Input defaultValue={record[dataIndex]} />
+    );
   };
 
   render() {
@@ -25,19 +42,12 @@ export default class EditableCell extends Component {
     } = this.props;
     return (
       <EditableContext.Consumer>
-        {(form) => {
-          const { getFieldDecorator } = form;
+        {() => {
           return (
             <td {...restProps}>
               {editing ? (
                 <FormItem style={{ margin: 0 }}>
-                  {getFieldDecorator(dataIndex, {
-                    rules: [{
-                      required: true,
-                      message: `Please Input ${title}!`,
-                    }],
-                    initialValue: record[dataIndex],
-                  })(this.getInput())}
+                  {this.getInput()}
                 </FormItem>
               ) : restProps.children}
             </td>

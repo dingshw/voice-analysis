@@ -18,12 +18,12 @@ export default class TestSystem extends Component {
         {testData? (
           <div className={styles.cardbox}>
             <div className={styles.backingBoxImg}>
-              <img src={testmodel} alt="测试系统" />
+              <img src={testmodel} alt="测试系统" style={{width: '100%'}} />
             </div>
             <ul className={styles.itemUl}>
               <span>测试系统介绍</span>
-              <li><span>名称</span><span>阿波罗</span></li>
-              <textarea className={styles.textarea}>2331231231312233123123131223312312313122331231231312</textarea>
+              <li><span>名称</span><span>{testData.name || ''}</span></li>
+              <textarea className={styles.textarea} value={testData.describe || ''} />
             </ul>
           </div>): ''
         }

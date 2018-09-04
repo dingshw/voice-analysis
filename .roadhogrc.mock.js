@@ -200,6 +200,112 @@ const proxy = {
       ]
     });
   },
+  'GET /bigmetaMng/big/sample': {
+    "success": true,
+    "message": null,
+    "data": [
+      {
+             "ts": 1535548707000,
+             "pk": "dae99713-394f-4cdb-8992-e54ef17744af",
+             "name": "阿波罗",//名字
+             "logo": null,
+             "density": "1.05kg/cm3",//密度
+             "flexibleModel": "50MPa",//弹性模型
+             "poissonRatio": "0.497",//松柏比
+             "soundSpeed": "1580m/s",//声速
+             "thickness": "50mm",//厚度
+             "other": "文字文字",
+             "userpk": null,
+             "small": false
+         },
+         {
+             "ts": 1535549454000,
+             "pk": "d8e9196d-3b58-49f3-8ad1-3e946db50904",
+             "name": "阿波罗1",
+             "logo": null,
+             "density": "1.05kg/cm3",
+             "flexibleModel": "50MPa",
+             "poissonRatio": "0.497",
+             "soundSpeed": "1580m/s",
+             "thickness": "50mm",
+             "other": "文字文字",
+             "userpk": null,
+             "small": false
+         }
+     ]
+  },
+  'GET /bigmetaMng/big/testModel': {
+    "success": true,
+    "message": null,
+    "data": [
+      {
+          "ts": 1535551973000,
+          "pk": "092e9933-d953-4c8f-80e8-bfaeeca28807",
+          "name": "双层局域实尺度试验模型",//试验模型
+          "size": "长宽高：1.8m*1.6m*1.4m",//尺寸
+          "doubleShellSpacing": "双层间间距空气",//双层壳间距
+          "innerShellThickness": "内壳厚度文字文字",//内壳厚度
+          "shellThickness": "15",//外壳厚度
+          "innerShellBackend": "内壳后段空气",//内壳后端
+          "other": "试验模型其他",//其他
+          "logo": null
+      },
+      {
+        "ts": 1535551973000,
+        "pk": "092e9933-d953-4c8f-80e8-bfaeeca28807",
+        "name": "双层局域实尺度试验模型2",//试验模型
+        "size": "长宽高：1.8m*1.6m*1.4m",//尺寸
+        "doubleShellSpacing": "双层间间距空气",//双层壳间距
+        "innerShellThickness": "内壳厚度文字文字",//内壳厚度
+        "shellThickness": "15",//外壳厚度
+        "innerShellBackend": "内壳后段空气",//内壳后端
+        "other": "试验模型其他",//其他
+        "logo": null
+    }
+    ]
+  },
+  'GET /bigmetaMng/big/testSystems': {
+    "success": true,
+    "message": null,
+    "data":  [
+      {
+          "pk": "ad9bb684-2f9d-416c-bb0e-d74f50f147e1",
+          "name": "测试系统名称",
+          "describe": "测试系统介绍"
+      },
+      {
+        "pk": "ad9bb684-2f9d-416c-bb0e-d74f50f147e1",
+        "name": "测试系统名称2",
+        "describe": "测试系统介绍2"
+    }
+    ]
+  },
+  'POST /item/pageSearchBigCondition': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": [
+        {
+            "refect": 0.1,//反射系数
+            "transmission": 0.45,//投射系数
+            "bondacust": 0.7875,//吸声系数
+            "rate": 10,//频率
+            "radiation": 102,//辐射声功率
+            "radiationlose": 7.2,// 辐射声功率插入损失
+            "echoes": 3.4//回声降低
+        },
+        {
+            "refect": 0.2,
+            "transmission": 0.47,
+            "bondacust": 0.7391,
+            "rate": 20,
+            "radiation": 103,
+            "radiationlose": 7.4,
+            "echoes": 3.5
+        }
+      ]
+    });
+  },
 
 };
 

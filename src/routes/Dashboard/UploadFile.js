@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import { Upload, Button, message } from 'antd'
-import styles from './BasicLayout.less';
+import styles from './index.less';
 
 export default class UploadFile extends Component {
 
 
 
   render () {
+    const { catalog } = this.props
     const props = {
       action: '/excelUpload/uploadExcle',
       // action: '//jsonplaceholder.typicode.com/posts/',
@@ -14,7 +15,7 @@ export default class UploadFile extends Component {
       withCredentials: true,
       name: 'file',
       accept: '.xlsx',
-      data: { catalog: 'smallDemo' },
+      data: { catalog },
       onChange(info) {
         if (info.file.status !== 'uploading') {
           console.log(info.file, info.fileList);

@@ -38,12 +38,12 @@ export default class SampleCard extends Component {
               <img src={sample} alt="样品" />
             </div>
             <ul className={styles.itemUl}>
-              <li><span>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</span><span>{sampleData.name || ''}</span></li>
-              <li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度</span><span>{sampleData.density || ''}</span></li>
-              <li><span>弹性模量</span><span>{sampleData.flexibleModel || ''}</span></li>
-              <li><span>泊&nbsp;&nbsp;松&nbsp;&nbsp;比</span><span>{sampleData.poissonRatio || ''}</span></li>
-              <li><span>声&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速</span><span>{sampleData.soundSpeed || ''}</span></li>
-              <li><span>厚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度</span><span>{sampleData.thickness || ''}</span></li>
+              <li><span>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</span><span title={sampleData.name || ''}>{sampleData.name || ''}</span></li>
+              <li><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度</span><span title={sampleData.density || ''}>{sampleData.density || ''}</span></li>
+              <li><span>弹性模量</span><span title={sampleData.flexibleModel || ''}>{sampleData.flexibleModel || ''}</span></li>
+              <li><span>泊&nbsp;&nbsp;松&nbsp;&nbsp;比</span><span title={sampleData.poissonRatio || ''}>{sampleData.poissonRatio || ''}</span></li>
+              <li><span>声&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速</span><span title={sampleData.soundSpeed || ''}>{sampleData.soundSpeed || ''}</span></li>
+              <li><span>厚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度</span><span title={sampleData.thickness || ''}>{sampleData.thickness || ''}</span></li>
               <li><span>其&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他</span><span title={sampleData.other || ''}>{sampleData.other || ''}</span></li>
             </ul>
           </div>): ''
