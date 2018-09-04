@@ -21,15 +21,20 @@ export default {
         currentAuthority: 'guest',
         userName:'用户',
       }
-      if(response.data && response.data.userType !== '普通用户'){
-        data.currentAuthority = 'admin'
-        data.userName = response.data.username
-      } else if(response.data && response.data.userType === '普通用户'){
-        data.currentAuthority = 'user'
-        data.userName = response.data.username
+      if(response.success) {
+        if(response.data && response.data.usertype !== '普通用户'){
+          data.currentAuthority = 'admin'
+          data.userName = response.data.username
+        } else if(response.data && response.data.usertype === '普通用户'){
+          data.currentAuthority = 'user'
+          data.userName = response.data.username
+        } else {
+          data.status = 'error'
+        }
       } else {
         data.status = 'error'
       }
+
       yield put({
         type: 'changeLoginStatus',
         payload: data,

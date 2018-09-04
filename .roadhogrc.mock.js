@@ -52,7 +52,7 @@ const proxy = {
         "data": {
             "ts": 1535719601000,
             "id": 2,
-            "username": "user",
+            "username": "admin",
             "pass": null,
             "usertype": "超级用户"
         }
@@ -74,7 +74,7 @@ const proxy = {
       return;
     }
     res.send({
-      "success": true,
+      "success": false,
       "message": "登录成功！",
       "data": {
           "ts": 1535719601000,
