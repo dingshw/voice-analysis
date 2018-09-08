@@ -43,7 +43,7 @@ const proxy = {
       address: 'Sidney No. 1 Lake Park',
     },
   ],
-  'POST /user/login': (req, res) => {
+  'GET /user/login': (req, res) => {
     const { pass, username, type } = req.body;
     if (pass === '888888' && username === 'admin') {
       res.send({
@@ -327,4 +327,4 @@ const proxy = {
 
 };
 
-export default (noProxy ? {} : delay(proxy, 1000));
+export default (noProxy ? {'/': 'http://127.0.0.1:8080/'} : delay(proxy, 1000));
