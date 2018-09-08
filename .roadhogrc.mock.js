@@ -45,7 +45,7 @@ const proxy = {
   ],
   'GET /user/login': (req, res) => {
     const { pass, username, type } = req.body;
-    if (pass === '888888' && username === 'admin') {
+    if (pass === 'admin' && username === 'admin') {
       res.send({
         "success": true,
         "message": "登录成功！",
@@ -59,7 +59,7 @@ const proxy = {
     });
       return;
     }
-    if (pass === '123456' && username === 'user') {
+    if (pass === 'user' && username === 'user') {
       res.send({
         "success": true,
         "message": "登录成功！",

@@ -23,7 +23,7 @@ const map = {
       size: 'large',
       prefix: <Icon type="lock" className={styles.prefixIcon} />,
       type: 'password',
-      placeholder: '888888',
+      placeholder: 'admin',
     },
     rules: [
       {
