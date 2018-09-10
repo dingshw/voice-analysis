@@ -81,7 +81,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['waterpot'], () => import('../routes/Dashboard/WaterPot/index')),
     },
     '/scalemodel': {
-      component: dynamicWrapper(app, [], () => import('../routes/Dashboard/ScaleModel/index')),
+      component: dynamicWrapper(app, ['scalemodel'], () => import('../routes/Dashboard/ScaleModel/index')),
     },
     '/msgmanage/sample': {
       component: dynamicWrapper(app, ['soundpipe'], () => import('../routes/MsgManage/SampleManage')),

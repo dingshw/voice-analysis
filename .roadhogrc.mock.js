@@ -324,6 +324,147 @@ const proxy = {
       ]
     });
   },
+  'GET /scaleMataMng/scale/testModelObjs': {
+    "success": true,
+    "message": null,
+    "data": [
+        {
+          "ts": 1536389161000,
+          "pk": "04ed1468-394e-4d12-a39f-a11a25f047ec",
+          "name": "中尺度模型",
+          "shellType": "双层壳体",//壳体类型
+          "shapeSize": "长5.4m，直径3.2m",
+          "weight": "20T",
+          "displacement": "20T",//排水量
+          "other": "文字文字文字文字文字文字",
+          "logo": null
+        },
+        {
+          "ts": 1536389161000,
+          "pk": "04ed1468-394e-4d12-a39f-a11a25f047ec",
+          "name": "中尺度模型2",
+          "shellType": "双层壳体",//壳体类型
+          "shapeSize": "长5.4m，直径3.2m",
+          "weight": "20T",
+          "displacement": "20T",//排水量
+          "other": "文字文字文字文字文字文字",
+          "logo": null
+      }
+    ]
+  },
+  'GET /scaleMataMng/scale/testConditions': {
+    "success": true,
+    "message": null,
+    "data": [
+        {
+          "ts": 1536389161000,
+          "pk": "38297ce7-0b70-42da-8487-0c8e713fa2dd",
+          "name": "文字文字",
+          "duration": "1个月",
+          "testTime": "201708",
+          "testPlace": "杭州",
+          "waterDepth": "20m",
+          "testDepth": "20m",
+          "other": "文字文字文字文字文字文字",
+          "logo": null
+        },
+        {
+          "ts": 1536389161000,
+          "pk": "38297ce7-0b70-42da-8487-0c8e713fa2dd",
+          "name": "文字文字12",
+          "duration": "1个月",
+          "testTime": "201708",
+          "testPlace": "杭州",
+          "waterDepth": "20m",
+          "testDepth": "20m",
+          "other": "文字文字文字文字文字文字",
+          "logo": null
+      }
+    ]
+  },
+  'GET /scaleMataMng/scale/layingSchemes': {
+    "success": true,
+    "message": null,
+    "data": [
+        {
+          "ts": 1536389161000,
+          "pk": "96350ce1-ee92-4a66-83b5-7ca3a8c2296b",
+          "name": "集成方案",
+          "shellSurfaceOuter": "文字文字",//外壳外表面
+          "shellSurfaceIner": "文字文字",//外壳内表面
+
+          "innerShell": "文字文字", //内壳
+          "ribs": "文字文字",
+          "other": "文字文字文字文字文字文字",
+          "logo": null
+        },
+        {
+          "ts": 1536389161000,
+          "pk": "96350ce1-ee92-4a66-83b5-7ca3a8c2296b",
+          "name": "集成方案2",
+          "shellSurfaceOuter": "文字文字",//外壳外表面
+          "shellSurfaceIner": "文字文字",//外壳内表面
+
+          "innerShell": "文字文字", //内壳
+          "ribs": "文字文字",
+          "other": "文字文字文字文字文字文字",
+          "logo": null
+      }
+    ]
+  },
+  'POST /item/pageSearchScaleCondition': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": [
+        {
+          rate: 10,
+          "lightShellTS": 10,
+          "lightShellSP": 9.71447,
+          "layingShellTS": 24,
+          "layingShellSP": 107.286,
+          "reductionTS": 2.97922,
+          "reductionSP": 117
+      },
+      {
+          rate: 20,
+          "lightShellTS": 10,
+          "lightShellSP": 7.70368,
+          "layingShellTS": 21,
+          "layingShellSP": 106.296,
+          "reductionTS": 2.78258,
+          "reductionSP": 114
+      },
+      {
+          rate: 30,
+          "lightShellTS": 20,
+          "lightShellSP": 10.502,
+          "layingShellTS": 25,
+          "layingShellSP": 107.498,
+          "reductionTS": 4.22421,
+          "reductionSP": 118
+      },
+      {
+          rate: 40,
+          "lightShellTS": 30,
+          "lightShellSP": 9.22351,
+          "layingShellTS": 23,
+          "layingShellSP": 106.776,
+          "reductionTS": 4.44131,
+          "reductionSP": 116
+      },
+      {
+          rate: 50,
+          "lightShellTS": 40,
+          "lightShellSP": 10.0789,
+          "layingShellTS": 24,
+          "layingShellSP": 106.921,
+          "reductionTS": 3.6876,
+          "reductionSP": 117
+      }
+    ]
+    });
+  },
 
 };
 

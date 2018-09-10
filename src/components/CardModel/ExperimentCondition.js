@@ -30,12 +30,12 @@ export default class ExperimentCard extends Component {
             </div>
             <ul className={styles.itemUl}>
               <span>试验情况</span>
-              <li><span>名称</span><span>{experimentData.name || '阿波罗'}</span></li>
-              <li><span>尺寸</span><span>{experimentData.density || '1.05kg/cm3'}</span></li>
-              <li><span>双层壳间距</span><span>{experimentData.pa || '50MPa'}</span></li>
-              <li><span>内壳厚度</span><span>{experimentData.poisson || 0.497}</span></li>
-              <li><span>外壳厚度</span><span>{experimentData.voice || '1580m/s'}</span></li>
-              <li><span>内壳后端</span><span>{experimentData.land || '50mm'}</span></li>
+              <li><span>名称</span><span>{experimentData.name || ''}</span></li>
+              <li><span>时间</span><span>{experimentData.testTime || ''}</span></li>
+              <li><span>地点</span><span>{experimentData.testPlace || ''}</span></li>
+              <li><span>水域深度</span><span>{experimentData.waterDepth || ''}</span></li>
+              <li><span>试验深度</span><span>{experimentData.testDepth || ''}</span></li>
+              <li><span>其他</span><span>{experimentData.other || ''}</span></li>
             </ul>
           </div>): ''
         }

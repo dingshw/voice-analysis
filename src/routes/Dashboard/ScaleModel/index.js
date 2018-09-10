@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Select, Button } from 'antd';
 import { connect } from 'dva';
-import BackingCard from 'components/CardModel/BackingCard'
-import ExperimentCard from 'components/CardModel/ExperimentCard'
+import LayingScheme from 'components/CardModel/LayingScheme'
+import TestModel from 'components/CardModel/TestModel'
 import ExperimentCondition from 'components/CardModel/ExperimentCondition'
-import ParamAnalysis from 'components/CardModel/ParamAnalysis'
+import ScaleParamAnalysis from 'components/CardModel/ScaleParamAnalysis'
 import UploadFile from '../UploadFile'
 import ReduceReport from '../ReduceReport'
 import styles from '../index.less';
@@ -12,82 +12,90 @@ import excel from '../../../../public/SamoleData.xlsx'
 
 const Option = Select && Select.Option;
 
-@connect(({ soundpipe }) => ({
-  backingData: soundpipe.backingData,
-  sampleData: soundpipe.sampleData,
-  soundPipeData: soundpipe.soundPipeData,
+@connect(({ scalemodel }) => ({
+  testModel: scalemodel.testModel,
+  testConditions: scalemodel.testConditions,
+  layingSchemes: scalemodel.layingSchemes,
+  scaleCondition: scalemodel.scaleCondition,
 }))
-export default class SoundPipe extends Component {
+export default class ScaleModel extends Component {
 
   state = {
-    selectSampleData: {},
-    selectBackingData: {},
+    selectTestModel: {},
+    selectTestConditions: {},
+    selectLayingSchemes: {},
   }
 
   componentDidMount () {
     const { dispatch } = this.props;
     dispatch({
-      type: 'soundpipe/getBackingData',
+      type: 'scalemodel/getTestModel',
     });
     dispatch({
-      type: 'soundpipe/getSampleData',
+      type: 'scalemodel/getTestConditions',
+    });
+    dispatch({
+      type: 'scalemodel/getLayingSchemes',
     });
   }
 
-  handleBackingChange = (value) => {
-    const { backingData } = this.props
-    for(const i in backingData) {
-      if (backingData[i] && backingData[i].name === value) {
-        this.setState({selectBackingData: backingData[i]})
+  handleTestModel = (value) => {
+    const { testModel } = this.props
+    for(const i in testModel) {
+      if (testModel[i] && testModel[i].name === value) {
+        this.setState({selectTestModel: testModel[i]})
       }
     }
   }
 
-  handleSampleChange = (value) => {
-    const { sampleData } = this.props
-    for(const i in sampleData) {
-      if (sampleData[i] && sampleData[i].name === value) {
-        this.setState({selectSampleData: sampleData[i]})
+  handleTestConditions = (value) => {
+    const { testConditions } = this.props
+    for(const i in testConditions) {
+      if (testConditions[i] && testConditions[i].name === value) {
+        this.setState({selectTestConditions: testConditions[i]})
       }
     }
   }
 
-  handleSoundPipeData = (dataMap) => {
+  handleLayingSchemes = (value) => {
+    const { layingSchemes } = this.props
+    for(const i in layingSchemes) {
+      if (layingSchemes[i] && layingSchemes[i].name === value) {
+        this.setState({selectLayingSchemes: layingSchemes[i]})
+      }
+    }
+  }
+
+  handleScaleCondition = (dataMap) => {
     if(dataMap) {
-      /* {
-        "samplename":"阿波罗",
-        "backgroundtype":"30mm",
-        "temparture":"15",
-        "press":"1",
-        "rateMin":"2",
-        "rateMax":"100"
-
-      } */
-      const { selectBackingData, selectSampleData } = this.state
       const { dispatch } = this.props;
       dispatch({
-        type: 'soundpipe/getSoundPipeData',
+        type: 'scalemodel/getScaleCondition',
         payload: {
           ...dataMap,
-          backgroundtype: selectBackingData.name,
-          samplename: selectSampleData.name,
         },
       });
     }
   }
 
   render() {
-    const { sampleData, backingData, soundPipeData } = this.props
-    const { selectSampleData, selectBackingData } = this.state
+    const { testModel, testConditions, layingSchemes, scaleCondition } = this.props
+    const { selectTestConditions, selectTestModel, selectLayingSchemes } = this.state
 
-    const selectAnalysisName = `${selectSampleData.name  } ${  selectBackingData.name}`
+    const selectAnalysisName = `${selectTestModel.name  } ${  selectTestConditions.name} ${  selectLayingSchemes.name}`
+    const isScaleModel = true
+    const param = {
+      testModelObjName: selectTestModel.name,
+      testConditionName: selectTestConditions.name,
+      layingSchemeName: selectLayingSchemes.name,
+    }
     return (
       <div className={styles.main}>
         <div className={styles.headerTools}>
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
           </Button>
-          <UploadFile />
+          <UploadFile catalog="conDemo" />
           <ReduceReport />
         </div>
         <div className={styles.headerBox}>
@@ -97,24 +105,24 @@ export default class SoundPipe extends Component {
             style={{ width: 200 }}
             placeholder="请选择模型"
             optionFilterProp="children"
-            onChange={this.handleBackingChange.bind(this)}
+            onChange={this.handleTestModel.bind(this)}
             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
-              backingData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              testModel.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
-          <span>试验时间</span>
+          <span>试验情况</span>
           <Select
             showSearch
             style={{ width: 200 }}
-            placeholder="请选择时间"
+            placeholder="请选择试验情况"
             optionFilterProp="children"
-            onChange={this.handleSampleChange.bind(this)}
+            onChange={this.handleTestConditions.bind(this)}
             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
-              sampleData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              testConditions.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
           <span>敷设方案</span>
@@ -123,20 +131,26 @@ export default class SoundPipe extends Component {
             style={{ width: 200 }}
             placeholder="请选择敷设方案"
             optionFilterProp="children"
-            onChange={this.handleSampleChange.bind(this)}
+            onChange={this.handleLayingSchemes.bind(this)}
             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
-              sampleData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              layingSchemes.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
         </div>
         <div className={styles.mainCard}>
-          <ExperimentCard experimentData={selectSampleData} styleWidth="32%" />
-          <ExperimentCondition experimentData={selectSampleData} styleWidth="32%" styleMarginLeft="2%" />
-          <BackingCard backingData={selectBackingData} styleWidth="32%" />
+          <TestModel experimentData={selectTestModel} styleWidth="32%" />
+          <ExperimentCondition experimentData={selectTestConditions} styleWidth="32%" styleMarginLeft="2%" />
+          <LayingScheme experimentData={selectLayingSchemes} styleWidth="32%" />
         </div>
-        <ParamAnalysis analysisData={soundPipeData} selectAnalysisName={selectAnalysisName} handleAnalysisData={this.handleSoundPipeData.bind(this)} />
+        <ScaleParamAnalysis
+          isScaleModel={isScaleModel}
+          param={param}
+          analysisData={scaleCondition}
+          selectAnalysisName={selectAnalysisName}
+          handleAnalysisData={this.handleScaleCondition.bind(this)}
+        />
       </div>);
   }
 }

@@ -22,13 +22,12 @@ let myChart = null
 let historyAnalysisData = []
 let analysisState = ""
 const lengendMap = {
-  refect: '反射系数',
-  transmission: '投射系数',
-  bondacust: '吸声系数',
-  rate: '频率',
-  radiation: '辐射声功率',
-  radiationlose: '辐射声功率插入损失',
-  echoes: '回声降低',
+  lightShellTS: '光壳声目标强度',
+  lightShellSP: '光壳辐射声功率',
+  layingShellTS: '敷瓦声目标强度',
+  layingShellSP: '敷瓦辐射声功率',
+  reductionTS: '声目标强度降低量',
+  reductionSP: '辐射声功率插入损失',
 }
 const chartOption = {
   title: { text: '' },
@@ -108,9 +107,12 @@ export default class ParamAnalysis extends Component {
     },
     compareAnalysisData: [],
     analysisAvg: {
-      transmission: 0,
-      refect: 0,
-      bondacust: 0,
+      "lightShellTS": 0,
+      "lightShellSP": 0,
+      "layingShellTS": 0,
+      "layingShellSP": 0,
+      "reductionTS": 0,
+      "reductionSP": 0,
     },
   }
 
@@ -224,20 +226,20 @@ export default class ParamAnalysis extends Component {
     const { data } = analysisData
     const categories = []
     const seriesData = {
-      'refect': [],
-      'transmission': [],
-      'bondacust': [],
-      radiation: [],
-      radiationlose: [],
-      echoes: [],
+      lightShellTS: [],
+      lightShellSP: [],
+      layingShellTS: [],
+      layingShellSP: [],
+      reductionTS: [],
+      reductionSP: [],
     }
     this.formatAnalysisData(data, categories, seriesData)
-    analysisAvg.bondacust = seriesData.bondacust.length> 0 && (_.sum(seriesData.bondacust)/seriesData.bondacust.length).toFixed(2)
-    analysisAvg.refect = seriesData.refect.length> 0 && (_.sum(seriesData.refect)/seriesData.refect.length).toFixed(2)
-    analysisAvg.transmission = seriesData.transmission.length> 0 && (_.sum(seriesData.transmission)/seriesData.transmission.length).toFixed(2)
-    analysisAvg.radiation = seriesData.radiation.length> 0 && (_.sum(seriesData.radiation)/seriesData.radiation.length).toFixed(2)
-    analysisAvg.radiationlose = seriesData.radiationlose.length> 0 && (_.sum(seriesData.radiationlose)/seriesData.radiationlose.length).toFixed(2)
-    analysisAvg.echoes = seriesData.echoes.length> 0 && (_.sum(seriesData.echoes)/seriesData.echoes.length).toFixed(2)
+    analysisAvg.lightShellTS = seriesData.lightShellTS.length> 0 && (_.sum(seriesData.lightShellTS)/seriesData.lightShellTS.length).toFixed(2)
+    analysisAvg.lightShellSP = seriesData.lightShellSP.length> 0 && (_.sum(seriesData.lightShellSP)/seriesData.lightShellSP.length).toFixed(2)
+    analysisAvg.layingShellTS = seriesData.layingShellTS.length> 0 && (_.sum(seriesData.layingShellTS)/seriesData.layingShellTS.length).toFixed(2)
+    analysisAvg.layingShellTS = seriesData.layingShellTS.length> 0 && (_.sum(seriesData.layingShellTS)/seriesData.layingShellTS.length).toFixed(2)
+    analysisAvg.reductionTS = seriesData.reductionTS.length> 0 && (_.sum(seriesData.reductionTS)/seriesData.reductionTS.length).toFixed(2)
+    analysisAvg.reductionSP = seriesData.reductionSP.length> 0 && (_.sum(seriesData.reductionSP)/seriesData.reductionSP.length).toFixed(2)
     this.setState({analysisAvg})
   }
 
@@ -272,12 +274,12 @@ export default class ParamAnalysis extends Component {
     for(const i in analysisData) {
       if(analysisData[i]) {
         categories.push(analysisData[i].rate)
-        seriesData.refect.push(analysisData[i].refect)
-        seriesData.transmission.push(analysisData[i].transmission)
-        seriesData.bondacust.push(analysisData[i].bondacust)
-        seriesData.radiation.push(analysisData[i].radiation)
-        seriesData.radiationlose.push(analysisData[i].radiationlose)
-        seriesData.echoes.push(analysisData[i].echoes)
+        seriesData.lightShellTS.push(analysisData[i].lightShellTS)
+        seriesData.lightShellSP.push(analysisData[i].lightShellSP)
+        seriesData.layingShellTS.push(analysisData[i].layingShellTS)
+        seriesData.layingShellSP.push(analysisData[i].layingShellSP)
+        seriesData.reductionTS.push(analysisData[i].reductionTS)
+        seriesData.reductionSP.push(analysisData[i].reductionSP)
       }
     }
     return {categories, seriesData}
@@ -311,12 +313,12 @@ export default class ParamAnalysis extends Component {
   changeChartData = (analysisData) => {
     const categories = []
     const seriesData = {
-      'refect': [],
-      'transmission': [],
-      'bondacust': [],
-      radiation: [],
-      radiationlose: [],
-      echoes: [],
+      lightShellTS: [],
+      lightShellSP: [],
+      layingShellTS: [],
+      layingShellSP: [],
+      reductionTS: [],
+      reductionSP: [],
     }
     this.formatAnalysisData(analysisData, categories, seriesData)
     if(!myChart) {
@@ -332,12 +334,12 @@ export default class ParamAnalysis extends Component {
     const chartOptionTemp = _.cloneDeep(chartOption)
     chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
     const seriesDataMap = {
-      'refect': [seriesData.refect],
-      'transmission': [seriesData.transmission],
-      'bondacust': [seriesData.bondacust],
-      radiation: [seriesData.radiation],
-      radiationlose: [seriesData.radiationlose],
-      echoes: [seriesData.echoes],
+      'lightShellTS': [seriesData.lightShellTS],
+      'lightShellSP': [seriesData.lightShellSP],
+      'layingShellTS': [seriesData.layingShellTS],
+      layingShellSP: [seriesData.layingShellSP],
+      reductionTS: [seriesData.reductionTS],
+      reductionSP: [seriesData.reductionSP],
     }
     const chartMap = this.initSeries(seriesDataMap)
     chartOptionTemp.series = chartMap.series
@@ -347,30 +349,30 @@ export default class ParamAnalysis extends Component {
 
   startContrast = () => {
     const { compareAnalysisData } = this.state
-    const refectList = []
-    const transmissionList = []
-    const bondacustList = []
-    const radiationList = []
-    const radiationloseList = []
-    const echoesList = []
+    const lightShellTSList = []
+    const lightShellSPList = []
+    const layingShellTSList = []
+    const layingShellSPList = []
+    const reductionTSList = []
+    const reductionSPList = []
     let categories = []
     for(const analysisData of compareAnalysisData) {
       categories = []
       const seriesData = {
-        'refect': [],
-        'transmission': [],
-        'bondacust': [],
-        radiation: [],
-        radiationlose: [],
-        echoes: [],
+        lightShellTS: [],
+        lightShellSP: [],
+        layingShellTS: [],
+        layingShellSP: [],
+        reductionTS: [],
+        reductionSP: [],
       }
       this.formatAnalysisData(analysisData.data, categories, seriesData)
-      refectList.push(seriesData.refect)
-      transmissionList.push(seriesData.transmission)
-      bondacustList.push(seriesData.bondacust)
-      radiationList.push(seriesData.radiationList)
-      radiationloseList.push(seriesData.radiationloseList)
-      echoesList.push(seriesData.echoesList)
+      lightShellTSList.push(seriesData.lightShellTSList)
+      lightShellSPList.push(seriesData.lightShellSPList)
+      layingShellTSList.push(seriesData.layingShellTSList)
+      layingShellSPList.push(seriesData.layingShellSPList)
+      reductionTSList.push(seriesData.reductionTSList)
+      reductionSPList.push(seriesData.reductionSPList)
     }
     if(!myChart) {
       // 基于准备好的dom，初始化echarts实例
@@ -381,12 +383,12 @@ export default class ParamAnalysis extends Component {
     }
     myChart.clear()
     const seriesDataMap = {
-      'refect': refectList,
-      'transmission': transmissionList,
-      'bondacust': bondacustList,
-      radiation: radiationList,
-      radiationlose: radiationloseList,
-      echoes: echoesList,
+      'lightShellTS': lightShellTSList,
+      'lightShellSP': lightShellSPList,
+      'layingShellTS': layingShellTSList,
+      layingShellSP: layingShellSPList,
+      reductionTS: reductionTSList,
+      reductionSP: reductionSPList,
     }
     const chartMap = this.initSeries(seriesDataMap)
     const chartOptionTemp = _.cloneDeep(chartOption)
