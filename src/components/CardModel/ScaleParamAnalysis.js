@@ -9,13 +9,13 @@ import 'echarts2/component/legend'
 import 'echarts2/chart/line'
 import 'echarts2/chart/bar'
 // import echarts from 'echarts/lib/echarts' // 必须
-// import 'echart/lib/component/tooltip'
-// import 'echart/lib/component/grid'
-// import 'echart/lib/component/toolbox'
-// import 'echart/lib/component/legend'
-// import 'echart/lib/component/markLine'
-// import 'echart/lib/chart/line'
-// import 'echart/lib/chart/bar'
+// import 'echarts/lib/component/tooltip'
+// import 'echarts/lib/component/grid'
+// import 'echarts/lib/component/toolbox'
+// import 'echarts/lib/component/legend'
+// import 'echarts/lib/component/markLine'
+// import 'echarts/lib/chart/line'
+// import 'echarts/lib/chart/bar'
 import styles from './ParamAnalysis.less'
 
 let myChart = null
@@ -48,9 +48,9 @@ const chartOption = {
   },
   grid: {
     x: 30,
-    x2: 40,
+    x2: 50,
     y: 30,
-    y2: 50,
+    y2: 60,
   },
   legend: {
     data:['指数1','指数2','指数3'],
@@ -344,6 +344,9 @@ export default class ParamAnalysis extends Component {
     const chartMap = this.initSeries(seriesDataMap)
     chartOptionTemp.series = chartMap.series
     chartOptionTemp.legend.data = chartMap.legendData
+    if(chartMap.legendData.length>5) {
+      chartOptionTemp.grid.y2 = '80'
+    }
     myChart.setOption(chartOptionTemp);
   }
 
@@ -367,12 +370,12 @@ export default class ParamAnalysis extends Component {
         reductionSP: [],
       }
       this.formatAnalysisData(analysisData.data, categories, seriesData)
-      lightShellTSList.push(seriesData.lightShellTSList)
-      lightShellSPList.push(seriesData.lightShellSPList)
-      layingShellTSList.push(seriesData.layingShellTSList)
-      layingShellSPList.push(seriesData.layingShellSPList)
-      reductionTSList.push(seriesData.reductionTSList)
-      reductionSPList.push(seriesData.reductionSPList)
+      lightShellTSList.push(seriesData.lightShellTS)
+      lightShellSPList.push(seriesData.lightShellSP)
+      layingShellTSList.push(seriesData.layingShellTS)
+      layingShellSPList.push(seriesData.layingShellSP)
+      reductionTSList.push(seriesData.reductionTS)
+      reductionSPList.push(seriesData.reductionSP)
     }
     if(!myChart) {
       // 基于准备好的dom，初始化echarts实例
@@ -395,8 +398,11 @@ export default class ParamAnalysis extends Component {
     chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
     chartOptionTemp.series = chartMap.series
     chartOptionTemp.legend.data = chartMap.legendData
-    if(chartMap.legendData.length>6) {
+    if(chartMap.legendData.length>5) {
       chartOptionTemp.grid.y2 = '80'
+    }
+    if(chartMap.legendData.length>10) {
+      chartOptionTemp.grid.y2 = '100'
     }
     myChart.setOption(chartOptionTemp);
   }
