@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Select, Button } from 'antd';
 import { connect } from 'dva';
 import LayingScheme from 'components/CardModel/LayingScheme'
-import TestModel from 'components/CardModel/TestModel'
+import OuterExperimentCard from 'components/CardModel/OuterExperimentCard'
 import ExperimentCondition from 'components/CardModel/ExperimentCondition'
 import ScaleParamAnalysis from 'components/CardModel/ScaleParamAnalysis'
 import UploadFile from '../UploadFile'
@@ -140,7 +140,7 @@ export default class ScaleModel extends Component {
           </Select>
         </div>
         <div className={styles.mainCard}>
-          <TestModel experimentData={selectTestModel} styleWidth="32%" />
+          <OuterExperimentCard experimentData={selectTestModel} styleWidth="32%" />
           <ExperimentCondition experimentData={selectTestConditions} styleWidth="32%" styleMarginLeft="2%" />
           <LayingScheme experimentData={selectLayingSchemes} styleWidth="32%" />
         </div>

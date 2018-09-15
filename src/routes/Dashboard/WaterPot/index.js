@@ -3,7 +3,7 @@ import { Select, Button } from 'antd';
 import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
-import ExperimentCard from 'components/CardModel/ExperimentCard'
+import InnerExperimentCard from 'components/CardModel/InnerExperimentCard'
 import TestSystem from 'components/CardModel/TestSystem'
 import UploadFile from '../UploadFile'
 import ReduceReport from '../ReduceReport'
@@ -149,7 +149,7 @@ export default class SoundPipe extends Component {
         </div>
         <div className={styles.mainCard}>
           <SampleCard sampleData={selectBigSampleData} styleWidth="32%" />
-          <ExperimentCard experimentData={selectTestData} styleWidth="32%" styleMarginLeft="2%" />
+          <InnerExperimentCard experimentData={selectTestData} styleWidth="32%" styleMarginLeft="2%" />
           <TestSystem testData={selectBigTestSystemsData} styleWidth="32%" />
         </div>
         <ParamAnalysis

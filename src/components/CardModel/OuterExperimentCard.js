@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
-import { Carousel, Popconfirm, Icon, Tooltip } from 'antd'
+import {Popconfirm, Icon, Tooltip} from 'antd'
 import EditModal from './EditModal'
 import styles from './index.less';
 import experiment from '../../../public/experiment.png';
 
-export default class ExperimentCondition extends Component {
-
-  onChange = () => {
-
-  }
+export default class OuterExperimentCard extends Component {
 
   render () {
     const {experimentData, styleWidth, styleMarginLeft, showTools, changeData} = this.props;
@@ -16,14 +12,14 @@ export default class ExperimentCondition extends Component {
       <div style={{width: styleWidth, marginLeft: styleMarginLeft}} className={styles.card}>
         <div className={styles.cardTitle}>
           <div>
-            <span className={styles.title}>试验情况</span>
+            <span className={styles.title}>{showTools? experimentData.name : '试验模型'}</span>
             <div className={styles.triangle} />
           </div>
           {
             showTools ? (
               <div className={styles.toolsIcon}>
                 {/* <Icon type="edit" className={styles.iconStyle} onClick={this.editSample} /> */}
-                <EditModal type='isExperment' changeData={changeData} modalData={experimentData} />
+                <EditModal type='isOuter' changeData={changeData} modalData={experimentData} />
                 <Popconfirm title="是否要删除?" onConfirm={this.onDelete} okText="删除" cancelText="取消">
                   <Icon type="delete" className={styles.iconStyle} />
                 </Popconfirm>
@@ -33,22 +29,15 @@ export default class ExperimentCondition extends Component {
         </div>
         {experimentData? (
           <div className={styles.cardbox}>
-            <div className={`${styles.boxImg} ${styles.experimentImg}`}>
-              <Carousel afterChange={this.onChange} className={styles.carousel}>
-                <div><img src={experiment} alt="试验情况" /></div>
-                <div><img src={experiment} alt="试验情况" /></div>
-                <div><img src={experiment} alt="试验情况" /></div>
-                <div><img src={experiment} alt="试验情况" /></div>
-                <div><img src={experiment} alt="试验情况" /></div>
-              </Carousel>
+            <div className={styles.boxImg}>
+              <img src={experiment} alt="试验模型" />
             </div>
             <ul className={styles.itemUl}>
-              <span>试验情况</span>
-              <li><span>名称</span><span>{experimentData.name || ''}</span></li>
-              <li><span>时间</span><span>{experimentData.testTime || ''}</span></li>
-              <li><span>地点</span><span>{experimentData.testPlace || ''}</span></li>
-              <li><span>水域深度</span><span>{experimentData.waterDepth || ''}</span></li>
-              <li><span>试验深度</span><span>{experimentData.testDepth || ''}</span></li>
+              <li><span>名称</span><span title={experimentData.name || ''}>{experimentData.name || ''}</span></li>
+              <li><span>壳体类型</span><span title={experimentData.shellType || ''}>{experimentData.shellType || ''}</span></li>
+              <li><span>尺寸</span><span title={experimentData.shapeSize || ''}>{experimentData.shapeSize || ''}</span></li>
+              <li><span>重量</span><span title={experimentData.weight || ''}>{experimentData.weight || ''}</span></li>
+              <li><span>排水量</span><span title={experimentData.displacement || ''}>{experimentData.displacement || ''}</span></li>
               <li>
                 <span>其他</span>
                 <Tooltip

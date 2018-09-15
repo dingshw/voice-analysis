@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import { Table, Popconfirm, Form, Button } from 'antd';
+import { Table, Popconfirm, Form, Button, Icon } from 'antd';
+import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableCell from './EditableCell'
-import './EdittableCell.less'
+import styles from './EdittableCell.less'
 
 const EditableContext = React.createContext();
 
@@ -17,42 +18,48 @@ export default class EditableTable extends Component {
   constructor(props) {
     super(props);
     const { columns, data } = props
-    this.state = { data, count: data.length, editingKey: '' };
+    this.state = {
+      data,
+      count: data.length,
+      editingKey: '',
+      selectedRowKeys: [],
+      showModal: false,
+     };
     this.columns = [...columns, {
-      title: 'operation',
+      title: '操作',
       dataIndex: 'operation',
       selectdata: [],
       render: (text, record) => {
         const editable = this.isEditing(record);
         return (
-          <div>
+          <div style={{}}>
             {editable ? (
               <span>
                 <EditableContext.Consumer>
                   {form => (
-                    <div>
+                    <div className={styles.saveBtn}>
                       <a
                         href="javascript:;"
                         onClick={() => this.save(form, record.key)}
                         style={{ marginRight: 8 }}
                       >
-                        Save
+                        保存
                       </a>
                     </div>
                   )}
                 </EditableContext.Consumer>
                 <Popconfirm
-                  title="Sure to cancel?"
+                  title="确定取消?"
                   onConfirm={() => this.cancel(record.key)}
                 >
-                  <a>Cancel</a>
+                  <a>取消</a>
                 </Popconfirm>
               </span>
             ) : (
-              <div>
-                <a onClick={() => this.edit(record.key)}>Edit</a>
-                <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
-                  <a href="javascript:;">Delete</a>
+              <div className={styles.opertion}>
+                <Icon className={styles.iconStyle} type="edit" onClick={() => this.edit(record.key)} />
+                <Popconfirm title="确定删除?" onConfirm={() => this.handleDelete(record.key)}>
+                  <Icon className={styles.iconStyle} type="delete" />
                 </Popconfirm>
               </div>
             )}
@@ -62,6 +69,12 @@ export default class EditableTable extends Component {
     }]
   }
 
+
+  onSelectChange = (selectedRowKeys) => {
+    // console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
+  }
+
   handleDelete = (key) => {
     const { data } = this.state
     const dataSource = [...data];
@@ -69,17 +82,15 @@ export default class EditableTable extends Component {
   }
 
   handleAdd = () => {
-    const { count, data } = this.state;
-    const newData = {
-      key: count,
-      name: `Edward King ${count}`,
-      age: 32,
-      address: `London, Park Lane no. ${count}`,
-    };
-    this.setState({
-      data: [...data, newData],
-      count: count + 1,
-    });
+    // const { count, data } = this.state;
+    // const newData = {
+    //   key: count,
+    // };
+    // this.setState({
+    //   data: [newData, ...data],
+    //   count: count + 1,
+    // });
+    this.setState({showModal: true})
   }
 
   isEditing = (record) => {
@@ -91,10 +102,12 @@ export default class EditableTable extends Component {
     this.setState({ editingKey: '' });
   }
 
-  edit(key) {
-    this.setState({ editingKey: key });
-  }
 
+
+  handleSelectDelete = () => {
+    const {selectedRowKeys} = this.state
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+  }
 
   save(form, key) {
     const { data } = this.state
@@ -118,8 +131,14 @@ export default class EditableTable extends Component {
     });
   }
 
+
+  edit(key) {
+    this.setState({ editingKey: key });
+  }
+
   render() {
-    const { data } = this.state
+    const { data, selectedRowKeys, showModal } = this.state
+    const {modalDataMap} = this.props
     const components = {
       body: {
         row: EditableFormRow,
@@ -144,12 +163,24 @@ export default class EditableTable extends Component {
       };
     });
 
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
     return (
       <div>
-        <Button onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
-          新增数据
-        </Button>
+        {showModal? '':''}
+        <div style={{display: 'flex', alignItems: 'baseline'}}>
+          <DataManageModal modalDataMap={modalDataMap} />
+          <Popconfirm title="确定删除?" onConfirm={this.handleSelectDelete}>
+            <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }}>
+              批量删除
+            </Button>
+          </Popconfirm>
+        </div>
         <Table
+          rowSelection={rowSelection}
           scroll={{ y: 500 }}
           components={components}
           bordered

@@ -1,24 +1,28 @@
 import React, {Component} from 'react'
-import { Icon } from 'antd'
+import { Icon, Popconfirm, Tooltip } from 'antd'
+import EditModal from './EditModal'
 import styles from './index.less'
 
 export default class BackingCard extends Component {
 
   render () {
 
-    const {backingData, styleWidth, showTools} = this.props
+    const {backingData, styleWidth, showTools, changeData} = this.props
     return (
       <div style={{width: styleWidth}} className={`${styles.card} ${styles.backingCard}`}>
         <div className={styles.cardTitle}>
           <div>
-            <span className={styles.title}>背衬介绍</span>
+            <span className={styles.title}>{showTools?backingData.name: '背衬介绍' }</span>
             <div className={styles.triangle} />
           </div>
           {
             showTools ? (
               <div className={styles.toolsIcon}>
-                <Icon type="edit" style={{ fontSize: 16, color: '#08c', marginRight: '10px' }} />
-                <Icon type="delete" style={{ fontSize: 16, color: '#08c', marginRight: '10px' }} />
+                {/* <Icon type="edit" className={styles.iconStyle} onClick={this.editSample} /> */}
+                <EditModal type='isBacking' changeData={changeData} modalData={backingData} />
+                <Popconfirm title="是否要删除?" onConfirm={this.onDelete} okText="删除" cancelText="取消">
+                  <Icon type="delete" className={styles.iconStyle} />
+                </Popconfirm>
               </div>
             ) : ''
           }
@@ -31,12 +35,20 @@ export default class BackingCard extends Component {
               <div className={styles.imgBacking}><span>背衬</span></div>
               <div className={backingData.name === '30mm钢' ? styles.imgAir : styles.imgWater}><span>{backingData.name === '30mm钢' ? '空气' : '水'}</span></div>
             </div>
-            <ul className={styles.itemUl}>
+            <ul className={styles.backingItemUl}>
               <span>背衬基本介绍</span>
               <li><span>背衬名称</span><span>{backingData.name|| ''}</span></li>
               <li><span>样品前端介质</span><span>{backingData.frontMedium|| ''}</span></li>
               <li><span>背衬后端介质</span><span>{backingData.endMedium || ''}</span></li>
-              <li><span>其他</span><span>{backingData.other|| ''}</span></li>
+              <li>
+                <span>其他</span>
+                <Tooltip
+                  placement="bottom"
+                  title={backingData.other}
+                >
+                  <span>{backingData.other || ''}</span>
+                </Tooltip>
+              </li>
             </ul>
           </div>): ''
         }

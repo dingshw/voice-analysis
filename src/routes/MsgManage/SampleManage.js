@@ -47,7 +47,11 @@ export default class SampleManage extends Component {
     return (
       <div className={styles.content}>
         <div className={styles.tools}>
-          <EditModal isCreate={isCreate} addModal={addModal} />
+          <EditModal
+            type='isSample'
+            isCreate={isCreate}
+            addModal={addModal}
+          />
           <Search
             placeholder="查询名称"
             enterButton="查询"
@@ -59,7 +63,7 @@ export default class SampleManage extends Component {
           {
             sampleData.filter((data) => {
               if(searchValue !== '') {
-                return searchValue == data.name
+                return searchValue === data.name
               }
               return data
             }).map((item, index) => (

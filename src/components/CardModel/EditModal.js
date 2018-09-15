@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
-import { Modal, Icon, Upload, Form, Input, InputNumber, Button } from 'antd';
+import { Modal, Icon, Upload, Button } from 'antd';
 import _ from 'lodash'
+import SampleForm from '../FormModel/SampleForm'
+import BackingForm from '../FormModel/BackingForm'
+import InnerForm from '../FormModel/InnerForm'
+import OuterForm from '../FormModel/OuterForm'
+import ExpermentForm from '../FormModel/ExpermentForm'
+import TestForm from '../FormModel/TestForm'
+import LayForm from '../FormModel/LayForm'
 import styles from './EditModal.less'
-
-const FormItem = Form.Item;
 
 export default class EditModal extends Component {
 
@@ -115,9 +120,28 @@ export default class EditModal extends Component {
     }
   }
 
+  checkBtnName = (type) => {
+    switch (type) {
+      case 'isSample':
+        return '样品'
+      case 'isBacking':
+        return '背衬'
+      case 'isInner':
+        return '内场实验模型'
+      case 'isOuter':
+        return '外场实验模型'
+      case 'isExperment':
+        return '测试系统管理'
+      case 'isTest':
+        return '试验情况'
+      default:
+        return '敷设方案'
+    }
+  }
+
   render() {
     const { dataModel, visible, confirmLoading, previewVisible, previewImage, fileList } = this.state;
-    const { addModal, isCreate } = this.props
+    const { addModal, isCreate, type } = this.props
     const withCredentials = true
     const uploadButton = (
       <div>
@@ -138,7 +162,7 @@ export default class EditModal extends Component {
     return (
       <div className={styles.editModal}>
         {addModal ?
-          (<Button type="primary" onClick={this.showModal}>添加样品</Button>) :
+          (<Button type="primary" onClick={this.showModal}>{`添加${this.checkBtnName(type)}`}</Button>) :
           (<Icon type="edit" className={styles.iconStyle} onClick={this.showModal} />)
         }
         <Modal
@@ -150,7 +174,7 @@ export default class EditModal extends Component {
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
         >
-          <div className="clearfix">
+          <div className={`${styles.imgList} clearfix`}>
             <Upload
               action="//jsonplaceholder.typicode.com/posts/"
               withCredentials={withCredentials}
@@ -166,67 +190,57 @@ export default class EditModal extends Component {
             </Modal>
           </div>
           <div className={styles.modalItem}>
-            <Form layout="inline">
-              <FormItem
-                {...formItemLayout}
-                label="名称"
-              >
-                <Input value={dataModel.name || ''} onChange={this.onChangeName.bind(this, 'name')} />
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label="密度"
-              >
-                <InputNumber
-                  defaultValue={this.initInputValue(dataModel.density, 'kg/cm3')}
-                  formatter={value => `${value}kg/cm3`}
-                  parser={value => value.replace('kg/cm3', '')}
-                  onChange={this.onChangeDataModel.bind(this, 'density')}
-                />
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label="弹性模量"
-              >
-                <InputNumber
-                  defaultValue={this.initInputValue(dataModel.flexibleModel, 'MPa')}
-                  formatter={value => `${value}MPa`}
-                  parser={value => value.replace('MPa', '')}
-                  onChange={this.onChangeDataModel.bind(this, 'flexibleModel')}
-                />
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label="泊松比"
-              >
-                <InputNumber
-                  defaultValue={dataModel.poissonRatio || ''}
-                  onChange={this.onChangeDataModel.bind(this, 'poissonRatio')}
-                />
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label="声速"
-              >
-                <InputNumber
-                  defaultValue={this.initInputValue(dataModel.soundSpeed, 'm/s')}
-                  formatter={value => `${value}m/s`}
-                  parser={value => value.replace('m/s', '')}
-                  onChange={this.onChangeDataModel.bind(this, 'soundSpeed')}
-                />
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label="厚度"
-              >
-                <InputNumber
-                  defaultValue={this.initInputValue(dataModel.thickness, 'mm')}
-                  formatter={value => `${value}mm`}
-                  parser={value => value.replace('mm', '')}
-                  onChange={this.onChangeDataModel.bind(this, 'thickness')}
-                />
-              </FormItem>
-            </Form>
+            {type === 'isSample' ? (
+              <SampleForm
+                dataModel={dataModel}
+                formItemLayout={formItemLayout}
+                initInputValue={this.initInputValue}
+                onChangeName={this.onChangeName}
+                onChangeDataModel={this.onChangeDataModel}
+              />
+            ) : ''}
+            {type === 'isBacking' ? (
+              <BackingForm
+                dataModel={dataModel}
+                formItemLayout={formItemLayout}
+                onChangeName={this.onChangeName}
+              />
+            ): ''}
+            {type === 'isInner' ? (
+              <InnerForm
+                dataModel={dataModel}
+                formItemLayout={formItemLayout}
+                onChangeName={this.onChangeName}
+              />
+            ): ''}
+            {type === 'isOuter' ? (
+              <OuterForm
+                dataModel={dataModel}
+                formItemLayout={formItemLayout}
+                onChangeName={this.onChangeName}
+              />
+            ): ''}
+            {type === 'isExperment' ? (
+              <ExpermentForm
+                dataModel={dataModel}
+                formItemLayout={formItemLayout}
+                onChangeName={this.onChangeName}
+              />
+            ): ''}
+            {type === 'isTest' ? (
+              <TestForm
+                dataModel={dataModel}
+                formItemLayout={formItemLayout}
+                onChangeName={this.onChangeName}
+              />
+            ): ''}
+            {type === 'isLay' ? (
+              <LayForm
+                dataModel={dataModel}
+                formItemLayout={formItemLayout}
+                onChangeName={this.onChangeName}
+              />
+            ): ''}
           </div>
         </Modal>
       </div>

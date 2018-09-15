@@ -1,3 +1,13 @@
+:global {
+  .ant-tooltip-inner {
+    background: #FFF;
+    color: #4A4A4A;
+    font-size: 14px;
+  }
+  .ant-tooltip-arrow {
+    border-bottom-color: rgba(0,0,0,.1) !important;
+  }
+}
 .title {
   width: 140px;
   height: 32px;
@@ -48,11 +58,9 @@
     height: 100%;
     align-items: center;
     .boxImg {
-      width: 45%;
+      width: 40%;
       height: auto;
-      padding: 20px;
-      margin-left: 20px;
-      border: 1px solid #CCC;
+      margin-left: 10px;
       border-radius: 5px;
 
       img {
@@ -70,6 +78,7 @@
         .ant-carousel {
           ul {
             height: 15px;
+            bottom: -5px;
             li {
               height: 100%;
               button {
@@ -85,8 +94,8 @@
     }
 
     .itemUl {
-      width: 55%;
-      padding-left: 4%;
+      width: 60%;
+      padding-left: 1%;
       margin: 0;
       .textarea {
         border: none;
@@ -113,15 +122,15 @@
         span:first-child {
           color: #9B9B9B;
           font-size: 12px;
-          width: 40%;
+          width: 32%;
           height: 28px;
           display: inline-block;
         }
         span:nth-child(2) {
-          width: 50%;
+          width: 62%;
           color: #000000;
           font-size: 12px;
-          margin-left: 10px;
+          margin-left: 5px;
         }
       }
     }
@@ -130,7 +139,7 @@
 .backingCard {
   float: right;
   .backingBoxImg {
-    width: 45%;
+    width: 50%;
     height: 100%;
     padding: 20px 0 20px 20px;
     border-radius: 5px;
@@ -224,6 +233,47 @@
       }
       &:hover {
         border: 1px solid #F57323;
+      }
+    }
+  }
+  .backingItemUl {
+    width: 60%;
+    padding-left: 1%;
+    margin: 0;
+    .textarea {
+      border: none;
+      resize: none;
+    }
+    span {
+      color: #4A4A4A;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    li {
+      list-style:none;
+      background:url(../../../public/li.svg) no-repeat left;
+      padding-left:15px;
+      line-height: 28px;
+      height: 28px;
+      display:block;
+      span {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+      span:first-child {
+        color: #9B9B9B;
+        font-size: 12px;
+        width: 40%;
+        height: 28px;
+        display: inline-block;
+      }
+      span:nth-child(2) {
+        width: 50%;
+        color: #000000;
+        font-size: 12px;
+        margin-left: 5px;
       }
     }
   }

@@ -45,45 +45,41 @@ const proxy = {
   ],
   'GET /user/login': (req, res) => {
     const { pass, username, type } = req.body;
-    if (pass === 'admin' && username === 'admin') {
-      res.send({
-        "success": true,
-        "message": "登录成功！",
-        "data": {
-            "ts": 1535719601000,
-            "id": 2,
-            "username": "admin",
-            "pass": null,
-            "usertype": "超级用户"
-        }
-    });
-      return;
-    }
-    if (pass === 'user' && username === 'user') {
-      res.send({
-        "success": true,
-        "message": "登录成功！",
-        "data": {
-            "ts": 1535719601000,
-            "id": 2,
-            "username": "user",
-            "pass": null,
-            "usertype": "普通用户"
-        }
-    });
-      return;
-    }
     res.send({
-      "success": false,
+      "success": true,
       "message": "登录成功！",
       "data": {
           "ts": 1535719601000,
           "id": 2,
-          "username": "user",
+          "username": "admin",
           "pass": null,
-          "usertype": null
+          "usertype": "超级用户"
       }
-  });
+    });
+    return;
+    // res.send({
+    //   "success": true,
+    //   "message": "登录成功！",
+    //   "data": {
+    //       "ts": 1535719601000,
+    //       "id": 2,
+    //       "username": "user",
+    //       "pass": null,
+    //       "usertype": "普通用户"
+    //   }
+    // });
+    // return;
+    // res.send({
+    //   "success": false,
+    //   "message": "登录成功！",
+    //   "data": {
+    //       "ts": 1535719601000,
+    //       "id": 2,
+    //       "username": "user",
+    //       "pass": null,
+    //       "usertype": null
+    //   }
+    // });
   },
   'POST /api/register': (req, res) => {
     res.send({ status: 'ok', currentAuthority: 'user' });
@@ -147,7 +143,17 @@ const proxy = {
           "logo": null,
           "other": "文字文字",
           "samplePk": "faae722c-a685-44e6-973e-6bfcde20e417"
-      }
+      },
+      {
+        "ts": 1532767399000,
+        "pk": "5948ffbb-c18d-4f45-8747-773485bdd690",
+        "name": "80mm钢",
+        "frontMedium": "水",
+        "endMedium": "水",
+        "logo": null,
+        "other": "文字文字",
+        "samplePk": "faae722c-a685-44e6-973e-6bfcde20e417"
+    }
     ]
   },
   'GET /metaMng/small/sample': {
@@ -347,7 +353,7 @@ const proxy = {
           "shapeSize": "长5.4m，直径3.2m",
           "weight": "20T",
           "displacement": "20T",//排水量
-          "other": "文字文字文字文字文字文字",
+          "other": "文字文字文字文字文字文字特别多特别多特别多特别多特别多特别多特别多特别多特别多特别多",
           "logo": null
       }
     ]
@@ -365,7 +371,7 @@ const proxy = {
           "testPlace": "杭州",
           "waterDepth": "20m",
           "testDepth": "20m",
-          "other": "文字文字文字文字文字文字",
+          "other": "文字文字文字文字文字文字特别多特别多特别多特别多特别多特别多特别多特别多特别多特别多",
           "logo": null
         },
         {
@@ -395,7 +401,7 @@ const proxy = {
 
           "innerShell": "文字文字", //内壳
           "ribs": "文字文字",
-          "other": "文字文字文字文字文字文字",
+          "other": "文字文字文字文字文字文字特别多特别多特别多特别多特别多特别多特别多特别多特别多特别多",
           "logo": null
         },
         {

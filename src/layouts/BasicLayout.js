@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Icon, message, Button } from 'antd';
+import { Layout, Icon, message } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { Route, Redirect, Switch, routerRedux } from 'dva/router';
