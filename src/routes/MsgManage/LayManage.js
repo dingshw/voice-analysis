@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input } from 'antd'
+import { Input, message } from 'antd'
 import { connect } from 'dva';
 import LayingScheme from 'components/CardModel/LayingScheme'
 import EditModal from 'components/CardModel/EditModal'
@@ -21,9 +21,37 @@ export default class LayManage extends Component {
     });
   }
 
-  // 调用action 执行后台接口更新数据
-  changeData = () => {
+  delData = (dataModel) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'scalemodel/delLayingSchemes',
+      payload: {pk: dataModel.pk},
+    });
+    message.info('操作成功')
+  }
 
+  // 调用action 执行后台接口更新数据
+  changeData = (dataModel) => {
+
+    const { dispatch, layingSchemes } = this.props;
+    let isCreate = true
+    for(const item of layingSchemes) {
+      if(item.name === dataModel.oldName) {
+        isCreate = false
+      }
+    }
+    if(isCreate) {
+      dispatch({
+        type: 'scalemodel/addLayingSchemes',
+        payload: dataModel,
+      });
+    }else {
+      dispatch({
+        type: 'scalemodel/updateLayingSchemes',
+        payload: dataModel,
+      });
+    }
+    message.info('操作成功')
   }
 
   render () {
@@ -39,6 +67,8 @@ export default class LayManage extends Component {
             type='isLay'
             isCreate={isCreate}
             addModal={addModal}
+            dataList={layingSchemes}
+            changeData={this.changeData}
           />
           <Search
             placeholder="查询名称"
@@ -57,6 +87,7 @@ export default class LayManage extends Component {
             }).map((item, index) => (
               <div key={item.name} className={styles.item}>
                 <LayingScheme
+                  dataList={layingSchemes}
                   experimentData={item}
                   styleWidth="100%"
                   showTools={showTools}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input } from 'antd'
+import { Input, message } from 'antd'
 import { connect } from 'dva';
 import OuterExperimentCard from 'components/CardModel/OuterExperimentCard'
 import EditModal from 'components/CardModel/EditModal'
@@ -21,9 +21,37 @@ export default class OuterManage extends Component {
     });
   }
 
-  // 调用action 执行后台接口更新数据
-  changeData = () => {
+  delData = (dataModel) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'scalemodel/delTestModelData',
+      payload: {pk: dataModel.pk},
+    });
+    message.info('操作成功')
+  }
 
+  // 调用action 执行后台接口更新数据
+  changeData = (dataModel) => {
+
+    const { dispatch, testModel } = this.props;
+    let isCreate = true
+    for(const item of testModel) {
+      if(item.name === dataModel.oldName) {
+        isCreate = false
+      }
+    }
+    if(isCreate) {
+      dispatch({
+        type: 'scalemodel/addTestModelData',
+        payload: dataModel,
+      });
+    }else {
+      dispatch({
+        type: 'scalemodel/updateTestModelData',
+        payload: dataModel,
+      });
+    }
+    message.info('操作成功')
   }
 
   render () {
@@ -37,7 +65,9 @@ export default class OuterManage extends Component {
         <div className={styles.tools}>
           <EditModal
             type='isOuter'
+            dataList={testModel}
             isCreate={isCreate}
+            changeData={this.changeData}
             addModal={addModal}
           />
           <Search
@@ -57,6 +87,7 @@ export default class OuterManage extends Component {
             }).map((item, index) => (
               <div key={item.name} className={styles.item}>
                 <OuterExperimentCard
+                  dataList={testModel}
                   experimentData={item}
                   styleWidth="100%"
                   showTools={showTools}

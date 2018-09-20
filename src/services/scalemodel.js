@@ -15,3 +15,63 @@ export async function queryScaleCondition(params) {
     body: params,
   })
 }
+export async function queryScaleManage(params) {
+  return request('/scaleMng/queryAll', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateTestModelData(params) {
+  return request('/testModelObjMng/modifyTestModelObj', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryAddTestModelData(params) {
+  return request('/testModelObjMng/saveTestModelObj', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelTestModelData(params) {
+  return request('/testModelObjMng/deleteTestModelObj', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateTestConditions(params) {
+  return request('/testConditionMng/modifyTestCondition', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryAddTestConditions(params) {
+  return request('/testConditionMng/saveTestCondition', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelTestConditions(params) {
+  return request('/testConditionMng/deleteTestCondition', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateLayingSchemes(params) {
+  return request('/layingSchemeMng/modifyLayingSchemePO', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryAddLayingSchemes(params) {
+  return request('/layingSchemeMng/saveLayingSchemePO', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelLayingSchemes(params) {
+  return request('/layingSchemeMng/deleteLayingSchemePO', {
+    method: 'POST',
+    body: params,
+  })
+}

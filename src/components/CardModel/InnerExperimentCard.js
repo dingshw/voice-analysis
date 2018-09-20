@@ -5,9 +5,13 @@ import styles from './index.less';
 import experiment from '../../../public/experiment.png';
 
 export default class InnerExperimentCard extends Component {
+  onDelete = () => {
+    const { experimentData, delData } = this.props
+    delData(experimentData)
+  }
 
   render () {
-    const {experimentData, styleWidth, styleMarginLeft, showTools, changeData} = this.props;
+    const {experimentData, styleWidth, styleMarginLeft, showTools, changeData, dataList} = this.props;
     return (
       <div style={{width: styleWidth, marginLeft: styleMarginLeft}} className={styles.card}>
         <div className={styles.cardTitle}>
@@ -19,7 +23,7 @@ export default class InnerExperimentCard extends Component {
             showTools ? (
               <div className={styles.toolsIcon}>
                 {/* <Icon type="edit" className={styles.iconStyle} onClick={this.editSample} /> */}
-                <EditModal type='isInner' changeData={changeData} modalData={experimentData} />
+                <EditModal type='isInner' dataList={dataList} changeData={changeData} modalData={experimentData} />
                 <Popconfirm title="是否要删除?" onConfirm={this.onDelete} okText="删除" cancelText="取消">
                   <Icon type="delete" className={styles.iconStyle} />
                 </Popconfirm>

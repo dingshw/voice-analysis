@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Table, Popconfirm, Form, Button, Icon } from 'antd';
+import { Table, Popconfirm, Form, Button, Icon, message } from 'antd';
 import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableCell from './EditableCell'
 import styles from './EdittableCell.less'
@@ -20,7 +20,6 @@ export default class EditableTable extends Component {
     const { columns, data } = props
     this.state = {
       data,
-      count: data.length,
       editingKey: '',
       selectedRowKeys: [],
       showModal: false,
@@ -40,7 +39,7 @@ export default class EditableTable extends Component {
                     <div className={styles.saveBtn}>
                       <a
                         href="javascript:;"
-                        onClick={() => this.save(form, record.key)}
+                        onClick={() => this.save(form, record)}
                         style={{ marginRight: 8 }}
                       >
                         保存
@@ -58,7 +57,7 @@ export default class EditableTable extends Component {
             ) : (
               <div className={styles.opertion}>
                 <Icon className={styles.iconStyle} type="edit" onClick={() => this.edit(record.key)} />
-                <Popconfirm title="确定删除?" onConfirm={() => this.handleDelete(record.key)}>
+                <Popconfirm title="确定删除?" onConfirm={() => this.handleDelete(record.pk)}>
                   <Icon className={styles.iconStyle} type="delete" />
                 </Popconfirm>
               </div>
@@ -75,10 +74,16 @@ export default class EditableTable extends Component {
     this.setState({ selectedRowKeys });
   }
 
-  handleDelete = (key) => {
-    const { data } = this.state
-    const dataSource = [...data];
-    this.setState({ data: dataSource.filter(item => item.key !== key) });
+  handleDelete = (pk) => {
+    // const { data } = this.state
+    const {handelDelData} = this.props
+    if(pk) {
+      handelDelData(pk)
+    } else {
+      message.error('删除失败')
+    }
+    // const dataSource = [...data];
+    // this.setState({ data: dataSource.filter(item => item.key !== key) });
   }
 
   handleAdd = () => {
@@ -105,30 +110,28 @@ export default class EditableTable extends Component {
 
 
   handleSelectDelete = () => {
-    const {selectedRowKeys} = this.state
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    const {selectedRowKeys, data} = this.state
+    const keyList = []
+    for(const key of selectedRowKeys) {
+      keyList.push(data[key].key)
+    }
+    console.log('selectedRowKeys changed: ', keyList);
   }
 
-  save(form, key) {
-    const { data } = this.state
-    form.validateFields((error, row) => {
-      if (error) {
-        return;
+  handelDataChange = (record, dataIndex, value) => {
+    const {data} = this.state
+    for(const item of data) {
+      if(item.key === record.key) {
+        item[dataIndex] = value
       }
-      const newData = [...data];
-      const index = newData.findIndex(item => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        this.setState({ data: newData, editingKey: '' });
-      } else {
-        newData.push(row);
-        this.setState({ data: newData, editingKey: '' });
-      }
-    });
+    }
+    this.setState({data})
+  }
+
+  save(form, record) {
+    const {handelUpdateData} = this.props
+    handelUpdateData(record)
+    this.setState({editingKey: '' });
   }
 
 
@@ -138,7 +141,7 @@ export default class EditableTable extends Component {
 
   render() {
     const { data, selectedRowKeys, showModal } = this.state
-    const {modalDataMap} = this.props
+    const {modalDataMap, type, handelCompute, handelAddData} = this.props
     const components = {
       body: {
         row: EditableFormRow,
@@ -159,6 +162,7 @@ export default class EditableTable extends Component {
           title: col.title,
           editing: this.isEditing(record),
           selectdata: col.selectdata || [],
+          changeData: this.handelDataChange,
         }),
       };
     });
@@ -172,7 +176,12 @@ export default class EditableTable extends Component {
       <div>
         {showModal? '':''}
         <div style={{display: 'flex', alignItems: 'baseline'}}>
-          <DataManageModal modalDataMap={modalDataMap} />
+          <DataManageModal
+            modalDataMap={modalDataMap}
+            type={type}
+            handelCompute={handelCompute}
+            handelAddData={handelAddData}
+          />
           <Popconfirm title="确定删除?" onConfirm={this.handleSelectDelete}>
             <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }}>
               批量删除

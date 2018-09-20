@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import {Modal, Button} from 'antd'
 import SoundForm from '../DataFormModel/SoundForm'
-import WaterForm from '../DataFormModel/WaterForm'
-import ScaleForm from '../DataFormModel/ScaleForm'
 import styles from './DataManageModal.less'
 
 export default class DataManageModal extends Component {
@@ -26,9 +24,9 @@ export default class DataManageModal extends Component {
   }
 
   handleOk =()=> {
-    const {handelAddData} = this.props
+    const {addSoundData} = this.props
     const {soundData} = this.state
-    handelAddData(soundData)
+    addSoundData(soundData)
     this.setState({visible: false})
   }
 
@@ -42,7 +40,7 @@ export default class DataManageModal extends Component {
 
   render () {
     const {visible, soundData} = this.state
-    const {modalDataMap, type, handelCompute} = this.props
+    const {modalDataMap, handelCompute} = this.props
     return (
       <div className={styles.editModal}>
         <Button onClick={this.showModal} type="primary" style={{ margin: '10px 10px 10px 0' }}>
@@ -56,17 +54,7 @@ export default class DataManageModal extends Component {
           onCancel={this.handleCancel}
         >
           <div className={styles.formList}>
-            {type === 'isSound' ?
-              (
-                <SoundForm
-                  soundData={soundData}
-                  handelSoundData={this.handelSoundData}
-                  handelCompute={handelCompute}
-                  modalDataMap={modalDataMap}
-                />
-              ) : ''}
-            {type === 'isWater' ? <WaterForm modalDataMap={modalDataMap} /> : ''}
-            {type === 'isScale' ? <ScaleForm modalDataMap={modalDataMap} /> : ''}
+            <SoundForm soundData={soundData} handelSoundData={this.handelSoundData} handelCompute={handelCompute} modalDataMap={modalDataMap} />
           </div>
         </Modal>
       </div>

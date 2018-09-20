@@ -2,24 +2,11 @@ import React, {Component} from 'react'
 import { connect } from 'dva';
 import EditableTable from './EditableTable'
 
-const data = [];
-for (let i = 0; i < 10; i+=1) {
-  data.push({
-    key: i.toString(),
-    sample: `阿波罗 ${i}`,
-    backing: `30mm刚 ${i}`,
-    press: 123 + i,
-    temperatuer: 23,
-    rate: '0-5k',
-    refect: 12,
-    transmission: 13,
-    bondacust: 14,
-  });
-}
-
 @connect(({ soundpipe }) => ({
   backingData: soundpipe.backingData,
   sampleData: soundpipe.sampleData,
+  soundPipeData: soundpipe.soundPipeData,
+  soundManageData: soundpipe.soundManageData,
 }))
 
 export default class SoundData extends Component {
@@ -32,17 +19,87 @@ export default class SoundData extends Component {
     dispatch({
       type: 'soundpipe/getSampleData',
     });
+    dispatch({
+      type: 'soundpipe/getSoundManageData',
+    });
+  }
+
+  formatData = (formatdata) => {
+    const data = []
+    for (let i=0; i<formatdata.length; i+= 1) {
+      data.push({
+        key: i.toString(),
+        pk: formatdata[i].pk,
+        samplename: formatdata[i].samplename,
+        backingname: formatdata[i].backingname,
+        press: formatdata[i].press,
+        rate: formatdata[i].rate,
+        refect: formatdata[i].refect,
+        temparture: formatdata[i].temparture,
+        transmission: formatdata[i].transmission,
+        bondacust: formatdata[i].bondacust,
+      });
+    }
+    return data
+  }
+
+  handleSoundPipeData = (dataMap) => {
+    if(dataMap) {
+      /* {
+        "samplename":"阿波罗",
+        "backgroundtype":"30mm",
+        "temparture":"15",
+        "press":"1",
+        "rateMin":"2",
+        "rateMax":"100"
+
+      } */
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'soundpipe/getSoundPipeData',
+        payload: {
+          ...dataMap,
+        },
+      });
+    }
+  }
+
+  handelAddData = (dataMap) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'soundpipe/addSoundData',
+      payload: dataMap,
+    });
+  }
+
+  handelUpdateData = (dataMap) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'soundpipe/updateSoundData',
+      payload: dataMap,
+    });
+  }
+
+  handelDelData = (key) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'soundpipe/delSoundData',
+      payload: {pk: key},
+    });
   }
 
   render () {
-    const {backingData, sampleData} = this.props
-    if(sampleData.length===0 || backingData.length===0) {
+    const {backingData, sampleData, soundManageData, soundPipeData} = this.props
+
+    if(sampleData.length===0 || backingData.length===0 || soundManageData.length===0) {
       return '';
     }
+    let data = [];
+    data = this.formatData(soundManageData)
     const columns = [
       {
         title: '样品名称',
-        dataIndex: 'sample',
+        dataIndex: 'samplename',
         isSelect: true,
         width: '11%',
         editable: false,
@@ -51,7 +108,7 @@ export default class SoundData extends Component {
       },
       {
         title: '背衬',
-        dataIndex: 'backing',
+        dataIndex: 'backingname',
         isSelect: true,
         width: '11%',
         editable: false,
@@ -70,7 +127,7 @@ export default class SoundData extends Component {
       },
       {
         title: '温度(T/度)',
-        dataIndex: 'temperatuer',
+        dataIndex: 'temparture',
         isSelect: true,
         width: '11%',
         editable: false,
@@ -109,10 +166,20 @@ export default class SoundData extends Component {
         selectdata: [],
       },
     ]
-    const modalDataMap = {sampleData, backingData}
+    const modalDataMap = {sampleData, backingData, soundPipeData}
     return (
       <div>
-        <EditableTable columns={columns} data={data} modalDataMap={modalDataMap} />
+        <EditableTable
+          key={data.length}
+          columns={columns}
+          data={data}
+          modalDataMap={modalDataMap}
+          type='isSound'
+          handelCompute={this.handleSoundPipeData}
+          handelAddData={this.handelAddData}
+          handelUpdateData={this.handelUpdateData}
+          handelDelData={this.handelDelData}
+        />
       </div>
     )
   }

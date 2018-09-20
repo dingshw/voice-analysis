@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input } from 'antd'
+import { Input, message } from 'antd'
 import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
 import EditModal from 'components/CardModel/EditModal'
@@ -30,12 +30,36 @@ export default class SampleManage extends Component {
   }
 
   // 调用action 执行后台接口更新数据
-  changeData = () => {
-
+  changeData = (dataModel) => {
+    const { dispatch, sampleData } = this.props;
+    let isCreate = true
+    for(const item of sampleData) {
+      if(item.name === dataModel.oldName) {
+        isCreate = false
+      }
+    }
+    if(isCreate) {
+      dispatch({
+        type: 'soundpipe/addSampleData',
+        payload: dataModel,
+      });
+    }else {
+      dispatch({
+        type: 'soundpipe/updateSampleData',
+        payload: dataModel,
+        isCreate,
+      });
+    }
+    message.info('操作成功')
   }
 
-  delData = () => {
-    console.log('删除')
+  delData = (dataModel) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'soundpipe/delSampleData',
+      payload: {pk: dataModel.pk},
+    });
+    message.info('操作成功')
   }
 
   render () {
@@ -51,6 +75,8 @@ export default class SampleManage extends Component {
             type='isSample'
             isCreate={isCreate}
             addModal={addModal}
+            dataList={sampleData}
+            changeData={this.changeData}
           />
           <Search
             placeholder="查询名称"
@@ -70,6 +96,7 @@ export default class SampleManage extends Component {
               <div key={item.name} className={styles.item}>
                 <SampleCard
                   sampleData={item}
+                  dataList={sampleData}
                   styleWidth="100%"
                   showTools={showTools}
                   keyIndex={index}

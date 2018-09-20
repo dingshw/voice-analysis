@@ -1,5 +1,7 @@
-import { query as queryUsers, queryCurrent } from '../services/user';
+
+import { query as queryUsers } from '../services/user';
 import { getAuthority } from '../utils/authority';
+
 export default {
   namespace: 'user',
 

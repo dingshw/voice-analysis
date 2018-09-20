@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input } from 'antd'
+import { Input, message } from 'antd'
 import { connect } from 'dva';
 import BackingCard from 'components/CardModel/BackingCard'
 import EditModal from 'components/CardModel/EditModal'
@@ -21,9 +21,37 @@ export default class BackingManage extends Component {
     });
   }
 
-  // 调用action 执行后台接口更新数据
-  changeData = () => {
+  delData = (dataModel) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'soundpipe/delBackingData',
+      payload: {pk: dataModel.pk},
+    });
+    message.info('操作成功')
+  }
 
+  // 调用action 执行后台接口更新数据
+  changeData = (dataModel) => {
+
+    const { dispatch, backingData } = this.props;
+    let isCreate = true
+    for(const item of backingData) {
+      if(item.name === dataModel.oldName) {
+        isCreate = false
+      }
+    }
+    if(isCreate) {
+      dispatch({
+        type: 'soundpipe/addBackingData',
+        payload: dataModel,
+      });
+    }else {
+      dispatch({
+        type: 'soundpipe/updateBackingData',
+        payload: dataModel,
+      });
+    }
+    message.info('操作成功')
   }
 
   render () {
@@ -38,7 +66,9 @@ export default class BackingManage extends Component {
           <EditModal
             type='isBacking'
             isCreate={isCreate}
+            dataList={backingData}
             addModal={addModal}
+            changeData={this.changeData}
           />
           <Search
             placeholder="查询名称"
@@ -58,6 +88,7 @@ export default class BackingManage extends Component {
               <div key={item.name} className={styles.item}>
                 <BackingCard
                   backingData={item}
+                  dataList={backingData}
                   styleWidth="100%"
                   showTools={showTools}
                   keyIndex={index}

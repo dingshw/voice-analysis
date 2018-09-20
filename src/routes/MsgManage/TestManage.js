@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input } from 'antd'
+import { Input, message } from 'antd'
 import { connect } from 'dva';
 import TestSystem from 'components/CardModel/TestSystem'
 import EditModal from 'components/CardModel/EditModal'
@@ -21,9 +21,37 @@ export default class TestManage extends Component {
     });
   }
 
-  // 调用action 执行后台接口更新数据
-  changeData = () => {
+  delData = (dataModel) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'waterpot/delBigTestSystemsData',
+      payload: dataModel,
+    });
+    message.info('操作成功')
+  }
 
+  // 调用action 执行后台接口更新数据
+  changeData = (dataModel) => {
+
+    const { dispatch, bigTestSystemsData } = this.props;
+    let isCreate = true
+    for(const item of bigTestSystemsData) {
+      if(item.name === dataModel.oldName) {
+        isCreate = false
+      }
+    }
+    if(isCreate) {
+      dispatch({
+        type: 'waterpot/addBigTestSystemsData',
+        payload: dataModel,
+      });
+    }else {
+      dispatch({
+        type: 'waterpot/updateBigTestSystemsData',
+        payload: dataModel,
+      });
+    }
+    message.info('操作成功')
   }
 
   render () {
@@ -39,6 +67,8 @@ export default class TestManage extends Component {
             type='isTest'
             isCreate={isCreate}
             addModal={addModal}
+            dataList={bigTestSystemsData}
+            changeData={this.changeData}
           />
           <Search
             placeholder="查询名称"
@@ -57,6 +87,7 @@ export default class TestManage extends Component {
             }).map((item, index) => (
               <div key={item.name} className={styles.item}>
                 <TestSystem
+                  dataList={bigTestSystemsData}
                   testData={item}
                   styleWidth="100%"
                   showTools={showTools}

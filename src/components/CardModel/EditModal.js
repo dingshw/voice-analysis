@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Modal, Icon, Upload, Button } from 'antd';
+import { Modal, Icon, Upload, Button, message } from 'antd';
 import _ from 'lodash'
+import request from '../../utils/request';
 import SampleForm from '../FormModel/SampleForm'
 import BackingForm from '../FormModel/BackingForm'
 import InnerForm from '../FormModel/InnerForm'
@@ -22,21 +23,25 @@ export default class EditModal extends Component {
       uid: '-1',
       name: 'xxx.png',
       status: 'done',
+      pk: '',
       url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
     },{
       uid: '2',
       name: 'xxx.png',
       status: 'done',
+      pk: '',
       url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
     },{
       uid: '3',
       name: 'xxx.png',
       status: 'done',
+      pk: '',
       url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
     },{
       uid: '4',
       name: 'xxx.png',
       status: 'done',
+      pk: '',
       url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
     }],
   }
@@ -47,7 +52,8 @@ export default class EditModal extends Component {
     if(isCreate) {
       dataModel = {}
     } else {
-      dataModel = modalData
+      dataModel = _.cloneDeep(modalData)
+      dataModel.oldName = modalData.name
     }
     this.setState({dataModel})
   }
@@ -58,7 +64,8 @@ export default class EditModal extends Component {
     if(isCreate) {
       dataModel = {}
     } else {
-      dataModel = modalData
+      dataModel = _.cloneDeep(modalData)
+      dataModel.oldName = modalData.name
     }
     this.setState({dataModel})
   }
@@ -66,6 +73,13 @@ export default class EditModal extends Component {
   onChangeName = (type, e) => {
     const { value } = e.target
     const { dataModel } = this.state
+    const { dataList } = this.props
+    if(type === 'name') {
+      if(this.checkHasName(dataList, value)) {
+        message.error(`${value} 已经存在，请更换其他名称.`);
+        return
+      }
+    }
     dataModel[type] = value
     this.setState({dataModel})
   }
@@ -76,6 +90,25 @@ export default class EditModal extends Component {
     this.setState({dataModel})
   }
 
+  onRemove = (type, file) => {
+    if(file.pk) {
+      request(`/photoMng/deletePhoto/${file.pk}`, {
+        method: 'POST',
+        body: {},
+      })
+      return true
+    }
+    }
+
+  checkHasName = (dataList, name) => {
+    for(const item of dataList) {
+      if(item.name == name) {
+        return true
+      }
+    }
+    return false
+  }
+
   showModal = () => {
     this.setState({
       visible: true,
@@ -83,15 +116,13 @@ export default class EditModal extends Component {
   }
 
   handleOk = () => {
+    const {changeData} = this.props
+    const {dataModel} = this.state
     this.setState({
-      confirmLoading: true,
+      visible: false,
+      dataModel: {},
     });
-    setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false,
-      });
-    }, 2000);
+    changeData(dataModel)
   }
 
   handleChange = ({ fileList }) => this.setState({ fileList })
@@ -159,6 +190,8 @@ export default class EditModal extends Component {
         sm: { span: 14 },
       },
     };
+    const typeMap = {isSample:1,isBacking:2,isInner:3,
+      isOuter:4,isTest:5,isExperment:6,isLay:7}
     return (
       <div className={styles.editModal}>
         {addModal ?
@@ -176,12 +209,15 @@ export default class EditModal extends Component {
         >
           <div className={`${styles.imgList} clearfix`}>
             <Upload
-              action="//jsonplaceholder.typicode.com/posts/"
+              // action="//jsonplaceholder.typicode.com/posts/"
+              action="/photoMng/uploadPhoto"
               withCredentials={withCredentials}
               listType="picture-card"
               fileList={fileList}
               onPreview={this.handlePreview}
               onChange={this.handleChange}
+              onRemove={this.onRemove.bind(this, typeMap[type])}
+              data={{type: typeMap[type]}}
             >
               {fileList.length >= 5 ? null : uploadButton}
             </Upload>

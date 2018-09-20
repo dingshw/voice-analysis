@@ -5,6 +5,11 @@ import styles from './index.less'
 
 export default class BackingCard extends Component {
 
+  onDelete = () => {
+    const { backingData, delData } = this.props
+    delData(backingData)
+  }
+
   render () {
 
     const {backingData, styleWidth, showTools, changeData} = this.props

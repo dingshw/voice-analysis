@@ -471,7 +471,413 @@ const proxy = {
     ]
     });
   },
+  'POST /smallMng/queryAll': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": [
+        {
+          pk: 123,
+          "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+          "samplename":"阿波罗",
+          "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+          "backingname":"30mm钢",
+          "press":1,
+          "temparture":15,
+          "refect": 0.1,
+          "transmission": 0.45,
+          "bondacust": 0.7875,
+          "rate": 10
+      },
+      {
+        pk: 456,
+        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+        "samplename":"阿波罗2",
+        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+        "backingname":"50mm钢",
+        "press":1,
+        "temparture":15,
+        "refect": 0.1,
+        "transmission": 0.45,
+        "bondacust": 0.7875,
+        "rate": 10
+      },
+      {
+        pk: 789,
+        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+        "samplename":"阿波罗3",
+        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+        "backingname":"30mm钢1",
+        "press":1,
+        "temparture":15,
+        "refect": 0.1,
+        "transmission": 0.45,
+        "bondacust": 0.7875,
+        "rate": 10
+      },
+      {
+        pk: 234,
+        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+        "samplename":"阿波罗4",
+        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+        "backingname":"30mm钢2",
+        "press":1,
+        "temparture":15,
+        "refect": 0.1,
+        "transmission": 0.45,
+        "bondacust": 0.7875,
+        "rate": 10
+      },
+      {
+        pk: 345,
+        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+        "samplename":"阿波罗5",
+        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+        "backingname":"30mm钢3",
+        "press":1,
+        "temparture":15,
+        "refect": 0.1,
+        "transmission": 0.45,
+        "bondacust": 0.7875,
+        "rate": 10
+      }
+    ]
+    });
+  },
+  'POST /bigMng/queryAll': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": [
+        {
+          pk: 1,
+          "sampleName":"阿波罗0",
+          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f7",
+          "testModelName":"双层局域实尺度试验模型1",
+          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testSystemName":"测试系统名称1",
+          "temparture":"15",
+			    "press":"1",
+          "refect": 0.1,
+          "transmission": 0.45,
+          "bondacust": 0.7875,
+          "rate": 10,
+          "radiation": 102,
+          "radiationlose": 7.2,
+          "echoes": 3.4
+        },
+        {
+          pk: 2,
+          "sampleName":"阿波罗",
+          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f7",
+          "testModelName":"双层局域实尺度试验模型2",
+          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testSystemName":"测试系统名称2",
+          "temparture":"15",
+			    "press":"1",
+          "refect": 0.1,
+          "transmission": 0.45,
+          "bondacust": 0.7875,
+          "rate": 10,
+          "radiation": 102,
+          "radiationlose": 7.2,
+          "echoes": 3.4
+        },
+        {
+          pk: 3,
+          "sampleName":"阿波罗2",
+          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f7",
+          "testModelName":"双层局域实尺度试验模型3",
+          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testSystemName":"测试系统名称3",
+          "temparture":"15",
+			    "press":"1",
+          "refect": 0.1,
+          "transmission": 0.45,
+          "bondacust": 0.7875,
+          "rate": 10,
+          "radiation": 102,
+          "radiationlose": 7.2,
+          "echoes": 3.4
+        },
+        {
+          pk: 4,
+          "sampleName":"阿波罗3",
+          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f7",
+          "testModelName":"双层局域实尺度试验模型4",
+          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testSystemName":"测试系统名称4",
+          "temparture":"15",
+			    "press":"1",
+          "refect": 0.1,
+          "transmission": 0.45,
+          "bondacust": 0.7875,
+          "rate": 10,
+          "radiation": 102,
+          "radiationlose": 7.2,
+          "echoes": 3.4
+        }
+      ]
+    });
+  },
+  'POST /scaleMng/queryAll': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": [
+        {
+          pk: 1,
+          "testModelObjName":"中尺度模型1",
+          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "layingSchemeName":"集成方案1",
+          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testConditionName":"试验条件名称1",
+          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "lightShellTS": 0,
+          "lightShellSP": 9.71447,
+          "layingShellTS": 24,
+          "layingShellSP": 107.286,
+          "reductionTS": 2.97922,
+          "reductionSP": 117
+        },
+        {
+          pk: 2,
+          "testModelObjName":"中尺度模型2",
+          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "layingSchemeName":"集成方案2",
+          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testConditionName":"试验条件名称2",
+          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "lightShellTS": 0,
+          "lightShellSP": 9.71447,
+          "layingShellTS": 24,
+          "layingShellSP": 107.286,
+          "reductionTS": 2.97922,
+          "reductionSP": 117
+        },
+        {
+          pk: 3,
+          "testModelObjName":"中尺度模型3",
+          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "layingSchemeName":"集成方案3",
+          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testConditionName":"试验条件名称3",
+          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "lightShellTS": 0,
+          "lightShellSP": 9.71447,
+          "layingShellTS": 24,
+          "layingShellSP": 107.286,
+          "reductionTS": 2.97922,
+          "reductionSP": 117
+        },
+        {
+          pk: 4,
+          "testModelObjName":"中尺度模型4",
+          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "layingSchemeName":"集成方4",
+          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testConditionName":"试验条件名称4",
+          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "lightShellTS": 0,
+          "lightShellSP": 9.71447,
+          "layingShellTS": 24,
+          "layingShellSP": 107.286,
+          "reductionTS": 2.97922,
+          "reductionSP": 117
+        }
+      ]
+    });
+  },
+  'POST /sampleMng/modifySample': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /sampleMng/saveSample': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /sampleMng/deleteSample': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /backingMng/modifyBacking': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /backingMng/saveBacking': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /backingMng/deleteBacking': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testModelMng/modifyTestModel': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testModelMng/saveTestModel': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testModelMng/deleteTestModel': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testModelObjMng/modifyTestModelObj': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testModelObjMng/saveTestModelObj': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testModelObjMng/deleteTestModelObj': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testConditionMng/modifyTestCondition': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testConditionMng/saveTestCondition': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /testConditionMng/deleteTestCondition': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /layingSchemeMng/modifyLayingSchemePO': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /layingSchemeMng/saveLayingSchemePO': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /layingSchemeMng/deleteLayingSchemePO': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /smallMng/saveItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /smallMng/modifyItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /smallMng/deleteItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
 
 };
 
-export default (noProxy ? {'/': 'http://127.0.0.1:8080/'} : delay(proxy, 1000));
+export default (noProxy ? {'/': 'http://127.0.0.1:8080/'} : delay(proxy, 100));

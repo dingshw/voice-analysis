@@ -7,12 +7,12 @@ import sample from '../../../public/sample.png';
 export default class SampleCard extends Component {
 
   onDelete = () => {
-    const { keyIndex, delData } = this.props
-    delData(keyIndex)
+    const { sampleData, delData } = this.props
+    delData(sampleData)
   }
 
   render () {
-    const {sampleData, styleWidth, showTools, changeData} = this.props
+    const {sampleData, styleWidth, showTools, changeData, dataList} = this.props
     return (
       <div style={{width: styleWidth}} className={styles.card}>
         <div className={styles.cardTitle}>
@@ -24,7 +24,12 @@ export default class SampleCard extends Component {
             showTools ? (
               <div className={styles.toolsIcon}>
                 {/* <Icon type="edit" className={styles.iconStyle} onClick={this.editSample} /> */}
-                <EditModal type='isSample' changeData={changeData} modalData={sampleData} />
+                <EditModal
+                  type='isSample'
+                  changeData={changeData}
+                  modalData={sampleData}
+                  dataList={dataList}
+                />
                 <Popconfirm title="是否要删除?" onConfirm={this.onDelete} okText="删除" cancelText="取消">
                   <Icon type="delete" className={styles.iconStyle} />
                 </Popconfirm>

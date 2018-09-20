@@ -5,10 +5,14 @@ import styles from './index.less'
 import testmodel from '../../../public/testmodel.png'
 
 export default class TestSystem extends Component {
+  onDelete = () => {
+    const { testData, delData } = this.props
+    delData(testData)
+  }
 
   render () {
 
-    const {testData, styleWidth, showTools, changeData} = this.props
+    const {testData, styleWidth, showTools, changeData, dataList} = this.props
     return (
       <div style={{width: styleWidth}} className={`${styles.card} ${styles.backingCard}`}>
         <div className={styles.cardTitle}>
@@ -20,7 +24,7 @@ export default class TestSystem extends Component {
             showTools ? (
               <div className={styles.toolsIcon}>
                 {/* <Icon type="edit" className={styles.iconStyle} onClick={this.editSample} /> */}
-                <EditModal type='isTest' changeData={changeData} modalData={testData} />
+                <EditModal type='isTest' dataList={dataList} changeData={changeData} modalData={testData} />
                 <Popconfirm title="是否要删除?" onConfirm={this.onDelete} okText="删除" cancelText="取消">
                   <Icon type="delete" className={styles.iconStyle} />
                 </Popconfirm>

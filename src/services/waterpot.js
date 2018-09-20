@@ -16,3 +16,45 @@ export async function queryWaterpotData(params) {
     body: params,
   })
 }
+export async function queryWaterpotManageData(params) {
+  return request('/bigMng/queryAll', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateBigTestData(params) {
+  return request('/testModelMng/modifyTestModel', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryAddBigTestData(params) {
+  return request('/testModelMng/saveTestModel', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelBigTestData(params) {
+  return request('/testModelMng/deleteTestModel', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateBigTestSystemsData(params) {
+  return request('/testModelMng/modifyTestModel', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryAddBigTestSystemsData(params) {
+  return request('/testModelMng/saveTestModel', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelBigTestSystemsData(params) {
+  return request('/testModelMng/deleteTestModel', {
+    method: 'POST',
+    body: params,
+  })
+}
