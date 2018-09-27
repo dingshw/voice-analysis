@@ -3,7 +3,8 @@ import { queryTestModel, queryTestConditions, queryLayingSchemes,
   queryScaleCondition, queryScaleManage, queryUpdateTestModelData,
   queryAddTestModelData, queryDelTestModelData, queryUpdateTestConditions,
   queryAddTestConditions, queryDelTestConditions, queryUpdateLayingSchemes,
-  queryAddLayingSchemes, queryDelLayingSchemes} from '../services/scalemodel';
+  queryAddLayingSchemes, queryDelLayingSchemes, queryAddScaleData, queryUpdateScaleData,
+  queryDelScaleData, queryDelScaleDataList} from '../services/scalemodel';
 
 export default {
   namespace: 'scalemodel',
@@ -153,6 +154,44 @@ export default {
       if(response) {
         yield put({
           type: 'handelDeleteLayingSchemes',
+          payload,
+        });
+      }
+    },
+    *addScaleData({ payload }, { call, put }) {
+      const response = yield call(queryAddScaleData, payload);
+      if(response) {
+        const data = response.data || []
+        yield put({
+          type: 'handelAddScaleData',
+          payload: data,
+        });
+      }
+    },
+    *updateScaleData({ payload }, { call, put }) {
+      const response = yield call(queryUpdateScaleData, payload);
+      if(response) {
+        // const data = response.data || []
+        yield put({
+          type: 'handelUpdateScaleData',
+          payload,
+        });
+      }
+    },
+    *delScaleData({ payload }, { call, put }) {
+      const response = yield call(queryDelScaleData, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelScaleData',
+          payload,
+        });
+      }
+    },
+    *delScaleDataList({ payload }, { call, put }) {
+      const response = yield call(queryDelScaleDataList, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelScaleDataList',
           payload,
         });
       }
@@ -308,6 +347,61 @@ export default {
             layingSchemes: layingSchemesTemp,
           }
         }
+      }
+    },
+    handelAddScaleData(state, { payload }) {
+      const {scaleManage} = state
+      const scaleManageTemp = _.cloneDeep(scaleManage)
+      scaleManageTemp.push(payload)
+      return {
+        ...state,
+        scaleManage: scaleManageTemp,
+      }
+    },
+    handelUpdateScaleData(state, { payload }) {
+      const {scaleManage} = state
+      const scaleManageTemp = _.cloneDeep(scaleManage)
+      for(const item of scaleManageTemp) {
+        if(item.pk === payload.pk) {
+          for(const key in payload) {
+            if(Object.prototype.hasOwnProperty.call(payload, key)
+            && Object.prototype.hasOwnProperty.call(item, key)){
+              item[key] = payload[key]
+            }
+          }
+        }
+      }
+      return {
+        ...state,
+        scaleManage: scaleManageTemp,
+      }
+    },
+    handelDelScaleData(state, { payload }) {
+      const {scaleManage} = state
+      const scaleManageTemp = _.cloneDeep(scaleManage)
+      for(let i=0; i < scaleManageTemp.length; i+=1) {
+        if(scaleManageTemp[i].pk === payload.pk) {
+          scaleManageTemp.splice(i, 1)
+          return {
+            ...state,
+            scaleManage: scaleManageTemp,
+          }
+        }
+      }
+    },
+    handelDelScaleDataList(state, { payload }) {
+      const {scaleManage} = state
+      const scaleManageTemp = _.cloneDeep(scaleManage)
+      for(const pk of payload) {
+        for(let i=0; i < scaleManageTemp.length; i+=1) {
+          if(scaleManageTemp[i].pk === pk) {
+            scaleManageTemp.splice(i, 1)
+          }
+        }
+      }
+      return {
+        ...state,
+        scaleManage: scaleManageTemp,
       }
     },
   },

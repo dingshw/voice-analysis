@@ -886,6 +886,78 @@ const proxy = {
       }
     })
   },
+  'POST /bigMng/saveItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /bigMng/modifyItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /bigMng/deleteItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /bigMng/deleteItems': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /scaleMng/saveItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /scaleMng/modifyItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /scaleMng/deleteItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /scaleMng/deleteItems': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
 
 };
 

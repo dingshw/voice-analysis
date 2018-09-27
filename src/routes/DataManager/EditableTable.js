@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { Table, Popconfirm, Form, Button, Icon, message } from 'antd';
+import _ from 'lodash'
 import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableCell from './EditableCell'
 import styles from './EdittableCell.less'
@@ -113,7 +114,9 @@ export default class EditableTable extends Component {
     const {selectedRowKeys, data} = this.state
     const keyList = []
     for(const key of selectedRowKeys) {
-      keyList.push(data[key].pk)
+      if(data[key].pk) {
+        keyList.push(data[key].pk)
+      }
     }
     const {handelDelData} = this.props
     if(keyList.length>0) {
@@ -128,7 +131,7 @@ export default class EditableTable extends Component {
     const {data} = this.state
     for(const item of data) {
       if(item.key === record.key) {
-        item[dataIndex] = value
+        item[dataIndex] = !_.isNaN(Number(value)) ? Number(value) : value
       }
     }
     this.setState({data})

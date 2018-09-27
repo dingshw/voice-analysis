@@ -75,3 +75,27 @@ export async function queryDelLayingSchemes(params) {
     body: params,
   })
 }
+export async function queryAddScaleData(params) {
+  return request('/scaleMng/saveItem', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateScaleData(params) {
+  return request('/scaleMng/modifyItem', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelScaleData(params) {
+  return request('/scaleMng/deleteItem', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelScaleDataList(params) {
+  return request('/scaleMng/deleteItems', {
+    method: 'POST',
+    body: params,
+  })
+}

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import _ from 'lodash'
 import { connect } from 'dva';
 import EditableTable from './EditableTable'
 
@@ -6,6 +7,7 @@ import EditableTable from './EditableTable'
   testModel: scalemodel.testModel,
   testConditions: scalemodel.testConditions,
   layingSchemes: scalemodel.layingSchemes,
+  scaleCondition: scalemodel.scaleCondition,
   scaleManage: scalemodel.scaleManage,
 }))
 
@@ -32,6 +34,7 @@ export default class scaledata extends Component {
     for (let i=0; i<formatdata.length; i+= 1) {
       data.push({
         key: i.toString(),
+        pk: formatdata[i].pk,
         testModelObjName: formatdata[i].testModelObjName,
         layingSchemeName: formatdata[i].layingSchemeName,
         testConditionName: formatdata[i].testConditionName,
@@ -47,11 +50,54 @@ export default class scaledata extends Component {
     return data
   }
 
+  handleScaleCondition = (dataMap) => {
+    if(dataMap) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'scalemodel/getScaleCondition',
+        payload: {
+          ...dataMap,
+        },
+      });
+    }
+  }
+
+  handelAddData = (dataMap) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'scalemodel/addScaleData',
+      payload: dataMap,
+    });
+  }
+
+  handelUpdateData = (dataMap) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'scalemodel/updateScaleData',
+      payload: dataMap,
+    });
+  }
+
+  handelDelData = (key) => {
+    const { dispatch } = this.props;
+    if(_.isArray(key)) {
+      dispatch({
+        type: 'scalemodel/delScaleDataList',
+        payload: key,
+      })
+    } else {
+      dispatch({
+        type: 'scalemodel/delScaleData',
+        payload: {pk: key},
+      })
+    }
+  }
+
   render () {
 
-    const {scaleManage, testModel, layingSchemes, testConditions} = this.props
+    const {scaleManage, testModel, layingSchemes, testConditions, scaleCondition} = this.props
     if(testModel.length===0 || layingSchemes.length===0
-      || testConditions.length===0 || scaleManage.length===0) {
+      || testConditions.length===0) {
       return '';
     }
     let data = [];
@@ -62,28 +108,28 @@ export default class scaledata extends Component {
         dataIndex: 'testModelObjName',
         isSelect: true,
         width: '8%',
-        editable: true,
+        editable: false,
       },
       {
         title: '试验情况名称',
         dataIndex: 'testConditionName',
         isSelect: true,
         width: '10%',
-        editable: true,
+        editable: false,
       },
       {
         title: '敷设方案名称',
         dataIndex: 'layingSchemeName',
         isSelect: true,
         width: '10%',
-        editable: true,
+        editable: false,
       },
       {
         title: '压力',
         dataIndex: 'press',
         isSelect: true,
         width: '6%',
-        editable: true,
+        editable: false,
       },
       {
         title: '光壳声目标强度',
@@ -124,10 +170,20 @@ export default class scaledata extends Component {
         editable: true,
       },
     ]
-    const modalDataMap = {testModel, layingSchemes, testConditions}
+    const modalDataMap = {testModel, layingSchemes, testConditions, scaleCondition}
     return (
       <div>
-        <EditableTable columns={columns} data={data} modalDataMap={modalDataMap} type='isScale' />
+        <EditableTable
+          key={data.length}
+          columns={columns}
+          data={data}
+          modalDataMap={modalDataMap}
+          type='isScale'
+          handelCompute={this.handleScaleCondition}
+          handelAddData={this.handelAddData}
+          handelUpdateData={this.handelUpdateData}
+          handelDelData={this.handelDelData}
+        />
       </div>
     )
   }

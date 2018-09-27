@@ -58,3 +58,27 @@ export async function queryDelBigTestSystemsData(params) {
     body: params,
   })
 }
+export async function queryAddWaterData(params) {
+  return request('/bigMng/saveItem', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateWaterData(params) {
+  return request('/bigMng/modifyItem', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelWaterData(params) {
+  return request('/bigMng/deleteItem', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelWaterDataList(params) {
+  return request('/bigMng/deleteItems', {
+    method: 'POST',
+    body: params,
+  })
+}

@@ -19,6 +19,32 @@ export default class DataManageModal extends Component {
       transmission: null,
       bondacust: null,
     },
+    waterdData: {
+      sampleName: null,
+      testModelName:null,
+      testSystemName:null,
+      temparture:null,
+      press:null,
+      refect: null,
+      transmission: null,
+      bondacust: null,
+      rate: null,
+      radiation: null,
+      radiationlose: null,
+      echoes: null,
+    },
+    scaleData: {
+      testModelObjName: null,
+      layingSchemeName:null,
+      testConditionName:null,
+      rate: null,
+      lightShellTS: null,
+      lightShellSP: null,
+      layingShellTS: null,
+      layingShellSP: null,
+      reductionTS: null,
+      reductionSP: null,
+    },
   }
 
   showModal = () => {
@@ -26,9 +52,15 @@ export default class DataManageModal extends Component {
   }
 
   handleOk =()=> {
-    const {handelAddData} = this.props
-    const {soundData} = this.state
-    handelAddData(soundData)
+    const {handelAddData, type} = this.props
+    const {soundData, waterdData, scaleData} = this.state
+    if(type === 'isSound') {
+      handelAddData(soundData)
+    } else if (type === 'isWater' ) {
+      handelAddData(waterdData)
+    } else if (type === 'isScale' ) {
+      handelAddData(scaleData)
+    }
     this.setState({visible: false})
   }
 
@@ -40,8 +72,16 @@ export default class DataManageModal extends Component {
     this.setState({soundData})
   }
 
+  handelWaterData = (waterdData) => {
+    this.setState({waterdData})
+  }
+
+  handelScaleData = (scaleData) => {
+    this.setState({scaleData})
+  }
+
   render () {
-    const {visible, soundData} = this.state
+    const {visible, soundData, waterdData, scaleData} = this.state
     const {modalDataMap, type, handelCompute} = this.props
     return (
       <div className={styles.editModal}>
@@ -65,8 +105,22 @@ export default class DataManageModal extends Component {
                   modalDataMap={modalDataMap}
                 />
               ) : ''}
-            {type === 'isWater' ? <WaterForm modalDataMap={modalDataMap} /> : ''}
-            {type === 'isScale' ? <ScaleForm modalDataMap={modalDataMap} /> : ''}
+            {type === 'isWater' ? (
+              <WaterForm
+                modalDataMap={modalDataMap}
+                handelWaterData={this.handelWaterData}
+                handelCompute={handelCompute}
+                waterdData={waterdData}
+              />
+            ) : ''}
+            {type === 'isScale' ? (
+              <ScaleForm
+                modalDataMap={modalDataMap}
+                handelScaleData={this.handelScaleData}
+                handelCompute={handelCompute}
+                scaleData={scaleData}
+              />
+            ) : ''}
           </div>
         </Modal>
       </div>

@@ -2,7 +2,9 @@ import _ from 'lodash'
 import { queryBigSampleData, queryBigTestData, queryBigTestSystemsData,
   queryWaterpotData, queryWaterpotManageData, queryUpdateBigTestData,
   queryAddBigTestData, queryDelBigTestData,
-  queryUpdateBigTestSystemsData, queryAddBigTestSystemsData, queryDelBigTestSystemsData } from '../services/waterpot';
+  queryUpdateBigTestSystemsData, queryAddBigTestSystemsData,
+  queryDelBigTestSystemsData, queryAddWaterData, queryUpdateWaterData,
+  queryDelWaterData, queryDelWaterDataList} from '../services/waterpot';
 
 export default {
   namespace: 'waterpot',
@@ -127,6 +129,44 @@ export default {
         });
       }
     },
+    *addWaterData({ payload }, { call, put }) {
+      const response = yield call(queryAddWaterData, payload);
+      if(response) {
+        const data = response.data || []
+        yield put({
+          type: 'handelAddWaterData',
+          payload: data,
+        });
+      }
+    },
+    *updateWaterData({ payload }, { call, put }) {
+      const response = yield call(queryUpdateWaterData, payload);
+      if(response) {
+        // const data = response.data || []
+        yield put({
+          type: 'handelUpdateWaterData',
+          payload,
+        });
+      }
+    },
+    *delWaterData({ payload }, { call, put }) {
+      const response = yield call(queryDelWaterData, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelWaterData',
+          payload,
+        });
+      }
+    },
+    *delWaterDataList({ payload }, { call, put }) {
+      const response = yield call(queryDelWaterDataList, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelWaterDataList',
+          payload,
+        });
+      }
+    },
   },
 
   reducers: {
@@ -233,6 +273,61 @@ export default {
             bigTestSystemsData: bigTestSystemsDataTemp,
           }
         }
+      }
+    },
+    handelAddWaterData(state, { payload }) {
+      const {waterpotManageData} = state
+      const waterpotManageDataTemp = _.cloneDeep(waterpotManageData)
+      waterpotManageDataTemp.push(payload)
+      return {
+        ...state,
+        waterpotManageData: waterpotManageDataTemp,
+      }
+    },
+    handelUpdateWaterData(state, { payload }) {
+      const {waterpotManageData} = state
+      const waterpotManageDataTemp = _.cloneDeep(waterpotManageData)
+      for(const item of waterpotManageDataTemp) {
+        if(item.pk === payload.pk) {
+          for(const key in payload) {
+            if(Object.prototype.hasOwnProperty.call(payload, key)
+            && Object.prototype.hasOwnProperty.call(item, key)){
+              item[key] = payload[key]
+            }
+          }
+        }
+      }
+      return {
+        ...state,
+        waterpotManageData: waterpotManageDataTemp,
+      }
+    },
+    handelDelWaterData(state, { payload }) {
+      const {waterpotManageData} = state
+      const waterpotManageDataTemp = _.cloneDeep(waterpotManageData)
+      for(let i=0; i < waterpotManageDataTemp.length; i+=1) {
+        if(waterpotManageDataTemp[i].pk === payload.pk) {
+          waterpotManageDataTemp.splice(i, 1)
+          return {
+            ...state,
+            waterpotManageData: waterpotManageDataTemp,
+          }
+        }
+      }
+    },
+    handelDelWaterDataList(state, { payload }) {
+      const {waterpotManageData} = state
+      const waterpotManageDataTemp = _.cloneDeep(waterpotManageData)
+      for(const pk of payload) {
+        for(let i=0; i < waterpotManageDataTemp.length; i+=1) {
+          if(waterpotManageDataTemp[i].pk === pk) {
+            waterpotManageDataTemp.splice(i, 1)
+          }
+        }
+      }
+      return {
+        ...state,
+        waterpotManageData: waterpotManageDataTemp,
       }
     },
   },
