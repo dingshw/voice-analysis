@@ -84,9 +84,9 @@ export default class EditModal extends Component {
     this.setState({dataModel})
   }
 
-  onChangeDataModel = (type, value) => {
+  onChangeDataModel = (type, unit, value) => {
     const { dataModel } = this.state
-    dataModel[type] = value
+    dataModel[type] = value + unit
     this.setState({dataModel})
   }
 

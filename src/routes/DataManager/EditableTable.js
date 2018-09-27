@@ -113,9 +113,15 @@ export default class EditableTable extends Component {
     const {selectedRowKeys, data} = this.state
     const keyList = []
     for(const key of selectedRowKeys) {
-      keyList.push(data[key].key)
+      keyList.push(data[key].pk)
     }
-    console.log('selectedRowKeys changed: ', keyList);
+    const {handelDelData} = this.props
+    if(keyList.length>0) {
+      handelDelData(keyList)
+    } else {
+      message.error('删除失败')
+    }
+    // console.log('selectedRowKeys changed: ', keyList);
   }
 
   handelDataChange = (record, dataIndex, value) => {

@@ -82,16 +82,23 @@ export default class SoundData extends Component {
 
   handelDelData = (key) => {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'soundpipe/delSoundData',
-      payload: {pk: key},
-    });
+    if(_.isArray(key)) {
+      dispatch({
+        type: 'soundpipe/delSoundDataList',
+        payload: key,
+      })
+    } else {
+      dispatch({
+        type: 'soundpipe/delSoundData',
+        payload: {pk: key},
+      })
+    }
   }
 
   render () {
     const {backingData, sampleData, soundManageData, soundPipeData} = this.props
 
-    if(sampleData.length===0 || backingData.length===0 || soundManageData.length===0) {
+    if(sampleData.length===0 || backingData.length===0) {
       return '';
     }
     let data = [];

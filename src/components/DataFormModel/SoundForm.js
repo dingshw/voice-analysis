@@ -42,15 +42,20 @@ export default class SoundForm extends Component {
         }
       }
     }
-    soundData[type] = valueTemp
+    soundData[type] = !_.isNaN(Number(valueTemp)) ? Number(valueTemp) : valueTemp
     // this.setState({soundData})
     handelSoundData(soundData)
   }
 
+  checkIsTrue = (value) => {
+    return value !== undefined && value !== null
+  }
+
   checkCanComputer = () => {
     const {soundData} = this.props
-    if(soundData.samplename && soundData.backingname
-      && soundData.temparture && soundData.press && soundData.rateRange) {
+    if(this.checkIsTrue(soundData.samplename) && this.checkIsTrue(soundData.backingname)
+      && this.checkIsTrue(soundData.temparture) && this.checkIsTrue(soundData.press)
+      && this.checkIsTrue(soundData.rateRange)) {
       return true
     }
     return false
@@ -73,8 +78,8 @@ export default class SoundForm extends Component {
     const dataMap = {
       samplename: soundData.samplename,
       backgroundtype:soundData.backingname,
-      temparture:soundData.temparture,
-      press:soundData.press,
+      temparture: Number(soundData.temparture) || 0,
+      press: Number(soundData.press) || 0,
       rateMin: Number(rateMin)* 1000,
       rateMax: Number(rateMax)* 1000,
     }

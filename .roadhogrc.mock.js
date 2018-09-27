@@ -126,7 +126,7 @@ const proxy = {
     "data": [
         {
             "ts": 1532767399000,
-            "pk": "5948ffbb-c18d-4f45-8747-773485bdd690",
+            "pk": "5948ffbb-c18d-4f45-8747-773485bdd6901",
             "name": "30mm钢",
             "frontMedium": "水",
             "endMedium": "空气",
@@ -136,7 +136,7 @@ const proxy = {
         },
         {
           "ts": 1532767399000,
-          "pk": "5948ffbb-c18d-4f45-8747-773485bdd690",
+          "pk": "5948ffbb-c18d-4f45-8747-773485bdd6902",
           "name": "50mm钢",
           "frontMedium": "水",
           "endMedium": "水",
@@ -146,7 +146,7 @@ const proxy = {
       },
       {
         "ts": 1532767399000,
-        "pk": "5948ffbb-c18d-4f45-8747-773485bdd690",
+        "pk": "5948ffbb-c18d-4f45-8747-773485bdd6903",
         "name": "80mm钢",
         "frontMedium": "水",
         "endMedium": "水",
@@ -162,7 +162,7 @@ const proxy = {
     "data": [
         {
             "ts": 1532767399000,
-            "pk": "faae722c-a685-44e6-973e-6bfcde20e417",
+            "pk": "faae722c-a685-44e6-973e-6bfcde20e4171",
             "name": "阿波罗",
             "logo": null,
             "density": "1.05kg/cm3",
@@ -176,7 +176,7 @@ const proxy = {
         },
         {
           "ts": 1532767399000,
-          "pk": "faae722c-a685-44e6-973e-6bfcde20e417",
+          "pk": "faae722c-a685-44e6-973e-6bfcde20e4127",
           "name": "阿波罗1",
           "logo": null,
           "density": "1.05kg/cm3",
@@ -190,7 +190,7 @@ const proxy = {
       },
       {
         "ts": 1532767399000,
-        "pk": "faae722c-a685-44e6-973e-6bfcde20e417",
+        "pk": "faae722c-a685-44e6-973e-6bfcde20e3417",
         "name": "阿波罗2",
         "logo": null,
         "density": "1.05kg/cm3",
@@ -264,7 +264,7 @@ const proxy = {
     "data": [
       {
           "ts": 1535551973000,
-          "pk": "092e9933-d953-4c8f-80e8-bfaeeca28807",
+          "pk": "092e9933-d953-4c8f-80e8-bfaeeca288071",
           "name": "双层局域实尺度试验模型",//试验模型
           "size": "长宽高：1.8m*1.6m*1.4m",//尺寸
           "doubleShellSpacing": "双层间间距空气",//双层壳间距
@@ -276,7 +276,7 @@ const proxy = {
       },
       {
         "ts": 1535551973000,
-        "pk": "092e9933-d953-4c8f-80e8-bfaeeca28807",
+        "pk": "092e9933-d953-4c8f-80e8-bfaeeca288072",
         "name": "双层局域实尺度试验模型2",//试验模型
         "size": "长宽高：1.8m*1.6m*1.4m",//尺寸
         "doubleShellSpacing": "双层间间距空气",//双层壳间距
@@ -293,12 +293,12 @@ const proxy = {
     "message": null,
     "data":  [
       {
-          "pk": "ad9bb684-2f9d-416c-bb0e-d74f50f147e1",
+          "pk": "ad9bb684-2f9d-416c-bb0e-d74f50f147e13",
           "name": "测试系统名称",
           "describe": "测试系统介绍"
       },
       {
-        "pk": "ad9bb684-2f9d-416c-bb0e-d74f50f147e1",
+        "pk": "ad9bb684-2f9d-416c-bb0e-d74f50f147e14",
         "name": "测试系统名称2",
         "describe": "测试系统介绍2"
     }
@@ -336,7 +336,7 @@ const proxy = {
     "data": [
         {
           "ts": 1536389161000,
-          "pk": "04ed1468-394e-4d12-a39f-a11a25f047ec",
+          "pk": "04ed1468-394e-4d12-a39f-a11a25f047ec1",
           "name": "中尺度模型",
           "shellType": "双层壳体",//壳体类型
           "shapeSize": "长5.4m，直径3.2m",
@@ -347,7 +347,7 @@ const proxy = {
         },
         {
           "ts": 1536389161000,
-          "pk": "04ed1468-394e-4d12-a39f-a11a25f047ec",
+          "pk": "04ed1468-394e-4d12-a39f-a11a25f047ec2",
           "name": "中尺度模型2",
           "shellType": "双层壳体",//壳体类型
           "shapeSize": "长5.4m，直径3.2m",
@@ -364,7 +364,7 @@ const proxy = {
     "data": [
         {
           "ts": 1536389161000,
-          "pk": "38297ce7-0b70-42da-8487-0c8e713fa2dd",
+          "pk": "38297ce7-0b70-42da-8487-0c8e713fa2dd2",
           "name": "文字文字",
           "duration": "1个月",
           "testTime": "201708",
@@ -376,7 +376,7 @@ const proxy = {
         },
         {
           "ts": 1536389161000,
-          "pk": "38297ce7-0b70-42da-8487-0c8e713fa2dd",
+          "pk": "38297ce7-0b70-42da-8487-0c8e713fa2dd3",
           "name": "文字文字12",
           "duration": "1个月",
           "testTime": "201708",
@@ -394,7 +394,7 @@ const proxy = {
     "data": [
         {
           "ts": 1536389161000,
-          "pk": "96350ce1-ee92-4a66-83b5-7ca3a8c2296b",
+          "pk": "96350ce1-ee92-4a66-83b5-7ca3a8c2296b4",
           "name": "集成方案",
           "shellSurfaceOuter": "文字文字",//外壳外表面
           "shellSurfaceIner": "文字文字",//外壳内表面
@@ -406,7 +406,7 @@ const proxy = {
         },
         {
           "ts": 1536389161000,
-          "pk": "96350ce1-ee92-4a66-83b5-7ca3a8c2296b",
+          "pk": "96350ce1-ee92-4a66-83b5-7ca3a8c2296b5",
           "name": "集成方案2",
           "shellSurfaceOuter": "文字文字",//外壳外表面
           "shellSurfaceIner": "文字文字",//外壳内表面
@@ -478,9 +478,9 @@ const proxy = {
       "data": [
         {
           pk: 123,
-          "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+          "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4171",
           "samplename":"阿波罗",
-          "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+          "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6902",
           "backingname":"30mm钢",
           "press":1,
           "temparture":15,
@@ -491,9 +491,9 @@ const proxy = {
       },
       {
         pk: 456,
-        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4173",
         "samplename":"阿波罗2",
-        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6904",
         "backingname":"50mm钢",
         "press":1,
         "temparture":15,
@@ -504,9 +504,9 @@ const proxy = {
       },
       {
         pk: 789,
-        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4175",
         "samplename":"阿波罗3",
-        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6906",
         "backingname":"30mm钢1",
         "press":1,
         "temparture":15,
@@ -517,9 +517,9 @@ const proxy = {
       },
       {
         pk: 234,
-        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4177",
         "samplename":"阿波罗4",
-        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6908",
         "backingname":"30mm钢2",
         "press":1,
         "temparture":15,
@@ -530,9 +530,9 @@ const proxy = {
       },
       {
         pk: 345,
-        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e417",
+        "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4179",
         "samplename":"阿波罗5",
-        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd690",
+        "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6904",
         "backingname":"30mm钢3",
         "press":1,
         "temparture":15,
@@ -552,9 +552,9 @@ const proxy = {
         {
           pk: 1,
           "sampleName":"阿波罗0",
-          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f7",
+          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f72",
           "testModelName":"双层局域实尺度试验模型1",
-          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f243",
           "testSystemName":"测试系统名称1",
           "temparture":"15",
 			    "press":"1",
@@ -569,9 +569,9 @@ const proxy = {
         {
           pk: 2,
           "sampleName":"阿波罗",
-          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f7",
+          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f71",
           "testModelName":"双层局域实尺度试验模型2",
-          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f242",
           "testSystemName":"测试系统名称2",
           "temparture":"15",
 			    "press":"1",
@@ -586,9 +586,9 @@ const proxy = {
         {
           pk: 3,
           "sampleName":"阿波罗2",
-          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f7",
+          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f73",
           "testModelName":"双层局域实尺度试验模型3",
-          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f244",
           "testSystemName":"测试系统名称3",
           "temparture":"15",
 			    "press":"1",
@@ -603,9 +603,9 @@ const proxy = {
         {
           pk: 4,
           "sampleName":"阿波罗3",
-          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f7",
+          "samplepk":"b480db62-5a06-4058-a8db-44fb946763f75",
           "testModelName":"双层局域实尺度试验模型4",
-          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f246",
           "testSystemName":"测试系统名称4",
           "temparture":"15",
 			    "press":"1",
@@ -628,11 +628,11 @@ const proxy = {
         {
           pk: 1,
           "testModelObjName":"中尺度模型1",
-          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f241",
           "layingSchemeName":"集成方案1",
-          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f242",
           "testConditionName":"试验条件名称1",
-          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f243",
           "lightShellTS": 0,
           "lightShellSP": 9.71447,
           "layingShellTS": 24,
@@ -643,11 +643,11 @@ const proxy = {
         {
           pk: 2,
           "testModelObjName":"中尺度模型2",
-          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f244",
           "layingSchemeName":"集成方案2",
-          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f245",
           "testConditionName":"试验条件名称2",
-          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f246",
           "lightShellTS": 0,
           "lightShellSP": 9.71447,
           "layingShellTS": 24,
@@ -658,11 +658,11 @@ const proxy = {
         {
           pk: 3,
           "testModelObjName":"中尺度模型3",
-          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f247",
           "layingSchemeName":"集成方案3",
-          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f248",
           "testConditionName":"试验条件名称3",
-          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testConditionPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f249",
           "lightShellTS": 0,
           "lightShellSP": 9.71447,
           "layingShellTS": 24,
@@ -869,6 +869,15 @@ const proxy = {
     })
   },
   'POST /smallMng/deleteItem': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /smallMng/deleteItems': (req, res) => {
     res.send({
       "success": true,
       "message": null,

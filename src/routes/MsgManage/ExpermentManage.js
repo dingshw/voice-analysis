@@ -36,7 +36,7 @@ export default class ExpermentManage extends Component {
     const { dispatch, testConditions } = this.props;
     let isCreate = true
     for(const item of testConditions) {
-      if(item.name === dataModel.oldName) {
+      if(item.pk === dataModel.pk) {
         isCreate = false
       }
     }

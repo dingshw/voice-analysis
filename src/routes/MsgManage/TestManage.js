@@ -36,7 +36,7 @@ export default class TestManage extends Component {
     const { dispatch, bigTestSystemsData } = this.props;
     let isCreate = true
     for(const item of bigTestSystemsData) {
-      if(item.name === dataModel.oldName) {
+      if(item.pk === dataModel.pk) {
         isCreate = false
       }
     }

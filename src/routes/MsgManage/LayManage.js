@@ -36,7 +36,7 @@ export default class LayManage extends Component {
     const { dispatch, layingSchemes } = this.props;
     let isCreate = true
     for(const item of layingSchemes) {
-      if(item.name === dataModel.oldName) {
+      if(item.pk === dataModel.pk) {
         isCreate = false
       }
     }

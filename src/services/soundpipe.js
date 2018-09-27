@@ -73,3 +73,9 @@ export async function queryDelSoundData(params) {
     body: params,
   })
 }
+export async function queryDelSoundDataList(params) {
+  return request('/smallMng/deleteItems', {
+    method: 'POST',
+    body: params,
+  })
+}

@@ -164,7 +164,7 @@ export default {
       const {bigTestData} = state
       const bigTestDataTemp = _.cloneDeep(bigTestData)
       for(let item of bigTestDataTemp) {
-        if(item.name === payload.oldName) {
+        if(item.pk === payload.pk) {
           item = _.cloneDeep(payload)
         }
       }
@@ -199,7 +199,7 @@ export default {
       const {bigTestSystemsData} = state
       const bigTestSystemsDataTemp = _.cloneDeep(bigTestSystemsData)
       for(const item of bigTestSystemsDataTemp) {
-        if(item.name === payload.oldName) {
+        if(item.pk === payload.pk) {
           for(const key in payload) {
             if(Object.prototype.hasOwnProperty.call(payload, key)
             && Object.prototype.hasOwnProperty.call(item, key)){

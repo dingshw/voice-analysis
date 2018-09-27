@@ -194,7 +194,7 @@ export default {
       const {testModel} = state
       const testModelTemp = _.cloneDeep(testModel)
       for(const item of testModelTemp) {
-        if(item.name === payload.oldName) {
+        if(item.pk === payload.pk) {
           for(const key in payload) {
             if(Object.prototype.hasOwnProperty.call(payload, key)
             && Object.prototype.hasOwnProperty.call(item, key)){
@@ -234,7 +234,7 @@ export default {
       const {testConditions} = state
       const testConditionsTemp = _.cloneDeep(testConditions)
       for(const item of testConditionsTemp) {
-        if(item.name === payload.oldName) {
+        if(item.pk === payload.pk) {
           for(const key in payload) {
             if(Object.prototype.hasOwnProperty.call(payload, key)
             && Object.prototype.hasOwnProperty.call(item, key)){
@@ -274,7 +274,7 @@ export default {
       const {layingSchemes} = state
       const layingSchemesTemp = _.cloneDeep(layingSchemes)
       for(const item of layingSchemesTemp) {
-        if(item.name === payload.oldName) {
+        if(item.pk === payload.pk) {
           for(const key in payload) {
             if(Object.prototype.hasOwnProperty.call(payload, key)
             && Object.prototype.hasOwnProperty.call(item, key)){

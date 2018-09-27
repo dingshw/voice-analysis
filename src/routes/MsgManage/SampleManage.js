@@ -26,7 +26,11 @@ export default class SampleManage extends Component {
 
 
   setSearchValue = (value) => {
-    this.setState({searchValue: value})
+    if(value.target && value.target.value !== undefined) {
+      this.setState({searchValue: value.target.value})
+    } else {
+      this.setState({searchValue: value})
+    }
   }
 
   // 调用action 执行后台接口更新数据
@@ -34,7 +38,7 @@ export default class SampleManage extends Component {
     const { dispatch, sampleData } = this.props;
     let isCreate = true
     for(const item of sampleData) {
-      if(item.name === dataModel.oldName) {
+      if(item.pk && item.pk === dataModel.pk) {
         isCreate = false
       }
     }
@@ -82,6 +86,7 @@ export default class SampleManage extends Component {
             placeholder="查询名称"
             enterButton="查询"
             style={{ width: 280 }}
+            onChange={this.setSearchValue}
             onSearch={this.setSearchValue}
           />
         </div>
@@ -89,7 +94,7 @@ export default class SampleManage extends Component {
           {
             sampleData.filter((data) => {
               if(searchValue !== '') {
-                return searchValue === data.name
+                return searchValue === data.name || (data.name && data.name.toString().includes(searchValue))
               }
               return data
             }).map((item, index) => (

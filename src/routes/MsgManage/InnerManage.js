@@ -36,7 +36,7 @@ export default class InnerManage extends Component {
     const { dispatch, bigTestData } = this.props;
     let isCreate = true
     for(const item of bigTestData) {
-      if(item.name === dataModel.oldName) {
+      if(item.pk === dataModel.pk) {
         isCreate = false
       }
     }

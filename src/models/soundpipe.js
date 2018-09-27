@@ -2,7 +2,8 @@ import _ from 'lodash'
 import { queryBackingData, querySampleData, querySoundPipeData,
   querySoundManageData, queryUpdateSampleData, queryAddSampleData,
   queryDelSampleData, queryUpdateBackingData, queryAddBackingData,
-  queryDelBackingData, queryAddSoundData, queryDelSoundData, queryUpdateSoundData } from '../services/soundpipe';
+  queryDelBackingData, queryAddSoundData, queryDelSoundData,
+  queryUpdateSoundData, queryDelSoundDataList } from '../services/soundpipe';
 
 export default {
   namespace: 'soundpipe',
@@ -140,6 +141,15 @@ export default {
       if(response) {
         yield put({
           type: 'handelDelSoundData',
+          payload,
+        });
+      }
+    },
+    *delSoundDataList({ payload }, { call, put }) {
+      const response = yield call(queryDelSoundDataList, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelSoundDataList',
           payload,
         });
       }
@@ -289,6 +299,21 @@ export default {
             soundManageData: soundManageDataTemp,
           }
         }
+      }
+    },
+    handelDelSoundDataList(state, { payload }) {
+      const {soundManageData} = state
+      const soundManageDataTemp = _.cloneDeep(soundManageData)
+      for(const pk of payload) {
+        for(let i=0; i < soundManageDataTemp.length; i+=1) {
+          if(soundManageDataTemp[i].pk === pk) {
+            soundManageDataTemp.splice(i, 1)
+          }
+        }
+      }
+      return {
+        ...state,
+        soundManageData: soundManageDataTemp,
       }
     },
   },

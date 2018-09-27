@@ -36,7 +36,7 @@ export default class OuterManage extends Component {
     const { dispatch, testModel } = this.props;
     let isCreate = true
     for(const item of testModel) {
-      if(item.name === dataModel.oldName) {
+      if(item.pk === dataModel.pk) {
         isCreate = false
       }
     }

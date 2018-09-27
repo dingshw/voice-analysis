@@ -36,7 +36,7 @@ export default class BackingManage extends Component {
     const { dispatch, backingData } = this.props;
     let isCreate = true
     for(const item of backingData) {
-      if(item.name === dataModel.oldName) {
+      if(item.pk === dataModel.pk) {
         isCreate = false
       }
     }

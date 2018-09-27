@@ -24,7 +24,7 @@ export default class SampleForm extends Component{
             defaultValue={initInputValue(dataModel.density, 'kg/cm3')}
             formatter={value => `${value}kg/cm3`}
             parser={value => value.replace('kg/cm3', '')}
-            onChange={onChangeDataModel.bind(this, 'density')}
+            onChange={onChangeDataModel.bind(this, 'density', 'kg/cm3')}
           />
         </FormItem>
         <FormItem
@@ -35,7 +35,7 @@ export default class SampleForm extends Component{
             defaultValue={initInputValue(dataModel.flexibleModel, 'MPa')}
             formatter={value => `${value}MPa`}
             parser={value => value.replace('MPa', '')}
-            onChange={onChangeDataModel.bind(this, 'flexibleModel')}
+            onChange={onChangeDataModel.bind(this, 'flexibleModel', 'MPa')}
           />
         </FormItem>
         <FormItem
@@ -44,7 +44,7 @@ export default class SampleForm extends Component{
         >
           <InputNumber
             defaultValue={dataModel.poissonRatio || ''}
-            onChange={onChangeDataModel.bind(this, 'poissonRatio')}
+            onChange={onChangeDataModel.bind(this, 'poissonRatio', '')}
           />
         </FormItem>
         <FormItem
@@ -55,7 +55,7 @@ export default class SampleForm extends Component{
             defaultValue={initInputValue(dataModel.soundSpeed, 'm/s')}
             formatter={value => `${value}m/s`}
             parser={value => value.replace('m/s', '')}
-            onChange={onChangeDataModel.bind(this, 'soundSpeed')}
+            onChange={onChangeDataModel.bind(this, 'soundSpeed', 'm/s')}
           />
         </FormItem>
         <FormItem
@@ -66,7 +66,7 @@ export default class SampleForm extends Component{
             defaultValue={initInputValue(dataModel.thickness, 'mm')}
             formatter={value => `${value}mm`}
             parser={value => value.replace('mm', '')}
-            onChange={onChangeDataModel.bind(this, 'thickness')}
+            onChange={onChangeDataModel.bind(this, 'thickness', 'mm')}
           />
         </FormItem>
         <FormItem
