@@ -119,7 +119,7 @@ export default class SoundPipe extends Component {
               onChange={this.handleSampleChange.bind(this)}
             >
               {
-                sampleData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+                _.uniqBy(sampleData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
               }
             </Select>
             <span>背衬选择</span>
@@ -131,7 +131,7 @@ export default class SoundPipe extends Component {
               onChange={this.handleBackingChange.bind(this)}
             >
               {
-                backingData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+                _.uniqBy(backingData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
               }
             </Select>
           </div>

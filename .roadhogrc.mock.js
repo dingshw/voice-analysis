@@ -210,18 +210,18 @@ const proxy = {
       "success": true,
       "message": null,
       "data": [
-          {
-              "refect": 0.1,
-              "transmission": 0.45,
-              "bondacust": 0.7875,
-              "rate": 10
-          },
-          {
-              "refect": 0.2,
-              "transmission": 0.47,
-              "bondacust": 0.7391,
-              "rate": 20
-          }
+          // {
+          //     "refect": 0.1,
+          //     "transmission": 0.45,
+          //     "bondacust": 0.7875,
+          //     "rate": 10
+          // },
+          // {
+          //     "refect": 0.2,
+          //     "transmission": 0.47,
+          //     "bondacust": 0.7391,
+          //     "rate": 20
+          // }
       ]
     });
   },

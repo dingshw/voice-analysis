@@ -127,7 +127,7 @@ export default class ScaleModel extends Component {
             onChange={this.handleTestModel.bind(this)}
           >
             {
-              testModel.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(testModel, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
           <span>试验情况</span>
@@ -139,7 +139,7 @@ export default class ScaleModel extends Component {
             onChange={this.handleTestConditions.bind(this)}
           >
             {
-              testConditions.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(testConditions, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
           <span>敷设方案</span>
@@ -151,7 +151,7 @@ export default class ScaleModel extends Component {
             onChange={this.handleLayingSchemes.bind(this)}
           >
             {
-              layingSchemes.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(layingSchemes, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
         </div>

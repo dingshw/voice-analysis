@@ -114,6 +114,7 @@ export default class ParamAnalysis extends Component {
       "reductionTS": 0,
       "reductionSP": 0,
     },
+    noData: false,
   }
 
   componentWillMount() {
@@ -143,9 +144,15 @@ export default class ParamAnalysis extends Component {
           analysisState = 'hasAdd'
         }
         if(analysisState === 'show' && !_.isEqual(data, historyAnalysisData)){
+          analysisState = "haShow"
           historyAnalysisData = _.cloneDeep(data)
           this.changeChartData(data)
         }
+      }
+    } else if(data && data.length===0 && myChart) {
+      if(analysisState === 'show'){
+        myChart.clear()
+        this.setState({noData: true})
       }
     }
   }
@@ -408,7 +415,7 @@ export default class ParamAnalysis extends Component {
   }
 
   render () {
-    const { analysisParam, compareAnalysisData } = this.state
+    const { analysisParam, compareAnalysisData, noData } = this.state
     const { isScaleModel } = this.props
     const marks = {
       0: '0',
@@ -591,9 +598,8 @@ export default class ParamAnalysis extends Component {
               </div>
               <Button type="primary" className={styles.startBtn} onClick={this.startContrast}>开始对比</Button>
             </div>
-            <div id="mainChart" className={styles.chartArea}>
-              <h4 className={styles.noDataSpan}>暂无数据</h4>
-            </div>
+            {noData ? <h4 className={styles.noDataSpan}>暂无数据，请重新选择</h4>:''}
+            <div id="mainChart" className={styles.chartArea} />
           </div>
         </div>
       </div>

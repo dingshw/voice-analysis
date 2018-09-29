@@ -133,7 +133,7 @@ export default class SoundPipe extends Component {
             onChange={this.handleSampleChange.bind(this)}
           >
             {
-              bigSampleData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(bigSampleData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
 
@@ -146,7 +146,7 @@ export default class SoundPipe extends Component {
             onChange={this.handleExperimentChange.bind(this)}
           >
             {
-              bigTestData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(bigTestData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
 
@@ -159,7 +159,7 @@ export default class SoundPipe extends Component {
             onChange={this.handleTestSystemChange.bind(this)}
           >
             {
-              bigTestSystemsData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(bigTestSystemsData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
         </div>
