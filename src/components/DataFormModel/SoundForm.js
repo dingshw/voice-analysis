@@ -65,7 +65,7 @@ export default class SoundForm extends Component {
     const {handelCompute, soundData} = this.props
     /* {
         "samplename":"阿波罗",
-        "backgroundtype":"30mm",
+        "backingname":"30mm",
         "temparture":"15",
         "press":"1",
         "rateMin":"2",
@@ -77,7 +77,7 @@ export default class SoundForm extends Component {
     const rateMax = rateRange.substring(rateRange.indexOf('-')+1, rateRange.indexOf('k'))
     const dataMap = {
       samplename: soundData.samplename,
-      backgroundtype:soundData.backingname,
+      backingname:soundData.backingname,
       temparture: Number(soundData.temparture) || 0,
       press: Number(soundData.press) || 0,
       rateMin: Number(rateMin)* 1000,
@@ -88,7 +88,7 @@ export default class SoundForm extends Component {
 
   render () {
     const {modalDataMap, soundData} = this.props
-    const {sampleData, backingData, soundPipeData} = modalDataMap
+    const {soundPipeData} = modalDataMap
     const {data} = soundPipeData
     const formItemLayout = {
       labelCol: {
@@ -107,7 +107,8 @@ export default class SoundForm extends Component {
             {...formItemLayout}
             label="样品名称"
           >
-            <Select
+            <Input value={soundData.samplename} disabled />
+            {/* <Select
               value={soundData.samplename}
               onChange={this.handleChange.bind(this, 'samplename')}
             >
@@ -120,13 +121,14 @@ export default class SoundForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="背衬名称"
           >
-            <Select
+            <Input value={soundData.backingname} disabled />
+            {/* <Select
               value={soundData.backingname}
               onChange={this.handleChange.bind(this, 'backingname')}
             >
@@ -139,13 +141,14 @@ export default class SoundForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="压力(MPa)"
           >
-            <Select
+            <Input value={soundData.press} disabled />
+            {/* <Select
               value={soundData.press}
               onChange={this.handleChange.bind(this, 'press')}
             >
@@ -158,13 +161,14 @@ export default class SoundForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="温度(T/度)"
           >
-            <Select
+            <Input value={soundData.temparture} disabled />
+            {/* <Select
               value={soundData.temparture}
               onChange={this.handleChange.bind(this, 'temparture')}
             >
@@ -177,7 +181,7 @@ export default class SoundForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}

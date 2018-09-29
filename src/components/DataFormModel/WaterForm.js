@@ -56,7 +56,7 @@ export default class WaterForm extends Component {
     const {handelCompute, waterdData} = this.props
     /* {
         "samplename":"阿波罗",
-        "backgroundtype":"30mm",
+        "backingname":"30mm",
         "temparture":"15",
         "press":"1",
         "rateMin":"2",
@@ -80,7 +80,7 @@ export default class WaterForm extends Component {
 
   render () {
     const {modalDataMap, waterdData} = this.props
-    const {bigSampleData, bigTestData, bigTestSystemsData, waterpotData} = modalDataMap
+    const {waterpotData} = modalDataMap
     const {data} = waterpotData
     const formItemLayout = {
       labelCol: {
@@ -109,7 +109,8 @@ export default class WaterForm extends Component {
             {...formItemLayout}
             label="样品名称"
           >
-            <Select
+            <Input value={waterdData.sampleName} disabled />
+            {/* <Select
               value={waterdData.sampleName}
               onChange={this.handleChange.bind(this, 'sampleName')}
             >
@@ -122,13 +123,14 @@ export default class WaterForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="试验模型名称"
           >
-            <Select
+            <Input value={waterdData.testModelName} disabled />
+            {/* <Select
               value={waterdData.testModelName}
               onChange={this.handleChange.bind(this, 'testModelName')}
             >
@@ -141,13 +143,14 @@ export default class WaterForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="测试系统名称"
           >
-            <Select
+            <Input value={waterdData.testSystemName} disabled />
+            {/* <Select
               value={waterdData.testSystemName}
               onChange={this.handleChange.bind(this, 'testSystemName')}
             >
@@ -160,13 +163,14 @@ export default class WaterForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="压力(MPa)"
           >
-            <Select
+            <Input value={waterdData.press} disabled />
+            {/* <Select
               value={waterdData.press}
               onChange={this.handleChange.bind(this, 'press')}
             >
@@ -179,13 +183,14 @@ export default class WaterForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="温度(T/度)"
           >
-            <Select
+            <Input value={waterdData.temparture} disabled />
+            {/* <Select
               value={waterdData.temparture}
               onChange={this.handleChange.bind(this, 'temparture')}
             >
@@ -198,7 +203,7 @@ export default class WaterForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Select, Button } from 'antd';
+import _ from 'lodash'
 import { connect } from 'dva';
 import LayingScheme from 'components/CardModel/LayingScheme'
 import OuterExperimentCard from 'components/CardModel/OuterExperimentCard'
@@ -24,6 +25,7 @@ export default class ScaleModel extends Component {
     selectTestModel: {},
     selectTestConditions: {},
     selectLayingSchemes: {},
+    dataMap: {},
   }
 
   componentDidMount () {
@@ -69,6 +71,7 @@ export default class ScaleModel extends Component {
   handleScaleCondition = (dataMap) => {
     if(dataMap) {
       const { dispatch } = this.props;
+      this.setState({dataMap})
       dispatch({
         type: 'scalemodel/getScaleCondition',
         payload: {
@@ -78,9 +81,22 @@ export default class ScaleModel extends Component {
     }
   }
 
+  dataDownLoad = () => {
+    const {dataMap} = this.state
+    if(!_.isEmpty(dataMap)) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'scalemodel/downloadScale',
+        payload: {
+          ...dataMap,
+        },
+      });
+    }
+  }
+
   render() {
     const { testModel, testConditions, layingSchemes, scaleCondition } = this.props
-    const { selectTestConditions, selectTestModel, selectLayingSchemes } = this.state
+    const { selectTestConditions, selectTestModel, selectLayingSchemes,dataMap } = this.state
 
     const selectAnalysisName = `${selectTestModel.name  } ${  selectTestConditions.name} ${  selectLayingSchemes.name}`
     const isScaleModel = true
@@ -95,6 +111,9 @@ export default class ScaleModel extends Component {
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
           </Button>
+          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton} onClick={this.dataDownLoad}>
+            <span>数据下载</span>
+          </Button>
           <UploadFile catalog="conDemo" />
           <ReduceReport />
         </div>
@@ -106,7 +125,6 @@ export default class ScaleModel extends Component {
             placeholder="请选择模型"
             optionFilterProp="children"
             onChange={this.handleTestModel.bind(this)}
-            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
               testModel.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
@@ -119,7 +137,6 @@ export default class ScaleModel extends Component {
             placeholder="请选择试验情况"
             optionFilterProp="children"
             onChange={this.handleTestConditions.bind(this)}
-            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
               testConditions.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
@@ -132,7 +149,6 @@ export default class ScaleModel extends Component {
             placeholder="请选择敷设方案"
             optionFilterProp="children"
             onChange={this.handleLayingSchemes.bind(this)}
-            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
               layingSchemes.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)

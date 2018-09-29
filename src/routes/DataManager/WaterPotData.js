@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
+import _ from 'lodash'
 import { connect } from 'dva';
 import EditableTable from './EditableTable'
 
 @connect(({ waterpot }) => ({
-  bigSampleData: waterpot.bigSampleData,
-  bigTestData: waterpot.bigTestData,
-  bigTestSystemsData: waterpot.bigTestSystemsData,
   waterpotData: waterpot.waterpotData,
   waterpotManageData: waterpot.waterpotManageData,
+  waterMetaData: waterpot.waterMetaData,
 }))
 
 export default class WaterPotData extends Component {
@@ -15,13 +14,7 @@ export default class WaterPotData extends Component {
   componentDidMount () {
     const { dispatch } = this.props;
     dispatch({
-      type: 'waterpot/getBigSampleData',
-    });
-    dispatch({
-      type: 'waterpot/getBigTestData',
-    });
-    dispatch({
-      type: 'waterpot/getBigTestSystemsData',
+      type: 'waterpot/getWaterMetaData',
     });
     dispatch({
       type: 'waterpot/getWaterpotManageData',
@@ -71,7 +64,7 @@ export default class WaterPotData extends Component {
     if(_.isArray(key)) {
       dispatch({
         type: 'waterpot/delWaterDataList',
-        payload: key,
+        payload: {pks: key},
       })
     } else {
       dispatch({
@@ -106,12 +99,8 @@ export default class WaterPotData extends Component {
 
   render () {
 
-    const {waterpotManageData, bigSampleData, bigTestData, bigTestSystemsData, waterpotData} = this.props
+    const {waterpotManageData, waterpotData, waterMetaData} = this.props
 
-    if(bigSampleData.length===0 || bigTestData.length===0
-      || bigTestSystemsData.length===0) {
-      return '';
-    }
     let data = [];
     data = this.formatData(waterpotManageData)
     const columns = [
@@ -164,7 +153,7 @@ export default class WaterPotData extends Component {
         editable: true,
       },
       {
-        title: '投射系数',
+        title: '透射系数',
         dataIndex: 'transmission',
         width: '6%',
         editable: true,
@@ -194,7 +183,7 @@ export default class WaterPotData extends Component {
         editable: true,
       },
     ]
-    const modalDataMap = {bigSampleData, bigTestData, bigTestSystemsData, waterpotData}
+    const modalDataMap = {waterpotData}
     return (
       <div>
         <EditableTable
@@ -202,6 +191,7 @@ export default class WaterPotData extends Component {
           columns={columns}
           data={data}
           modalDataMap={modalDataMap}
+          metaData={waterMetaData}
           type='isWater'
           handelCompute={this.handleWaterPotData}
           handelAddData={this.handelAddData}

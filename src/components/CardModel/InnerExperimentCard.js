@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Popconfirm, Icon, Tooltip} from 'antd'
+import {Popconfirm, Icon, Tooltip, Carousel} from 'antd'
 import EditModal from './EditModal'
 import styles from './index.less';
 import experiment from '../../../public/experiment.png';
@@ -34,7 +34,12 @@ export default class InnerExperimentCard extends Component {
         {experimentData? (
           <div className={styles.cardbox}>
             <div className={styles.boxImg}>
-              <img src={experiment} alt="试验模型" />
+              <Carousel afterChange={this.onChange} className={styles.carousel}>
+                {
+                  experimentData.photos && experimentData.photos.length>0 ?
+                  experimentData.photos.map(item => <div key={item.pk}><img src={item.url} alt="试验模型" /></div>) : <div><img src={experiment} alt="试验模型" /></div>
+                }
+              </Carousel>
             </div>
             <ul className={styles.itemUl}>
               <li><span>名称</span><span title={experimentData.name || ''}>{experimentData.name || ''}</span></li>

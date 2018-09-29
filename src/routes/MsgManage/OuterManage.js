@@ -21,6 +21,14 @@ export default class OuterManage extends Component {
     });
   }
 
+  setSearchValue = (value) => {
+    if(value.target && value.target.value !== undefined) {
+      this.setState({searchValue: value.target.value})
+    } else {
+      this.setState({searchValue: value})
+    }
+  }
+
   delData = (dataModel) => {
     const { dispatch } = this.props;
     dispatch({
@@ -74,6 +82,7 @@ export default class OuterManage extends Component {
             placeholder="查询名称"
             enterButton="查询"
             style={{ width: 280 }}
+            onChange={this.setSearchValue}
             onSearch={this.setSearchValue}
           />
         </div>
@@ -81,7 +90,7 @@ export default class OuterManage extends Component {
           {
             testModel.filter((data) => {
               if(searchValue !== '') {
-                return searchValue === data.name
+                return searchValue === data.name || (data.name && data.name.toString().includes(searchValue))
               }
               return data
             }).map((item, index) => (

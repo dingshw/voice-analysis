@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Select, Button } from 'antd';
+import _ from 'lodash'
 import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
-import ParamAnalysis from 'components/CardModel/ParamAnalysis'
+import WaterParamAnalysis from 'components/CardModel/WaterParamAnalysis'
 import InnerExperimentCard from 'components/CardModel/InnerExperimentCard'
 import TestSystem from 'components/CardModel/TestSystem'
 import UploadFile from '../UploadFile'
@@ -23,6 +24,7 @@ export default class SoundPipe extends Component {
     selectBigSampleData: {},
     selectTestData: {},
     selectBigTestSystemsData: {},
+    dataMap: {},
   }
 
   componentDidMount () {
@@ -78,6 +80,7 @@ export default class SoundPipe extends Component {
 
       } */
       const { dispatch } = this.props;
+      this.setState({dataMap})
       dispatch({
         type: 'waterpot/getWaterpotDataData',
         payload: {
@@ -87,8 +90,21 @@ export default class SoundPipe extends Component {
     }
   }
 
+  dataDownLoad = () => {
+    const {dataMap} = this.state
+    if(!_.isEmpty(dataMap)) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'waterpot/downloadBig',
+        payload: {
+          ...dataMap,
+        },
+      });
+    }
+  }
+
   render() {
-    const { selectBigSampleData, selectTestData, selectBigTestSystemsData } = this.state
+    const { selectBigSampleData, selectTestData, selectBigTestSystemsData, dataMap } = this.state
     const { bigSampleData, bigTestData, bigTestSystemsData, waterpotData } = this.props
     const param = {
       testModelName: selectTestData.name,
@@ -101,6 +117,9 @@ export default class SoundPipe extends Component {
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
           </Button>
+          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton} onClick={this.dataDownLoad}>
+            <span>数据下载</span>
+          </Button>
           <UploadFile catalog="bigDemo" />
           <ReduceReport />
         </div>
@@ -112,7 +131,6 @@ export default class SoundPipe extends Component {
             placeholder="请选择样品"
             optionFilterProp="children"
             onChange={this.handleSampleChange.bind(this)}
-            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
               bigSampleData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
@@ -126,7 +144,6 @@ export default class SoundPipe extends Component {
             placeholder="请选择模型"
             optionFilterProp="children"
             onChange={this.handleExperimentChange.bind(this)}
-            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
               bigTestData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
@@ -140,7 +157,6 @@ export default class SoundPipe extends Component {
             placeholder="请选择系统"
             optionFilterProp="children"
             onChange={this.handleTestSystemChange.bind(this)}
-            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
               bigTestSystemsData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
@@ -152,10 +168,11 @@ export default class SoundPipe extends Component {
           <InnerExperimentCard experimentData={selectTestData} styleWidth="32%" styleMarginLeft="2%" />
           <TestSystem testData={selectBigTestSystemsData} styleWidth="32%" />
         </div>
-        <ParamAnalysis
+        <WaterParamAnalysis
           analysisData={waterpotData}
           handleAnalysisData={this.handleWaterPotData.bind(this)}
           param={param}
+          parent='isWater'
         />
       </div>);
   }

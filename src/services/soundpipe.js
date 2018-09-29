@@ -13,6 +13,12 @@ export async function querySoundPipeData(params) {
     body: params,
   })
 }
+export async function queryDownloadSmall(params) {
+  return request('/excelUpload/downloadSmal', {
+    method: 'POST',
+    body: params,
+  })
+}
 export async function querySoundManageData(params) {
   return request('/smallMng/queryAll', {
     method: 'POST',
@@ -75,6 +81,12 @@ export async function queryDelSoundData(params) {
 }
 export async function queryDelSoundDataList(params) {
   return request('/smallMng/deleteItems', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function querySoundMetaData(params) {
+  return request('/smallMng/queryFull', {
     method: 'POST',
     body: params,
   })

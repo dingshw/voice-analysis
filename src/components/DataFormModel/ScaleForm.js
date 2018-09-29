@@ -67,7 +67,7 @@ export default class ScaleForm extends Component {
 
   render () {
     const {modalDataMap, scaleData} = this.props
-    const {testModel, layingSchemes, testConditions, scaleCondition} = modalDataMap
+    const {scaleCondition} = modalDataMap
     const {data} = scaleCondition
     const formItemLayout = {
       labelCol: {
@@ -96,7 +96,8 @@ export default class ScaleForm extends Component {
             {...formItemLayout}
             label="试验模型名称"
           >
-            <Select
+            <Input value={scaleData.testModelObjName} disabled />
+            {/* <Select
               value={scaleData.testModelObjName}
               onChange={this.handleChange.bind(this, 'testModelObjName')}
             >
@@ -109,13 +110,14 @@ export default class ScaleForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="试验情况名称"
           >
-            <Select
+            <Input value={scaleData.testConditionName} disabled />
+            {/* <Select
               value={scaleData.testConditionName}
               onChange={this.handleChange.bind(this, 'testConditionName')}
             >
@@ -128,13 +130,14 @@ export default class ScaleForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="敷设方案名称"
           >
-            <Select
+            <Input value={scaleData.layingSchemeName} disabled />
+            {/* <Select
               value={scaleData.layingSchemeName}
               onChange={this.handleChange.bind(this, 'layingSchemeName')}
             >
@@ -147,7 +150,7 @@ export default class ScaleForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}

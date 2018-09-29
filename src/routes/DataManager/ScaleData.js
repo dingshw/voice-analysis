@@ -4,11 +4,9 @@ import { connect } from 'dva';
 import EditableTable from './EditableTable'
 
 @connect(({ scalemodel }) => ({
-  testModel: scalemodel.testModel,
-  testConditions: scalemodel.testConditions,
-  layingSchemes: scalemodel.layingSchemes,
   scaleCondition: scalemodel.scaleCondition,
   scaleManage: scalemodel.scaleManage,
+  scaleMetaData: scalemodel.scaleMetaData,
 }))
 
 export default class scaledata extends Component {
@@ -16,13 +14,7 @@ export default class scaledata extends Component {
   componentDidMount () {
     const { dispatch } = this.props;
     dispatch({
-      type: 'scalemodel/getTestModel',
-    });
-    dispatch({
-      type: 'scalemodel/getTestConditions',
-    });
-    dispatch({
-      type: 'scalemodel/getLayingSchemes',
+      type: 'scalemodel/getScaleMetaData',
     });
     dispatch({
       type: 'scalemodel/getScaleManageData',
@@ -83,7 +75,7 @@ export default class scaledata extends Component {
     if(_.isArray(key)) {
       dispatch({
         type: 'scalemodel/delScaleDataList',
-        payload: key,
+        payload: {pks: key},
       })
     } else {
       dispatch({
@@ -95,11 +87,7 @@ export default class scaledata extends Component {
 
   render () {
 
-    const {scaleManage, testModel, layingSchemes, testConditions, scaleCondition} = this.props
-    if(testModel.length===0 || layingSchemes.length===0
-      || testConditions.length===0) {
-      return '';
-    }
+    const {scaleManage, scaleCondition, scaleMetaData} = this.props
     let data = [];
     data = this.formatData(scaleManage)
     const columns = [
@@ -170,7 +158,7 @@ export default class scaledata extends Component {
         editable: true,
       },
     ]
-    const modalDataMap = {testModel, layingSchemes, testConditions, scaleCondition}
+    const modalDataMap = {scaleCondition}
     return (
       <div>
         <EditableTable
@@ -178,6 +166,7 @@ export default class scaledata extends Component {
           columns={columns}
           data={data}
           modalDataMap={modalDataMap}
+          metaData={scaleMetaData}
           type='isScale'
           handelCompute={this.handleScaleCondition}
           handelAddData={this.handelAddData}

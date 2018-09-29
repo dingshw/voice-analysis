@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Select, Button } from 'antd';
+import _ from 'lodash'
 import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
 import BackingCard from 'components/CardModel/BackingCard'
@@ -21,6 +22,7 @@ export default class SoundPipe extends Component {
   state = {
     selectSampleData: {},
     selectBackingData: {},
+    dataMap: {},
   }
 
   componentDidMount () {
@@ -55,7 +57,7 @@ export default class SoundPipe extends Component {
     if(dataMap) {
       /* {
         "samplename":"阿波罗",
-        "backgroundtype":"30mm",
+        "backingname":"30mm",
         "temparture":"15",
         "press":"1",
         "rateMin":"2",
@@ -63,6 +65,7 @@ export default class SoundPipe extends Component {
 
       } */
       const { dispatch } = this.props;
+      this.setState({dataMap})
       dispatch({
         type: 'soundpipe/getSoundPipeData',
         payload: {
@@ -72,12 +75,25 @@ export default class SoundPipe extends Component {
     }
   }
 
+  dataDownLoad = () => {
+    const {dataMap} = this.state
+    if(!_.isEmpty(dataMap)) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'soundpipe/downloadSmall',
+        payload: {
+          ...dataMap,
+        },
+      });
+    }
+  }
+
   render() {
     const { sampleData, backingData, soundPipeData } = this.props
-    const { selectSampleData, selectBackingData } = this.state
+    const { selectSampleData, selectBackingData, dataMap } = this.state
 
     const param = {
-      backgroundtype: selectBackingData.name,
+      backingname: selectBackingData.name,
       samplename: selectSampleData.name,
     }
     return (
@@ -85,6 +101,9 @@ export default class SoundPipe extends Component {
         <div className={styles.headerTools}>
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
+          </Button>
+          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton} onClick={this.dataDownLoad}>
+            <span>数据下载</span>
           </Button>
           <UploadFile catalog="smallDemo" />
           <ReduceReport />
@@ -98,7 +117,6 @@ export default class SoundPipe extends Component {
               placeholder="请选择样品"
               optionFilterProp="children"
               onChange={this.handleSampleChange.bind(this)}
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
             >
               {
                 sampleData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
@@ -111,7 +129,6 @@ export default class SoundPipe extends Component {
               placeholder="请选择背衬"
               optionFilterProp="children"
               onChange={this.handleBackingChange.bind(this)}
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
             >
               {
                 backingData.map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
@@ -127,6 +144,7 @@ export default class SoundPipe extends Component {
           analysisData={soundPipeData}
           handleAnalysisData={this.handleSoundPipeData.bind(this)}
           param={param}
+          parent='isSound'
         />
       </div>);
   }

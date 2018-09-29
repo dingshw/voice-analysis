@@ -60,11 +60,11 @@ const menuData = [
         path: 'backing',
       },
       {
-        name: '内场实验模型',
+        name: '内场试验模型',
         path: 'inner',
       },
       {
-        name: '外场实验模型',
+        name: '外场试验模型',
         path: 'outer',
       },
       {

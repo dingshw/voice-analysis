@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Popconfirm, Icon} from 'antd'
+import {Popconfirm, Icon, Carousel} from 'antd'
 import EditModal from './EditModal'
 import styles from './index.less'
 import testmodel from '../../../public/testmodel.png'
@@ -35,10 +35,14 @@ export default class TestSystem extends Component {
         {testData? (
           <div className={styles.cardbox}>
             <div className={styles.backingBoxImg}>
-              <img src={testmodel} alt="测试系统" style={{width: '100%'}} />
+              <Carousel afterChange={this.onChange} className={styles.carousel}>
+                {
+                  testData.photos && testData.photos.length>0 ?
+                  testData.photos.map(item => <div key={item.pk}><img src={item.url} alt="测试系统" /></div>) : <div><img src={testmodel} alt="测试系统" /></div>
+                }
+              </Carousel>
             </div>
             <ul className={styles.itemUl}>
-              <span>测试系统介绍</span>
               <li><span>名称</span><span>{testData.name || ''}</span></li>
               <textarea className={styles.textarea} defaultValue={testData.describe || ''} />
             </ul>

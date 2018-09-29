@@ -61,24 +61,13 @@
       width: 40%;
       height: auto;
       margin-left: 10px;
+      margin-right: 10px;
       border-radius: 5px;
-
-      img {
-        margin: 0 auto;
-        text-align:center;
-        vertical-align: middle;
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .experimentImg {
-      padding: 0;
-      border: none;
       :global {
         .ant-carousel {
           ul {
             height: 15px;
-            bottom: -5px;
+            bottom: -7px;
             li {
               height: 100%;
               button {
@@ -91,6 +80,18 @@
           }
         }
       }
+
+      img {
+        margin: 0 auto;
+        text-align:center;
+        vertical-align: middle;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .experimentImg {
+      padding: 0;
+      border: none;
     }
 
     .itemUl {
@@ -110,8 +111,8 @@
         list-style:none;
         background:url(../../../public/li.svg) no-repeat left;
         padding-left:15px;
-        line-height: 28px;
-        height: 28px;
+        line-height: 25px;
+        height: 25px;
         display:block;
         span {
           display: inline-block;
@@ -123,7 +124,7 @@
           color: #9B9B9B;
           font-size: 12px;
           width: 32%;
-          height: 28px;
+          height: 25px;
           display: inline-block;
         }
         span:nth-child(2) {
@@ -139,7 +140,6 @@
 .backingCard {
   float: right;
   .backingBoxImg {
-    width: 50%;
     height: 100%;
     padding: 20px 0 20px 20px;
     border-radius: 5px;
@@ -148,7 +148,7 @@
       text-align: center;
     }
     .imgWater {
-      flex: 4;
+      width: 25%;
       background: url(../../../public/water.png) repeat;
       border: 1px solid #8ED7FF;
       display: flex;
@@ -170,7 +170,7 @@
       }
     }
     .imgSample {
-      flex: 3;
+      width: 25%;
       background: #616F7E;
       border: 1px solid #616F7E;
       display: flex;
@@ -192,7 +192,7 @@
       }
     }
     .imgBacking {
-      flex: 3;
+      width: 15%;
       background: url(../../../public/backing.png) repeat;
       border: 1px solid #4F5663;
       display: flex;
@@ -214,7 +214,7 @@
       }
     }
     .imgAir {
-      flex: 5;
+      width: 30%;
       background: url(../../../public/air.png) repeat;
       border: 1px solid #D6FFFF;
       display: flex;
@@ -253,8 +253,8 @@
       list-style:none;
       background:url(../../../public/li.svg) no-repeat left;
       padding-left:15px;
-      line-height: 28px;
-      height: 28px;
+      line-height: 25px;
+      height: 25px;
       display:block;
       span {
         display: inline-block;
@@ -266,7 +266,7 @@
         color: #9B9B9B;
         font-size: 12px;
         width: 40%;
-        height: 28px;
+        height: 25px;
         display: inline-block;
       }
       span:nth-child(2) {

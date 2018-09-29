@@ -15,6 +15,12 @@ export async function queryScaleCondition(params) {
     body: params,
   })
 }
+export async function queryDownloadScale(params) {
+  return request('/excelUpload/downloadScale', {
+    method: 'POST',
+    body: params,
+  })
+}
 export async function queryScaleManage(params) {
   return request('/scaleMng/queryAll', {
     method: 'POST',
@@ -95,6 +101,12 @@ export async function queryDelScaleData(params) {
 }
 export async function queryDelScaleDataList(params) {
   return request('/scaleMng/deleteItems', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryScaleMetaData(params) {
+  return request('/scaleMng/queryFull', {
     method: 'POST',
     body: params,
   })

@@ -4,7 +4,7 @@ import { queryBigSampleData, queryBigTestData, queryBigTestSystemsData,
   queryAddBigTestData, queryDelBigTestData,
   queryUpdateBigTestSystemsData, queryAddBigTestSystemsData,
   queryDelBigTestSystemsData, queryAddWaterData, queryUpdateWaterData,
-  queryDelWaterData, queryDelWaterDataList} from '../services/waterpot';
+  queryDelWaterData, queryDelWaterDataList, queryWaterMetaData, queryDownloadBig} from '../services/waterpot';
 
 export default {
   namespace: 'waterpot',
@@ -15,6 +15,7 @@ export default {
     bigTestSystemsData: [],
     waterpotData: {},
     waterpotManageData: [],
+    waterMetaData: [],
   },
 
   effects: {
@@ -61,12 +62,33 @@ export default {
         });
       }
     },
+    *downloadBig({ payload }, { call, put }) {
+      const response = yield call(queryDownloadBig, payload);
+      if(response) {
+        const data = response.data || []
+        const dataMap = {dataParam: payload, data}
+        yield put({
+          type: 'downloadBigHandle',
+          payload: dataMap,
+        });
+      }
+    },
     *getWaterpotManageData({ payload }, { call, put }) {
       const response = yield call(queryWaterpotManageData, payload);
       if(response) {
         const data = response.data || []
         yield put({
           type: 'waterpotManageDataHandle',
+          payload: data,
+        });
+      }
+    },
+    *getWaterMetaData({ payload }, { call, put }) {
+      const response = yield call(queryWaterMetaData, payload);
+      if(response) {
+        const data = response.data || []
+        yield put({
+          type: 'waterMetaDataHandle',
           payload: data,
         });
       }
@@ -133,9 +155,10 @@ export default {
       const response = yield call(queryAddWaterData, payload);
       if(response) {
         const data = response.data || []
+        const pk = data && data.pk
         yield put({
           type: 'handelAddWaterData',
-          payload: data,
+          payload: {...payload, pk},
         });
       }
     },
@@ -318,7 +341,7 @@ export default {
     handelDelWaterDataList(state, { payload }) {
       const {waterpotManageData} = state
       const waterpotManageDataTemp = _.cloneDeep(waterpotManageData)
-      for(const pk of payload) {
+      for(const pk of payload.pks) {
         for(let i=0; i < waterpotManageDataTemp.length; i+=1) {
           if(waterpotManageDataTemp[i].pk === pk) {
             waterpotManageDataTemp.splice(i, 1)
@@ -329,6 +352,17 @@ export default {
         ...state,
         waterpotManageData: waterpotManageDataTemp,
       }
+    },
+    waterMetaDataHandle(state, { payload }) {
+      return {
+        ...state,
+        waterMetaData: payload,
+      };
+    },
+    downloadBigHandle(state, { payload }) {
+      return {
+        ...state,
+      };
     },
   },
 };

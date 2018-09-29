@@ -4,7 +4,7 @@ import { queryTestModel, queryTestConditions, queryLayingSchemes,
   queryAddTestModelData, queryDelTestModelData, queryUpdateTestConditions,
   queryAddTestConditions, queryDelTestConditions, queryUpdateLayingSchemes,
   queryAddLayingSchemes, queryDelLayingSchemes, queryAddScaleData, queryUpdateScaleData,
-  queryDelScaleData, queryDelScaleDataList} from '../services/scalemodel';
+  queryDelScaleData, queryDelScaleDataList, queryScaleMetaData, queryDownloadScale} from '../services/scalemodel';
 
 export default {
   namespace: 'scalemodel',
@@ -15,6 +15,7 @@ export default {
     layingSchemes: [],
     scaleCondition: {},
     scaleManage: [],
+    scaleMetaData:[],
   },
 
   effects: {
@@ -61,12 +62,33 @@ export default {
         });
       }
     },
+    *downloadScale({ payload }, { call, put }) {
+      const response = yield call(queryDownloadScale, payload);
+      if(response) {
+        const data = response.data || []
+        const dataMap = {dataParam: payload, data}
+        yield put({
+          type: 'downloadScaleHandle',
+          payload: dataMap,
+        });
+      }
+    },
     *getScaleManageData({ payload }, { call, put }) {
       const response = yield call(queryScaleManage, payload);
       if(response) {
         const data = response.data || []
         yield put({
           type: 'scaleManageHandle',
+          payload: data,
+        });
+      }
+    },
+    *getScaleMetaData({ payload }, { call, put }) {
+      const response = yield call(queryScaleMetaData, payload);
+      if(response) {
+        const data = response.data || []
+        yield put({
+          type: 'scaleMetaDataHandle',
           payload: data,
         });
       }
@@ -162,9 +184,10 @@ export default {
       const response = yield call(queryAddScaleData, payload);
       if(response) {
         const data = response.data || []
+        const pk = data && data.pk
         yield put({
           type: 'handelAddScaleData',
-          payload: data,
+          payload: {...payload, pk},
         });
       }
     },
@@ -392,7 +415,7 @@ export default {
     handelDelScaleDataList(state, { payload }) {
       const {scaleManage} = state
       const scaleManageTemp = _.cloneDeep(scaleManage)
-      for(const pk of payload) {
+      for(const pk of payload.pks) {
         for(let i=0; i < scaleManageTemp.length; i+=1) {
           if(scaleManageTemp[i].pk === pk) {
             scaleManageTemp.splice(i, 1)
@@ -402,6 +425,17 @@ export default {
       return {
         ...state,
         scaleManage: scaleManageTemp,
+      }
+    },
+    scaleMetaDataHandle(state, { payload }) {
+      return {
+        ...state,
+        scaleMetaData: payload,
+      }
+    },
+    downloadScaleHandle(state, { payload }) {
+      return {
+        ...state,
       }
     },
   },

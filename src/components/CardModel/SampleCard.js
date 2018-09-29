@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Icon, Popconfirm, Tooltip } from 'antd'
+import { Icon, Popconfirm, Tooltip, Carousel } from 'antd'
 import EditModal from './EditModal'
 import styles from './index.less';
 import sample from '../../../public/sample.png';
@@ -40,7 +40,12 @@ export default class SampleCard extends Component {
         {sampleData? (
           <div className={styles.cardbox}>
             <div className={styles.boxImg}>
-              <img src={sample} alt="样品" />
+              <Carousel afterChange={this.onChange} className={styles.carousel}>
+                {
+                  sampleData.photos && sampleData.photos.length>0 ?
+                  sampleData.photos.map(item => <div key={item.pk}><img src={item.url} alt="样品" /></div>) : <div><img src={sample} alt="样品" /></div>
+                }
+              </Carousel>
             </div>
             <ul className={styles.itemUl}>
               <li><span>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</span><span title={sampleData.name || ''}>{sampleData.name || ''}</span></li>

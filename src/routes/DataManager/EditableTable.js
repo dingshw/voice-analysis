@@ -150,7 +150,6 @@ export default class EditableTable extends Component {
 
   render() {
     const { data, selectedRowKeys, showModal } = this.state
-    const {modalDataMap, type, handelCompute, handelAddData} = this.props
     const components = {
       body: {
         row: EditableFormRow,
@@ -186,10 +185,7 @@ export default class EditableTable extends Component {
         {showModal? '':''}
         <div style={{display: 'flex', alignItems: 'baseline'}}>
           <DataManageModal
-            modalDataMap={modalDataMap}
-            type={type}
-            handelCompute={handelCompute}
-            handelAddData={handelAddData}
+            {...this.props}
           />
           <Popconfirm title="确定删除?" onConfirm={this.handleSelectDelete}>
             <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }}>

@@ -38,7 +38,7 @@ export default class BackingCard extends Component {
               <div className={styles.imgWater}><span>水</span></div>
               <div className={styles.imgSample}><span>样品</span></div>
               <div className={styles.imgBacking}><span>背衬</span></div>
-              <div className={backingData.name === '30mm钢' ? styles.imgAir : styles.imgWater}><span>{backingData.name === '30mm钢' ? '空气' : '水'}</span></div>
+              <div className={backingData.name && backingData.name.includes('30mm钢') ? styles.imgAir : styles.imgWater}><span>{backingData.name && backingData.name.includes('30mm钢') ? '空气' : '水'}</span></div>
             </div>
             <ul className={styles.backingItemUl}>
               <span>背衬基本介绍</span>

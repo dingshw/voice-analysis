@@ -16,6 +16,12 @@ export async function queryWaterpotData(params) {
     body: params,
   })
 }
+export async function queryDownloadBig(params) {
+  return request('/excelUpload/downloadBig', {
+    method: 'POST',
+    body: params,
+  })
+}
 export async function queryWaterpotManageData(params) {
   return request('/bigMng/queryAll', {
     method: 'POST',
@@ -78,6 +84,12 @@ export async function queryDelWaterData(params) {
 }
 export async function queryDelWaterDataList(params) {
   return request('/bigMng/deleteItems', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryWaterMetaData(params) {
+  return request('/bigMng/queryFull', {
     method: 'POST',
     body: params,
   })

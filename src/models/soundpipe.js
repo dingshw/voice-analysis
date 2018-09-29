@@ -3,7 +3,7 @@ import { queryBackingData, querySampleData, querySoundPipeData,
   querySoundManageData, queryUpdateSampleData, queryAddSampleData,
   queryDelSampleData, queryUpdateBackingData, queryAddBackingData,
   queryDelBackingData, queryAddSoundData, queryDelSoundData,
-  queryUpdateSoundData, queryDelSoundDataList } from '../services/soundpipe';
+  queryUpdateSoundData, queryDelSoundDataList, querySoundMetaData, queryDownloadSmall } from '../services/soundpipe';
 
 export default {
   namespace: 'soundpipe',
@@ -13,6 +13,7 @@ export default {
     sampleData: [],
     soundPipeData: {},
     soundManageData: [],
+    soundMetaData: [],
   },
 
   effects: {
@@ -45,6 +46,27 @@ export default {
         yield put({
           type: 'soundPipeDataHandle',
           payload: dataMap,
+        });
+      }
+    },
+    *downloadSmall({ payload }, { call, put }) {
+      const response = yield call(queryDownloadSmall, payload);
+      if(response) {
+        const data = response.data || []
+        const dataMap = {dataParam: payload, data}
+        yield put({
+          type: 'downloadSmallHandle',
+          payload: dataMap,
+        });
+      }
+    },
+    *getSoundMetaData({ payload }, { call, put }) {
+      const response = yield call(querySoundMetaData, payload);
+      if(response) {
+        const data = response.data || []
+        yield put({
+          type: 'soundMetaDataHandle',
+          payload: data,
         });
       }
     },
@@ -120,9 +142,10 @@ export default {
       const response = yield call(queryAddSoundData, payload);
       if(response) {
         const data = response.data || []
+        const pk = data && data.pk
         yield put({
           type: 'handelAddSoundData',
-          payload: data,
+          payload: {...payload, pk},
         });
       }
     },
@@ -304,7 +327,7 @@ export default {
     handelDelSoundDataList(state, { payload }) {
       const {soundManageData} = state
       const soundManageDataTemp = _.cloneDeep(soundManageData)
-      for(const pk of payload) {
+      for(const pk of payload.pks) {
         for(let i=0; i < soundManageDataTemp.length; i+=1) {
           if(soundManageDataTemp[i].pk === pk) {
             soundManageDataTemp.splice(i, 1)
@@ -315,6 +338,17 @@ export default {
         ...state,
         soundManageData: soundManageDataTemp,
       }
+    },
+    soundMetaDataHandle(state, { payload }) {
+      return {
+        ...state,
+        soundMetaData: payload,
+      };
+    },
+    downloadSmallHandle(state, { payload }) {
+      return {
+        ...state,
+      };
     },
   },
 };

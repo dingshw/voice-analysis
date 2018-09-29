@@ -21,7 +21,7 @@ export default class ExperimentCondition extends Component {
       <div style={{width: styleWidth, marginLeft: styleMarginLeft}} className={styles.card}>
         <div className={styles.cardTitle}>
           <div>
-            <span className={styles.title}>试验情况</span>
+            <span className={styles.title}>{showTools? experimentData.name:'试验情况'}</span>
             <div className={styles.triangle} />
           </div>
           {
@@ -40,15 +40,13 @@ export default class ExperimentCondition extends Component {
           <div className={styles.cardbox}>
             <div className={`${styles.boxImg} ${styles.experimentImg}`}>
               <Carousel afterChange={this.onChange} className={styles.carousel}>
-                <div><img src={experiment} alt="试验情况" /></div>
-                <div><img src={experiment} alt="试验情况" /></div>
-                <div><img src={experiment} alt="试验情况" /></div>
-                <div><img src={experiment} alt="试验情况" /></div>
-                <div><img src={experiment} alt="试验情况" /></div>
+                {
+                  experimentData.photos && experimentData.photos.length>0 ?
+                  experimentData.photos.map(item => <div key={item.pk}><img src={item.url} alt="试验情况" /></div>) : <div><img src={experiment} alt="试验情况" /></div>
+                }
               </Carousel>
             </div>
             <ul className={styles.itemUl}>
-              <span>试验情况</span>
               <li><span>名称</span><span>{experimentData.name || ''}</span></li>
               <li><span>时间</span><span>{experimentData.testTime || ''}</span></li>
               <li><span>地点</span><span>{experimentData.testPlace || ''}</span></li>

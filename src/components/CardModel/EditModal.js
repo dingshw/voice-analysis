@@ -19,55 +19,55 @@ export default class EditModal extends Component {
     confirmLoading: false,
     previewVisible: false,
     previewImage: '',
-    fileList: [{
-      uid: '-1',
-      name: 'xxx.png',
-      status: 'done',
-      pk: '',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },{
-      uid: '2',
-      name: 'xxx.png',
-      status: 'done',
-      pk: '',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },{
-      uid: '3',
-      name: 'xxx.png',
-      status: 'done',
-      pk: '',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },{
-      uid: '4',
-      name: 'xxx.png',
-      status: 'done',
-      pk: '',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    }],
+    fileList: [],
   }
 
   componentWillMount () {
     let { dataModel } = this.state
+    const {fileList} = this.state
     const { modalData, isCreate } = this.props
     if(isCreate) {
       dataModel = {}
     } else {
       dataModel = _.cloneDeep(modalData)
       dataModel.oldName = modalData.name
+      if(dataModel.photos && dataModel.photos.length>0) {
+        dataModel.photos.forEach((item, index) => {
+          fileList.push({
+            uid: index,
+            name: item.prevname || `图片${index}`,
+            status: 'done',
+            pk: item.pk,
+            url: item.url,
+          })
+        });
+      }
     }
-    this.setState({dataModel})
+    this.setState({dataModel, fileList})
   }
 
   componentWillReceiveProps () {
     let { dataModel } = this.state
+    const {fileList} = this.state
     const { modalData, isCreate } = this.props
     if(isCreate) {
       dataModel = {}
     } else {
       dataModel = _.cloneDeep(modalData)
       dataModel.oldName = modalData.name
+      if(dataModel.photos && dataModel.photos.length>0) {
+        dataModel.photos.forEach((item, index) => {
+          fileList.push({
+            uid: index,
+            name: item.prevname || `图片${index}`,
+            status: 'done',
+            pk: item.pk,
+            url: item.url,
+          })
+        });
+      }
     }
-    this.setState({dataModel})
+    this.setState({dataModel, fileList})
   }
 
   onChangeName = (type, e) => {
@@ -92,9 +92,18 @@ export default class EditModal extends Component {
 
   onRemove = (type, file) => {
     if(file.pk) {
-      request(`/photoMng/deletePhoto/${file.pk}`, {
+      const { dataModel } = this.state
+      if(dataModel.photos && dataModel.photos.length>0) {
+        for(let i; i<dataModel.photos.length; i+=1) {
+          if(dataModel.photos[i].pk === file.pk) {
+            dataModel.photos.splice(i, 1)
+          }
+        }
+      }
+      this.setState({dataModel})
+      request(`/photoMng/deletePhoto`, {
         method: 'POST',
-        body: {},
+        body: {pk: file.pk},
       })
       return true
     }
@@ -125,10 +134,23 @@ export default class EditModal extends Component {
     changeData(dataModel)
   }
 
-  handleChange = ({ fileList }) => this.setState({ fileList })
+  handleChange = (info) => {
+    this.setState({fileList: info.fileList})
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      const {dataModel} = this.state
+      if(info.file.response && info.file.response.success) {
+        const data = info.file.response.data || []
+        if(data && data.length>0) {
+          dataModel.photos = dataModel.photos && dataModel.photos.length>0 ?
+            [...dataModel.photos, ...data] : data
+          this.setState({dataModel})
+        }
+      }
+    }
+  }
 
   handleCancel = () => {
-    console.log('Clicked cancel button');
     this.setState({
       visible: false,
     });
@@ -158,9 +180,9 @@ export default class EditModal extends Component {
       case 'isBacking':
         return '背衬'
       case 'isInner':
-        return '内场实验模型'
+        return '内场试验模型'
       case 'isOuter':
-        return '外场实验模型'
+        return '外场试验模型'
       case 'isExperment':
         return '测试系统管理'
       case 'isTest':

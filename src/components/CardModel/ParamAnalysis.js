@@ -23,16 +23,23 @@ let historyAnalysisData = []
 let analysisState = ""
 const lengendMap = {
   refect: '反射系数',
-  transmission: '投射系数',
+  transmission: '透射系数',
   bondacust: '吸声系数',
   rate: '频率',
-  radiation: '辐射声功率',
-  radiationlose: '辐射声功率插入损失',
-  echoes: '回声降低',
 }
 const chartOption = {
   title: { text: '' },
-  tooltip: {},
+  tooltip : {
+    trigger: 'axis',
+    formatter (params) {
+        const tar = params[0];
+        let str = ''
+        params.forEach(item => {
+          str += `${  item.seriesName} : ${item.value}<br/>`
+        })
+        return `频率 : ${tar.name}<br/>${str}`;
+    },
+  },
   toolbox: {
     show: true,
     left: '30px',
@@ -60,8 +67,9 @@ const chartOption = {
   },
   xAxis: {
     data: ['频率1', '频率2', '频率3'],
+    name: '频率',
   },
-  yAxis: {},
+  yAxis: {name: '系数'},
   series: [
     {
       // 根据名字对应到相应的系列
@@ -171,7 +179,7 @@ export default class ParamAnalysis extends Component {
         if(!param[key]) {
           let errMsg = '请选择'
           switch(key) {
-            case 'backgroundtype':
+            case 'backingname':
               errMsg = '请选择背衬'
               break
             case 'samplename':
@@ -227,17 +235,11 @@ export default class ParamAnalysis extends Component {
       'refect': [],
       'transmission': [],
       'bondacust': [],
-      radiation: [],
-      radiationlose: [],
-      echoes: [],
     }
     this.formatAnalysisData(data, categories, seriesData)
     analysisAvg.bondacust = seriesData.bondacust.length> 0 && (_.sum(seriesData.bondacust)/seriesData.bondacust.length).toFixed(2)
     analysisAvg.refect = seriesData.refect.length> 0 && (_.sum(seriesData.refect)/seriesData.refect.length).toFixed(2)
     analysisAvg.transmission = seriesData.transmission.length> 0 && (_.sum(seriesData.transmission)/seriesData.transmission.length).toFixed(2)
-    analysisAvg.radiation = seriesData.radiation.length> 0 && (_.sum(seriesData.radiation)/seriesData.radiation.length).toFixed(2)
-    analysisAvg.radiationlose = seriesData.radiationlose.length> 0 && (_.sum(seriesData.radiationlose)/seriesData.radiationlose.length).toFixed(2)
-    analysisAvg.echoes = seriesData.echoes.length> 0 && (_.sum(seriesData.echoes)/seriesData.echoes.length).toFixed(2)
     this.setState({analysisAvg})
   }
 
@@ -275,9 +277,6 @@ export default class ParamAnalysis extends Component {
         seriesData.refect.push(analysisData[i].refect)
         seriesData.transmission.push(analysisData[i].transmission)
         seriesData.bondacust.push(analysisData[i].bondacust)
-        seriesData.radiation.push(analysisData[i].radiation)
-        seriesData.radiationlose.push(analysisData[i].radiationlose)
-        seriesData.echoes.push(analysisData[i].echoes)
       }
     }
     return {categories, seriesData}
@@ -290,9 +289,13 @@ export default class ParamAnalysis extends Component {
       if(Object.hasOwnProperty.call(seriesData, key)) {
         if(lengendMap[key]) {
           seriesData[key].forEach((value, index) => {
-            legendData.push(`${lengendMap[key]}${index}`)
+            if(seriesData[key].length>1){
+              legendData.push(`${lengendMap[key]}${index}`)
+            } else {
+              legendData.push(`${lengendMap[key]}`)
+            }
             series.push({
-              name: `${lengendMap[key]}${index}`,
+              name: seriesData[key].length>1 ? `${lengendMap[key]}${index}` : lengendMap[key],
               type: 'line',
               data: value || [],
               markLine: {
@@ -314,9 +317,6 @@ export default class ParamAnalysis extends Component {
       'refect': [],
       'transmission': [],
       'bondacust': [],
-      radiation: [],
-      radiationlose: [],
-      echoes: [],
     }
     this.formatAnalysisData(analysisData, categories, seriesData)
     if(!myChart) {
@@ -335,9 +335,6 @@ export default class ParamAnalysis extends Component {
       'refect': [seriesData.refect],
       'transmission': [seriesData.transmission],
       'bondacust': [seriesData.bondacust],
-      radiation: [seriesData.radiation],
-      radiationlose: [seriesData.radiationlose],
-      echoes: [seriesData.echoes],
     }
     const chartMap = this.initSeries(seriesDataMap)
     chartOptionTemp.series = chartMap.series
@@ -350,9 +347,6 @@ export default class ParamAnalysis extends Component {
     const refectList = []
     const transmissionList = []
     const bondacustList = []
-    const radiationList = []
-    const radiationloseList = []
-    const echoesList = []
     let categories = []
     for(const analysisData of compareAnalysisData) {
       categories = []
@@ -360,17 +354,11 @@ export default class ParamAnalysis extends Component {
         'refect': [],
         'transmission': [],
         'bondacust': [],
-        radiation: [],
-        radiationlose: [],
-        echoes: [],
       }
       this.formatAnalysisData(analysisData.data, categories, seriesData)
       refectList.push(seriesData.refect)
       transmissionList.push(seriesData.transmission)
       bondacustList.push(seriesData.bondacust)
-      radiationList.push(seriesData.radiationList)
-      radiationloseList.push(seriesData.radiationloseList)
-      echoesList.push(seriesData.echoesList)
     }
     if(!myChart) {
       // 基于准备好的dom，初始化echarts实例
@@ -384,9 +372,6 @@ export default class ParamAnalysis extends Component {
       'refect': refectList,
       'transmission': transmissionList,
       'bondacust': bondacustList,
-      radiation: radiationList,
-      radiationlose: radiationloseList,
-      echoes: echoesList,
     }
     const chartMap = this.initSeries(seriesDataMap)
     const chartOptionTemp = _.cloneDeep(chartOption)

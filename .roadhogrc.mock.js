@@ -45,30 +45,30 @@ const proxy = {
   ],
   'GET /user/login': (req, res) => {
     const { pass, username, type } = req.body;
-    res.send({
-      "success": true,
-      "message": "登录成功！",
-      "data": {
-          "ts": 1535719601000,
-          "id": 2,
-          "username": "admin",
-          "pass": null,
-          "usertype": "超级用户"
-      }
-    });
-    return;
     // res.send({
     //   "success": true,
     //   "message": "登录成功！",
     //   "data": {
     //       "ts": 1535719601000,
     //       "id": 2,
-    //       "username": "user",
+    //       "username": "admin",
     //       "pass": null,
-    //       "usertype": "普通用户"
+    //       "usertype": "超级用户"
     //   }
     // });
     // return;
+    res.send({
+      "success": true,
+      "message": "登录成功！",
+      "data": {
+          "ts": 1535719601000,
+          "id": 2,
+          "username": "user",
+          "pass": null,
+          "usertype": "普通用户"
+      }
+    });
+    return;
     // res.send({
     //   "success": false,
     //   "message": "登录成功！",
@@ -165,6 +165,7 @@ const proxy = {
             "pk": "faae722c-a685-44e6-973e-6bfcde20e4171",
             "name": "阿波罗",
             "logo": null,
+            "photos": [{pk:1, url: 'public/sample.png'},{pk:2, url: 'public/sample.png'},{pk:3, url: 'public/sample.png'}],
             "density": "1.05kg/cm3",
             "flexibleModel": "50MPa",
             "poissonRatio": "0.497",
@@ -956,6 +957,153 @@ const proxy = {
       "data": {
         ...req.body
       }
+    })
+  },
+  'POST /smallMng/queryFull': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data":  [
+        {
+          "ts": 1536763514000,
+          "pk": "8f87ba80-6273-40d6-a5e1-acd2d1f872e5",
+          "temparture": 15,
+          "press": 1,
+          "small": true,
+          "samplepk": "9f7fde71-e0f4-4ad2-a6fe-cc92646279a6",
+          "bakingpk": "8b9b9939-77b8-47e3-9d6e-b370597e763e",
+          "sample": null,
+          "backing": null,
+          "samplename": "阿波罗02",
+          "backingname": "30mm钢02"
+        },
+        {
+          "ts": 1536763514000,
+          "pk": "8f87ba80-6273-40d6-a5e1-acd2d1f872e52",
+          "temparture": 15,
+          "press": 1,
+          "small": true,
+          "samplepk": "9f7fde71-e0f4-4ad2-a6fe-cc92646279a6",
+          "bakingpk": "8b9b9939-77b8-47e3-9d6e-b370597e763e",
+          "sample": null,
+          "backing": null,
+          "samplename": "阿波罗02",
+          "backingname": "30mm钢02"
+        },
+        {
+          "ts": 1536763514000,
+          "pk": "8f87ba80-6273-40d6-a5e1-acd2d1f872e53",
+          "temparture": 15,
+          "press": 1,
+          "small": true,
+          "samplepk": "9f7fde71-e0f4-4ad2-a6fe-cc92646279a6",
+          "bakingpk": "8b9b9939-77b8-47e3-9d6e-b370597e763e",
+          "sample": null,
+          "backing": null,
+          "samplename": "阿波罗02",
+          "backingname": "30mm钢02"
+        }
+      ]
+    })
+  },
+  'POST /bigMng/queryFull': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data":  [
+        {
+          "ts": 1536764084000,
+          "pk": "c2b4cf72-a6d0-49a6-b98a-2f67887d106b",
+          "temparture": 15,
+          "press": 1,
+          "sampleName": "阿波罗",
+          "testModelName": "双层局域实尺度模型",
+          "testSystemName": "时间反转",
+          "samplepk": "b480db62-5a06-4058-a8db-44fb946763f7",
+          "testModelPk": "587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testSystemPk": "d897a5c2-e653-46f1-91c0-2adb3f920767",
+          "sample": null,
+          "testModel": null,
+          "testSystem": null
+        },
+        {
+          "ts": 1536764084000,
+          "pk": "c2b4cf72-a6d0-49a6-b98a-2f67887d106b2",
+          "temparture": 15,
+          "press": 1,
+          "sampleName": "阿波罗",
+          "testModelName": "双层局域实尺度模型",
+          "testSystemName": "时间反转",
+          "samplepk": "b480db62-5a06-4058-a8db-44fb946763f7",
+          "testModelPk": "587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testSystemPk": "d897a5c2-e653-46f1-91c0-2adb3f920767",
+          "sample": null,
+          "testModel": null,
+          "testSystem": null
+        },
+        {
+          "ts": 1536764084000,
+          "pk": "c2b4cf72-a6d0-49a6-b98a-2f67887d106b3",
+          "temparture": 15,
+          "press": 1,
+          "sampleName": "阿波罗",
+          "testModelName": "双层局域实尺度模型",
+          "testSystemName": "时间反转",
+          "samplepk": "b480db62-5a06-4058-a8db-44fb946763f7",
+          "testModelPk": "587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
+          "testSystemPk": "d897a5c2-e653-46f1-91c0-2adb3f920767",
+          "sample": null,
+          "testModel": null,
+          "testSystem": null
+        }
+      ]
+    })
+  },
+  'POST /scaleMng/queryFull': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data":  [
+        {
+          "ts": 1537200124000,
+          "pk": "8ee1f367-f835-49d5-ad20-ba77a0ebc6fa",
+          "testModelObjName": null,
+          "testModelObjPk": null,
+          "layingSchemeName": null,
+          "layingSchemePk": null,
+          "testConditionName": null,
+          "testConditionPk": null,
+          "layingSchemePO": null,
+          "testConditionPO": null,
+          "testModelObjPO": null
+        },
+        {
+            "ts": 1537200007000,
+            "pk": "94e84395-8000-49ef-aede-162de8a90e58",
+            "testModelObjName": "testModelObjName1",
+            "testModelObjPk": "testModelObjPk",
+            "layingSchemeName": "layingSchemeName",
+            "layingSchemePk": "layingSchemePk",
+            "testConditionName": "testConditionName",
+            "testConditionPk": "testConditionPk",
+            "layingSchemePO": null,
+            "testConditionPO": null,
+            "testModelObjPO": null
+        },
+        {
+            "ts": 1537075069000,
+            "pk": "acebcd69-7432-4529-a057-cae3eb406a14",
+            "testModelObjName": "中尺度模型",
+            "testModelObjPk": "95dffea1-3065-4521-95ca-c73e60652192",
+            "layingSchemeName": "文字文字",
+            "layingSchemePk": "8b1e4095-d155-49de-a36b-66dc09601433",
+            "testConditionName": "201708杭州",
+            "testConditionPk": "d74771b9-b0f3-43fa-a309-b3d3d07d7116",
+            "layingSchemePO": null,
+            "testConditionPO": null,
+            "testModelObjPO": null
+        }
+      ]
     })
   },
 

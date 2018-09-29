@@ -3,10 +3,9 @@ import { connect } from 'dva';
 import EditableTable from './EditableTable'
 
 @connect(({ soundpipe }) => ({
-  backingData: soundpipe.backingData,
-  sampleData: soundpipe.sampleData,
   soundPipeData: soundpipe.soundPipeData,
   soundManageData: soundpipe.soundManageData,
+  soundMetaData: soundpipe.soundMetaData,
 }))
 
 export default class SoundData extends Component {
@@ -14,10 +13,9 @@ export default class SoundData extends Component {
   componentDidMount () {
     const { dispatch } = this.props;
     dispatch({
-      type: 'soundpipe/getBackingData',
-    });
-    dispatch({
-      type: 'soundpipe/getSampleData',
+      type: 'soundpipe/getSoundMetaData',
+      payload: {
+      },
     });
     dispatch({
       type: 'soundpipe/getSoundManageData',
@@ -45,15 +43,6 @@ export default class SoundData extends Component {
 
   handleSoundPipeData = (dataMap) => {
     if(dataMap) {
-      /* {
-        "samplename":"阿波罗",
-        "backgroundtype":"30mm",
-        "temparture":"15",
-        "press":"1",
-        "rateMin":"2",
-        "rateMax":"100"
-
-      } */
       const { dispatch } = this.props;
       dispatch({
         type: 'soundpipe/getSoundPipeData',
@@ -85,7 +74,7 @@ export default class SoundData extends Component {
     if(_.isArray(key)) {
       dispatch({
         type: 'soundpipe/delSoundDataList',
-        payload: key,
+        payload: {pks: key},
       })
     } else {
       dispatch({
@@ -96,11 +85,7 @@ export default class SoundData extends Component {
   }
 
   render () {
-    const {backingData, sampleData, soundManageData, soundPipeData} = this.props
-
-    if(sampleData.length===0 || backingData.length===0) {
-      return '';
-    }
+    const {soundManageData, soundPipeData, soundMetaData} = this.props
     let data = [];
     data = this.formatData(soundManageData)
     const columns = [
@@ -173,7 +158,7 @@ export default class SoundData extends Component {
         selectdata: [],
       },
     ]
-    const modalDataMap = {sampleData, backingData, soundPipeData}
+    const modalDataMap = {soundPipeData}
     return (
       <div>
         <EditableTable
@@ -181,6 +166,7 @@ export default class SoundData extends Component {
           columns={columns}
           data={data}
           modalDataMap={modalDataMap}
+          metaData={soundMetaData}
           type='isSound'
           handelCompute={this.handleSoundPipeData}
           handelAddData={this.handelAddData}
