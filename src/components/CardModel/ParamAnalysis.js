@@ -452,19 +452,9 @@ export default class ParamAnalysis extends Component {
           <div className={styles.calculate}>
             <span className={styles.calculateTitle}>参数设置</span>
             <div className={styles.calculateBox}>
-              <h4>频率f/Hz</h4>
-              <Row gutter={12} className={styles.calculateItems}>
-                <Col span={15}>
-                  <Slider
-                    min={0}
-                    max={30}
-                    range
-                    marks={marks}
-                    value={[analysisParam.rateMin, analysisParam.rateMax]}
-                    onChange={this.onChangeAnalysisData.bind(this, 'rate')}
-                  />
-                </Col>
-                <Col span={4}>
+              <div className={styles.titleH4}>
+                <h4>频率f/Hz</h4>
+                <div>
                   <InputNumber
                     min={0}
                     max={analysisParam.rateMax}
@@ -472,11 +462,8 @@ export default class ParamAnalysis extends Component {
                     onChange={this.onChangeAnalysisData.bind(this, 'rateMin')}
                     formatter={value => `${value}KHz`}
                     parser={value => value.replace('KHz', '')}
-                    style={{ width: '100%' }}
                   />
-                </Col>
-                <Col span={1}>~</Col>
-                <Col span={4}>
+                  ~
                   <InputNumber
                     min={analysisParam.rateMin}
                     max={30}
@@ -484,26 +471,23 @@ export default class ParamAnalysis extends Component {
                     onChange={this.onChangeAnalysisData.bind(this, 'rateMax')}
                     formatter={value => `${value}KHz`}
                     parser={value => value.replace('KHz', '')}
-                    style={{ width: '100%' }}
                   />
-                </Col>
-              </Row>
+                </div>
+              </div>
+              <Slider
+                min={0}
+                max={30}
+                range
+                marks={marks}
+                value={[analysisParam.rateMin, analysisParam.rateMax]}
+                onChange={this.onChangeAnalysisData.bind(this, 'rate')}
+              />
               {isScaleModel ? '' :
                 (
                   <div>
-                    <h4>压力P/Mpa</h4>
-                    <Row gutter={12} className={styles.calculateItems}>
-                      <Col span={15}>
-                        <Slider
-                          min={0}
-                          max={4.5}
-                          step={0.5}
-                          marks={paMarks}
-                          value={analysisParam.press}
-                          onChange={this.onChangeAnalysisData.bind(this, 'press')}
-                        />
-                      </Col>
-                      <Col span={5}>
+                    <div className={styles.titleH4}>
+                      <h4>压力P/Mpa</h4>
+                      <div>
                         <InputNumber
                           min={0}
                           max={4.5}
@@ -512,23 +496,20 @@ export default class ParamAnalysis extends Component {
                           onChange={this.onChangeAnalysisData.bind(this, 'press')}
                           formatter={value => `${value}MPa`}
                           parser={value => value.replace('MPa', '')}
-                          style={{ width: '100%' }}
                         />
-                      </Col>
-                    </Row>
-                    <h4>温度T/度</h4>
-                    <Row gutter={12} className={styles.calculateItems}>
-                      <Col span={15}>
-                        <Slider
-                          min={0}
-                          max={30}
-                          step={5}
-                          marks={tMarks}
-                          value={analysisParam.temparture}
-                          onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
-                        />
-                      </Col>
-                      <Col span={4}>
+                      </div>
+                    </div>
+                    <Slider
+                      min={0}
+                      max={4.5}
+                      step={0.5}
+                      marks={paMarks}
+                      value={analysisParam.press}
+                      onChange={this.onChangeAnalysisData.bind(this, 'press')}
+                    />
+                    <div className={styles.titleH4}>
+                      <h4>温度T/度</h4>
+                      <div>
                         <InputNumber
                           min={0}
                           max={30}
@@ -537,10 +518,17 @@ export default class ParamAnalysis extends Component {
                           onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
                           formatter={value => `${value}度`}
                           parser={value => value.replace('度', '')}
-                          style={{ width: '100%' }}
                         />
-                      </Col>
-                    </Row>
+                      </div>
+                    </div>
+                    <Slider
+                      min={0}
+                      max={30}
+                      step={5}
+                      marks={tMarks}
+                      value={analysisParam.temparture}
+                      onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
+                    />
                   </div>
                 )
               }
