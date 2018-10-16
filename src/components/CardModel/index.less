@@ -140,15 +140,44 @@
 .backingCard {
   float: right;
   .backingBoxImg {
-    height: 100%;
-    padding: 20px 0 20px 20px;
+    width: 70%;
+    height: 80%;
+    margin-left: 10px;
+    margin-right: 10px;
     border-radius: 5px;
     display: flex;
+    align-items: center;
+    :global {
+        .ant-carousel {
+          ul {
+            height: 15px;
+            bottom: -7px;
+            li {
+              height: 100%;
+              button {
+                height: 100%;
+                background: #F57323;
+                font-size: 12px;
+                color: #000000;
+              }
+            }
+          }
+        }
+      }
+
+      img {
+        margin: 0 auto;
+        text-align:center;
+        vertical-align: middle;
+        width: 100%;
+        height: 100%;
+      }
     span {
       text-align: center;
     }
     .imgWater {
       width: 25%;
+      height: 100%;
       background: url(../../../public/water.png) repeat;
       border: 1px solid #8ED7FF;
       display: flex;
@@ -171,6 +200,7 @@
     }
     .imgSample {
       width: 25%;
+      height: 100%;
       background: #616F7E;
       border: 1px solid #616F7E;
       display: flex;
@@ -193,6 +223,7 @@
     }
     .imgBacking {
       width: 15%;
+      height: 100%;
       background: url(../../../public/backing.png) repeat;
       border: 1px solid #4F5663;
       display: flex;
@@ -215,6 +246,7 @@
     }
     .imgAir {
       width: 30%;
+      height: 100%;
       background: url(../../../public/air.png) repeat;
       border: 1px solid #D6FFFF;
       display: flex;

@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {Popconfirm, Icon, Carousel} from 'antd'
+import {Popconfirm, Icon, Carousel, Input} from 'antd'
 import EditModal from './EditModal'
 import styles from './index.less'
 import testmodel from '../../../public/testmodel.png'
 
+const { TextArea } = Input;
 export default class TestSystem extends Component {
   onDelete = () => {
     const { testData, delData } = this.props
@@ -44,7 +45,7 @@ export default class TestSystem extends Component {
             </div>
             <ul className={styles.itemUl}>
               <li><span>名称</span><span>{testData.name || ''}</span></li>
-              <textarea className={styles.textarea} defaultValue={testData.describe || ''} />
+              <TextArea className={styles.textarea} defaultValue={testData.describe || ''} />
             </ul>
           </div>): ''
         }

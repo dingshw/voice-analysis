@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Form, Input} from 'antd'
 
 const FormItem = Form.Item;
+const { TextArea } = Input;
 
 export default class TestForm extends Component{
 
@@ -20,7 +21,7 @@ export default class TestForm extends Component{
           {...formItemLayout}
           label="介绍"
         >
-          <textarea defaultValue={dataModel.describe || ''} />
+          <TextArea value={dataModel.describe || ''} onChange={onChangeName.bind(this, 'describe')} />
         </FormItem>
       </Form>
     )
