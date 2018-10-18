@@ -7,12 +7,24 @@ import EditableTable from './EditableTable'
   waterpotData: waterpot.waterpotData,
   waterpotManageData: waterpot.waterpotManageData,
   waterMetaData: waterpot.waterMetaData,
+  bigSampleData: waterpot.bigSampleData,
+  bigTestData: waterpot.bigTestData,
+  bigTestSystemsData: waterpot.bigTestSystemsData,
 }))
 
 export default class WaterPotData extends Component {
 
   componentDidMount () {
     const { dispatch } = this.props;
+    dispatch({
+      type: 'waterpot/getBigSampleData',
+    });
+    dispatch({
+      type: 'waterpot/getBigTestData',
+    });
+    dispatch({
+      type: 'waterpot/getBigTestSystemsData',
+    });
     dispatch({
       type: 'waterpot/getWaterMetaData',
     });
@@ -99,7 +111,8 @@ export default class WaterPotData extends Component {
 
   render () {
 
-    const {waterpotManageData, waterpotData, waterMetaData} = this.props
+    const {waterpotManageData, waterpotData, waterMetaData,
+      bigSampleData, bigTestData, bigTestSystemsData} = this.props
 
     let data = [];
     data = this.formatData(waterpotManageData)
@@ -184,6 +197,7 @@ export default class WaterPotData extends Component {
       },
     ]
     const modalDataMap = {waterpotData}
+    const selectMap = {sampleName: bigSampleData, testModelName: bigTestData, testSystemName: bigTestSystemsData}
     return (
       <div>
         <EditableTable
@@ -191,6 +205,7 @@ export default class WaterPotData extends Component {
           columns={columns}
           data={data}
           modalDataMap={modalDataMap}
+          selectMap={selectMap}
           metaData={waterMetaData}
           type='isWater'
           handelCompute={this.handleWaterPotData}

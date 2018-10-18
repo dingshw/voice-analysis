@@ -7,12 +7,24 @@ import EditableTable from './EditableTable'
   scaleCondition: scalemodel.scaleCondition,
   scaleManage: scalemodel.scaleManage,
   scaleMetaData: scalemodel.scaleMetaData,
+  testModel: scalemodel.testModel,
+  testConditions: scalemodel.testConditions,
+  layingSchemes: scalemodel.layingSchemes,
 }))
 
 export default class scaledata extends Component {
 
   componentDidMount () {
     const { dispatch } = this.props;
+    dispatch({
+      type: 'scalemodel/getTestModel',
+    });
+    dispatch({
+      type: 'scalemodel/getTestConditions',
+    });
+    dispatch({
+      type: 'scalemodel/getLayingSchemes',
+    });
     dispatch({
       type: 'scalemodel/getScaleMetaData',
     });
@@ -87,7 +99,7 @@ export default class scaledata extends Component {
 
   render () {
 
-    const {scaleManage, scaleCondition, scaleMetaData} = this.props
+    const {scaleManage, scaleCondition, scaleMetaData, testModel, layingSchemes, testConditions} = this.props
     let data = [];
     data = this.formatData(scaleManage)
     const columns = [
@@ -159,6 +171,11 @@ export default class scaledata extends Component {
       },
     ]
     const modalDataMap = {scaleCondition}
+    const selectMap = {
+      testModelObjName: testModel,
+      testConditionName: testConditions,
+      layingSchemeName: layingSchemes,
+    }
     return (
       <div>
         <EditableTable
@@ -167,6 +184,7 @@ export default class scaledata extends Component {
           data={data}
           modalDataMap={modalDataMap}
           metaData={scaleMetaData}
+          selectMap={selectMap}
           type='isScale'
           handelCompute={this.handleScaleCondition}
           handelAddData={this.handelAddData}

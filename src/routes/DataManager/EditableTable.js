@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import { Table, Popconfirm, Form, Button, Icon, message } from 'antd';
+import { Table, Popconfirm, Form, Button, Icon, message, Select } from 'antd';
 import _ from 'lodash'
 import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableCell from './EditableCell'
 import styles from './EdittableCell.less'
 
 const EditableContext = React.createContext();
+const Option = Select && Select.Option
 
 const EditableRow = ({ form, index, ...props }) => (
   <EditableContext.Provider value={form}>
@@ -24,6 +25,7 @@ export default class EditableTable extends Component {
       editingKey: '',
       selectedRowKeys: [],
       showModal: false,
+      filters: {},
      };
     this.columns = [...columns, {
       title: '操作',
@@ -148,8 +150,16 @@ export default class EditableTable extends Component {
     this.setState({ editingKey: key });
   }
 
+  handleChange(key, value) {
+    const {filters} = this.state
+    filters[key] = value
+    this.setState({ filters });
+
+  }
+
   render() {
-    const { data, selectedRowKeys, showModal } = this.state
+    const { data, selectedRowKeys, showModal, filters } = this.state
+    const { selectMap } = this.props
     const components = {
       body: {
         row: EditableFormRow,
@@ -192,13 +202,54 @@ export default class EditableTable extends Component {
               批量删除
             </Button>
           </Popconfirm>
+          {Object.keys(selectMap).map((key) => (
+            <div key={key} style={{marginLeft: '10px'}}>
+              {(key.toLowerCase() === 'samplename' && '样品名称')
+                || (key === 'backingname' && '背衬名称')
+                || (key === 'testModelName' && '试验模型名称')
+                || (key === 'testSystemName' && '测试系统名称')
+                || (key === 'testModelObjName' && '试验模型名称')
+                || (key === 'testConditionName' && '试验情况名称')
+                || (key === 'layingSchemeName' && '敷设方案名称')
+              }
+              <Select
+                style={{ width: 200, marginLeft: '10px'}}
+                placeholder="请选择进行筛选"
+                onChange={this.handleChange.bind(this, key)}
+                allowClear
+              >
+                {
+                  selectMap[key].map(item => {
+                    if(_.isObject(item)) {
+                      return (<Option key={item.name}>{item.name}</Option>)
+                    } else {
+                      return (<Option key={item}>{item}</Option>)
+                    }
+                  })
+                }
+              </Select>
+            </div>
+          ))}
+
         </div>
         <Table
           rowSelection={rowSelection}
           scroll={{ y: 500 }}
           components={components}
           bordered
-          dataSource={data}
+          dataSource={_.isEmpty(filters) ? data : data.filter(item => {
+            let isEqule = true
+            for(const key in filters) {
+              if(Object.prototype.hasOwnProperty.call(filters, key)) {
+                if(item[key] && filters[key] && filters[key] !== '') {
+                  if(item[key] !== filters[key]) {
+                    isEqule = false
+                  }
+                }
+              }
+            }
+            return isEqule
+          })}
           columns={columns}
           rowClassName="editable-row"
         />

@@ -589,8 +589,11 @@ export default class WaterParamAnalysis extends Component {
               </div>
               <Button type="primary" className={styles.startBtn} onClick={this.startContrast}>开始对比</Button>
             </div>
-            {noData ? <h4 className={styles.noDataSpan}>暂无数据，请重新选择</h4>:''}
-            <div id="mainChart" className={styles.chartArea} />
+            {noData ?
+              (<h4 className={styles.noDataSpan}>暂无数据，请重新选择</h4>)
+              :
+              <div id="mainChart" className={styles.chartArea} />
+            }
           </div>
         </div>
       </div>

@@ -1,17 +1,26 @@
 import React, {Component} from 'react'
 import { connect } from 'dva';
+import _ from 'lodash'
 import EditableTable from './EditableTable'
 
 @connect(({ soundpipe }) => ({
   soundPipeData: soundpipe.soundPipeData,
   soundManageData: soundpipe.soundManageData,
   soundMetaData: soundpipe.soundMetaData,
+  backingData: soundpipe.backingData,
+  sampleData: soundpipe.sampleData,
 }))
 
 export default class SoundData extends Component {
 
   componentDidMount () {
     const { dispatch } = this.props;
+    dispatch({
+      type: 'soundpipe/getBackingData',
+    });
+    dispatch({
+      type: 'soundpipe/getSampleData',
+    });
     dispatch({
       type: 'soundpipe/getSoundMetaData',
       payload: {
@@ -85,7 +94,7 @@ export default class SoundData extends Component {
   }
 
   render () {
-    const {soundManageData, soundPipeData, soundMetaData} = this.props
+    const {soundManageData, soundPipeData, soundMetaData, sampleData, backingData} = this.props
     let data = [];
     data = this.formatData(soundManageData)
     const columns = [
@@ -159,6 +168,7 @@ export default class SoundData extends Component {
       },
     ]
     const modalDataMap = {soundPipeData}
+    const selectMap = {'samplename': sampleData, 'backingname': backingData}
     return (
       <div>
         <EditableTable
@@ -166,6 +176,7 @@ export default class SoundData extends Component {
           columns={columns}
           data={data}
           modalDataMap={modalDataMap}
+          selectMap={selectMap}
           metaData={soundMetaData}
           type='isSound'
           handelCompute={this.handleSoundPipeData}

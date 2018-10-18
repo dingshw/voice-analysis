@@ -17,10 +17,18 @@ export async function queryWaterpotData(params) {
   })
 }
 export async function queryDownloadBig(params) {
-  return request('/excelUpload/downloadBig', {
-    method: 'POST',
-    body: params,
-  })
+  let url = '/excelUpload/downloadBig'
+  if (params) {
+    const paramsArray = [];
+    // 拼接参数
+    Object.keys(params).forEach(key => paramsArray.push(`${key  }=${  params[key]}`))
+    if (url.search(/\?/) === -1) {
+        url += `?${  paramsArray.join('&')}`
+    } else {
+        url += `&${  paramsArray.join('&')}`
+    }
+  }
+  return request(url)
 }
 export async function queryWaterpotManageData(params) {
   return request('/bigMng/queryAll', {

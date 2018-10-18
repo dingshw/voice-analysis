@@ -4,25 +4,25 @@ const menuData = [
   {
     name: '声管小样数据',
     icon: 'public/nav001.svg',
-    authority: 'user', // 配置准入权限
+    authority: '', // 配置准入权限
     path: 'soundpipe',
   },
   {
     name: '水罐大样数据',
     icon: 'public/nav002.svg',
-    authority: 'user', // 配置准入权限
+    authority: '', // 配置准入权限
     path: 'waterpot',
   },
   {
     name: '缩放模型数据',
     icon: 'public/nav003.svg',
-    authority: 'user', // 配置准入权限
+    authority: '', // 配置准入权限
     path: 'scalemodel',
   },
   {
     name: '其他模型数据',
     icon: 'public/nav004.svg',
-    authority: 'user', // 配置准入权限
+    authority: '', // 配置准入权限
     path: 'othermodel',
   },
   {

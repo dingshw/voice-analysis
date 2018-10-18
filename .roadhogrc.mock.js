@@ -45,30 +45,30 @@ const proxy = {
   ],
   'GET /user/login': (req, res) => {
     const { pass, username, type } = req.body;
-    // res.send({
-    //   "success": true,
-    //   "message": "登录成功！",
-    //   "data": {
-    //       "ts": 1535719601000,
-    //       "id": 2,
-    //       "username": "admin",
-    //       "pass": null,
-    //       "usertype": "超级用户"
-    //   }
-    // });
-    // return;
     res.send({
       "success": true,
       "message": "登录成功！",
       "data": {
           "ts": 1535719601000,
           "id": 2,
-          "username": "user",
+          "username": "admin",
           "pass": null,
-          "usertype": "普通用户"
+          "usertype": "超级用户"
       }
     });
     return;
+    // res.send({
+    //   "success": true,
+    //   "message": "登录成功！",
+    //   "data": {
+    //       "ts": 1535719601000,
+    //       "id": 2,
+    //       "username": "user",
+    //       "pass": null,
+    //       "usertype": "普通用户"
+    //   }
+    // });
+    // return;
     // res.send({
     //   "success": false,
     //   "message": "登录成功！",
