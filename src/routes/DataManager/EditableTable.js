@@ -152,14 +152,20 @@ export default class EditableTable extends Component {
 
   handleChange(key, value) {
     const {filters} = this.state
-    filters[key] = value
+    if(key === 'rate' && value && value !== '') {
+      const rateMin = value.substring(0, value.indexOf('-')) * 1000
+      const rateMax = value.substring(value.indexOf('-')+1, value.indexOf('k')) * 1000
+      filters[key] = [rateMin, rateMax]
+    } else {
+      filters[key] = value
+    }
     this.setState({ filters });
 
   }
 
   render() {
     const { data, selectedRowKeys, showModal, filters } = this.state
-    const { selectMap } = this.props
+    const { selectMap, type } = this.props
     const components = {
       body: {
         row: EditableFormRow,
@@ -192,16 +198,8 @@ export default class EditableTable extends Component {
     const hasSelected = selectedRowKeys.length > 0;
     return (
       <div>
-        {showModal? '':''}
-        <div style={{display: 'flex', alignItems: 'baseline'}}>
-          <DataManageModal
-            {...this.props}
-          />
-          <Popconfirm title="确定删除?" onConfirm={this.handleSelectDelete}>
-            <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }}>
-              批量删除
-            </Button>
-          </Popconfirm>
+        <div style={{display: 'flex', marginTop: '10px',alignItems: 'baseline'}}>
+
           {Object.keys(selectMap).map((key) => (
             <div key={key} style={{marginLeft: '10px'}}>
               {(key.toLowerCase() === 'samplename' && '样品名称')
@@ -213,8 +211,8 @@ export default class EditableTable extends Component {
                 || (key === 'layingSchemeName' && '敷设方案名称')
               }
               <Select
-                style={{ width: 200, marginLeft: '10px'}}
-                placeholder="请选择进行筛选"
+                style={{ width: 150, marginLeft: '10px'}}
+                placeholder=""
                 onChange={this.handleChange.bind(this, key)}
                 allowClear
               >
@@ -230,7 +228,80 @@ export default class EditableTable extends Component {
               </Select>
             </div>
           ))}
-
+          <div style={{marginLeft: '10px'}}>
+            压力
+            <Select
+              style={{ width: 100, marginLeft: '10px'}}
+              onChange={this.handleChange.bind(this, 'press')}
+              allowClear
+            >
+              {
+                [0,0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5].map(item => {
+                  if(_.isObject(item)) {
+                    return (<Option key={item.name}>{item.name}</Option>)
+                  } else {
+                    return (<Option key={item}>{item}</Option>)
+                  }
+                })
+              }
+            </Select>
+          </div>
+          {
+            type !== 'isScale' ?
+              (
+                <div style={{marginLeft: '10px'}}>
+                  温度
+                  <Select
+                    style={{ width: 100, marginLeft: '10px'}}
+                    onChange={this.handleChange.bind(this, 'temparture')}
+                    allowClear
+                  >
+                    {
+                      [0,5,10,15,20,25,30].map(item => {
+                        if(_.isObject(item)) {
+                          return (<Option key={item.name}>{item.name}</Option>)
+                        } else {
+                          return (<Option key={item}>{item}</Option>)
+                        }
+                      })
+                    }
+                  </Select>
+                </div>
+              ) : ''
+          }
+          {
+            type !== 'isScale' ? (
+              <div style={{marginLeft: '10px'}}>
+                频率
+                <Select
+                  style={{ width: 100, marginLeft: '10px'}}
+                  onChange={this.handleChange.bind(this, 'rate')}
+                  allowClear
+                >
+                  {
+                    ['0-1k','1-3k','3-10k','10-30k'].map(item => {
+                      if(_.isObject(item)) {
+                        return (<Option key={item.name}>{item.name}</Option>)
+                      } else {
+                        return (<Option key={item}>{item}</Option>)
+                      }
+                    })
+                  }
+                </Select>
+              </div>
+            ) : ''
+          }
+        </div>
+        {showModal? '':''}
+        <div style={{display: 'flex', alignItems: 'baseline'}}>
+          <DataManageModal
+            {...this.props}
+          />
+          <Popconfirm title="确定删除?" onConfirm={this.handleSelectDelete}>
+            <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }}>
+              批量删除
+            </Button>
+          </Popconfirm>
         </div>
         <Table
           rowSelection={rowSelection}
@@ -242,9 +313,13 @@ export default class EditableTable extends Component {
             for(const key in filters) {
               if(Object.prototype.hasOwnProperty.call(filters, key)) {
                 if(item[key] && filters[key] && filters[key] !== '') {
-                  if(item[key] !== filters[key]) {
-                    isEqule = false
-                  }
+                  if(key === 'rate') {
+                    if(item[key] < filters[key][0] || item[key] > filters[key][1]) {
+                      isEqule = false
+                    }
+                  } else if(item[key] != filters[key]) {
+                      isEqule = false
+                    }
                 }
               }
             }
