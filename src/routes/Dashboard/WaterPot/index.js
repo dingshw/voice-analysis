@@ -92,7 +92,7 @@ export default class SoundPipe extends Component {
 
   dataDownLoad = () => {
     const {dataMap} = this.state
-    let url = `${window.origin  }/excelUpload/downloadBig`
+    let url = `${window.location.host}/excelUpload/downloadBig`
     if (dataMap) {
       const paramsArray = [];
       // 拼接参数

@@ -83,7 +83,7 @@ export default class ScaleModel extends Component {
 
   dataDownLoad = () => {
     const {dataMap} = this.state
-    let url = `${window.origin}/excelUpload/downloadScale`
+    let url = `${window.location.host}/excelUpload/downloadScale`
     if (dataMap) {
       const paramsArray = [];
       // 拼接参数
