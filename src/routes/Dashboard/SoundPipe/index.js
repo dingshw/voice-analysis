@@ -77,26 +77,7 @@ export default class SoundPipe extends Component {
 
   dataDownLoad = () => {
     const {dataMap} = this.state
-    if(!_.isEmpty(dataMap)) {
-      const { dispatch } = this.props;
-      dispatch({
-        type: 'soundpipe/downloadSmall',
-        payload: {
-          ...dataMap,
-        },
-      });
-    }
-  }
-
-  render() {
-    const { sampleData, backingData, soundPipeData } = this.props
-    const { selectSampleData, selectBackingData, dataMap } = this.state
-
-    const param = {
-      backingname: selectBackingData.name,
-      samplename: selectSampleData.name,
-    }
-    let url = `${window.origin  }/excelUpload/downloadSmall`
+    let url = `${window.origin}/excelUpload/downloadSmall`
     if (dataMap) {
       const paramsArray = [];
       // 拼接参数
@@ -107,14 +88,25 @@ export default class SoundPipe extends Component {
           url += `&${  paramsArray.join('&')}`
       }
     }
+    window.open(url);
+  }
+
+  render() {
+    const { sampleData, backingData, soundPipeData } = this.props
+    const { selectSampleData, selectBackingData, dataMap } = this.state
+
+    const param = {
+      backingname: selectBackingData.name,
+      samplename: selectSampleData.name,
+    }
     return (
       <div className={styles.main}>
         <div className={styles.headerTools}>
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
           </Button>
-          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton}>
-            <a href={url}>数据下载</a>
+          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton} onClick={this.dataDownLoad}>
+            <span>数据下载</span>
           </Button>
           <UploadFile catalog="smallDemo" />
           <ReduceReport />
