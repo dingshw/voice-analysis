@@ -14,7 +14,7 @@ const menuData = [
     path: 'waterpot',
   },
   {
-    name: '缩放模型数据',
+    name: '缩比模型数据',
     icon: 'public/nav003.svg',
     authority: '', // 配置准入权限
     path: 'scalemodel',
@@ -96,7 +96,7 @@ const menuData = [
         path: 'waterpotdata',
       },
       {
-        name: '缩放模型',
+        name: '缩比模型',
         path: 'scaledata',
       },
     ],

@@ -308,6 +308,7 @@ export default class EditableTable extends Component {
           scroll={{ y: 500 }}
           components={components}
           bordered
+          size="middle"
           dataSource={_.isEmpty(filters) ? data : data.filter(item => {
             let isEqule = true
             for(const key in filters) {

@@ -143,6 +143,7 @@ export default class WaterPotData extends Component {
         dataIndex: 'press',
         isSelect: true,
         width: '6%',
+        sorter: (a, b) => a.press - b.press,
         editable: false,
       },
       {
@@ -150,6 +151,7 @@ export default class WaterPotData extends Component {
         dataIndex: 'temparture',
         isSelect: true,
         width: '6%',
+        sorter: (a, b) => a.temparture - b.temparture,
         editable: false,
       },
       {
@@ -157,30 +159,31 @@ export default class WaterPotData extends Component {
         dataIndex: 'rate',
         isSelect: true,
         width: '6%',
+        sorter: (a, b) => a.rate - b.rate,
         editable: false,
       },
       {
         title: '反射系数',
         dataIndex: 'refect',
-        width: '6%',
+        width: '6.5%',
         editable: true,
       },
       {
         title: '透射系数',
         dataIndex: 'transmission',
-        width: '6%',
+        width: '6.5%',
         editable: true,
       },
       {
         title: '吸声系数',
         dataIndex: 'bondacust',
-        width: '6%',
+        width: '6.5%',
         editable: true,
       },
       {
         title: '回声降低',
         dataIndex: 'echoes',
-        width: '6%',
+        width: '6.5%',
         editable: true,
       },
       {

@@ -107,7 +107,7 @@ export default class scaledata extends Component {
         title: '试验模型名称',
         dataIndex: 'testModelObjName',
         isSelect: true,
-        width: '8%',
+        width: '9%',
         editable: false,
       },
       {
@@ -129,6 +129,7 @@ export default class scaledata extends Component {
         dataIndex: 'press',
         isSelect: true,
         width: '6%',
+        sorter: (a, b) => a.press - b.press,
         editable: false,
       },
       {

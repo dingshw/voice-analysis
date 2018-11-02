@@ -105,14 +105,25 @@ export default class ScaleModel extends Component {
       testConditionName: selectTestConditions.name,
       layingSchemeName: selectLayingSchemes.name,
     }
+    let url = `${window.origin  }/excelUpload/downloadScale`
+    if (dataMap) {
+      const paramsArray = [];
+      // 拼接参数
+      Object.keys(dataMap).forEach(key => paramsArray.push(`${key  }=${  dataMap[key]}`))
+      if (url.search(/\?/) === -1) {
+          url += `?${  paramsArray.join('&')}`
+      } else {
+          url += `&${  paramsArray.join('&')}`
+      }
+    }
     return (
       <div className={styles.main}>
         <div className={styles.headerTools}>
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
           </Button>
-          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton} onClick={this.dataDownLoad}>
-            <span>数据下载</span>
+          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton}>
+            <a href={url}>数据下载</a>
           </Button>
           <UploadFile catalog="conDemo" />
           <ReduceReport />
