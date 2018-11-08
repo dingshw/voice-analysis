@@ -24,7 +24,6 @@ export default class SoundPipe extends Component {
     selectBigSampleData: {},
     selectTestData: {},
     selectBigTestSystemsData: {},
-    dataMap: {},
   }
 
   componentDidMount () {
@@ -80,7 +79,6 @@ export default class SoundPipe extends Component {
 
       } */
       const { dispatch } = this.props;
-      this.setState({dataMap})
       dispatch({
         type: 'waterpot/getWaterpotDataData',
         payload: {
@@ -91,28 +89,41 @@ export default class SoundPipe extends Component {
   }
 
   dataDownLoad = () => {
-    const {dataMap} = this.state
+    const {waterpotData} = this.props
+    const {dataParam} = waterpotData
     let url = `${window.location.host}/excelUpload/downloadBig`
-    if (dataMap) {
+    if (dataParam) {
       const paramsArray = [];
       // 拼接参数
-      Object.keys(dataMap).forEach(key => paramsArray.push(`${key  }=${  dataMap[key]}`))
+      Object.keys(dataParam).forEach(key => paramsArray.push(`${key  }=${  dataParam[key]}`))
       if (url.search(/\?/) === -1) {
           url += `?${  paramsArray.join('&')}`
       } else {
           url += `&${  paramsArray.join('&')}`
       }
     }
-    window.open(url);
+    window.open(url, "_blank");
   }
 
   render() {
-    const { selectBigSampleData, selectTestData, selectBigTestSystemsData, dataMap } = this.state
+    const { selectBigSampleData, selectTestData, selectBigTestSystemsData } = this.state
     const { bigSampleData, bigTestData, bigTestSystemsData, waterpotData } = this.props
+    const {dataParam} = waterpotData
     const param = {
       testModelName: selectTestData.name,
       samplename: selectBigSampleData.name,
       testSystemName: selectBigTestSystemsData.name,
+    }
+    let url = '/excelUpload/downloadBig'
+    if (dataParam) {
+      const paramsArray = [];
+      // 拼接参数
+      Object.keys(dataParam).forEach(key => paramsArray.push(`${key  }=${  dataParam[key]}`))
+      if (url.search(/\?/) === -1) {
+          url += `?${  paramsArray.join('&')}`
+      } else {
+          url += `&${  paramsArray.join('&')}`
+      }
     }
     return (
       <div className={styles.main}>
@@ -120,9 +131,12 @@ export default class SoundPipe extends Component {
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
           </Button>
-          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton} onClick={this.dataDownLoad}>
-            <span>数据下载</span>
+          <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton}>
+            <a href={url} download>数据下载</a>
           </Button>
+          {/* <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton} onClick={this.dataDownLoad}>
+            <span>数据下载</span>
+          </Button> */}
           <UploadFile catalog="bigDemo" />
           <ReduceReport />
         </div>

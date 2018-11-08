@@ -37,7 +37,7 @@ export default class OuterExperimentCard extends Component {
               <Carousel afterChange={this.onChange} className={styles.carousel}>
                 {
                   experimentData.photos && experimentData.photos.length>0 ?
-                  experimentData.photos.map(item => <div key={item.pk}><img src={item.url} alt="试验模型" /></div>) : <div><img src={experiment} alt="试验模型" /></div>
+                  experimentData.photos.map(item => <div key={item.pk} className={styles.imgItem}><img src={item.url} alt="试验模型" /></div>) : <div><img src={experiment} alt="试验模型" /></div>
                 }
               </Carousel>
             </div>

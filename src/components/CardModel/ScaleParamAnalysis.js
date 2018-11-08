@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Button, Slider, InputNumber, Row, Col, Tag, Tooltip, message } from 'antd'
+import { Button, Slider, InputNumber, Tag, Tooltip, message } from 'antd'
 import _ from 'lodash'
 import echarts from 'echarts2/echarts' // 必须
 import 'echarts2/component/tooltip'
@@ -19,7 +19,6 @@ import 'echarts2/chart/bar'
 import styles from './ParamAnalysis.less'
 
 let myChart = null
-let historyAnalysisData = []
 let analysisState = ""
 const lengendMap = {
   lightShellTS: '光壳声目标强度',
@@ -143,10 +142,10 @@ export default class ParamAnalysis extends Component {
           this.addCompareAnalysisData(analysisData)
           analysisState = 'hasAdd'
         }
-        if(analysisState === 'show' && !_.isEqual(data, historyAnalysisData)){
+        if(analysisState === 'show'){
           analysisState = "haShow"
-          historyAnalysisData = _.cloneDeep(data)
           this.changeChartData(data)
+          this.setState({noData: false})
         }
       }
     } else if(data && data.length===0 && myChart) {

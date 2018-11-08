@@ -43,7 +43,7 @@ export default class SampleCard extends Component {
               <Carousel afterChange={this.onChange} className={styles.carousel}>
                 {
                   sampleData.photos && sampleData.photos.length>0 ?
-                  sampleData.photos.map(item => <div key={item.pk}><img src={item.url} alt="样品" /></div>) : <div><img src={sample} alt="样品" /></div>
+                  sampleData.photos.map(item => <div key={item.pk} className={styles.imgItem}><img src={item.url} alt="样品" /></div>) : <div><img src={sample} alt="样品" /></div>
                 }
               </Carousel>
             </div>

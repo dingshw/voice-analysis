@@ -206,6 +206,27 @@ const proxy = {
     ]
   },
   'POST /item/pageSearchCondition': (req, res) => {
+    if(req.body.press === 1.0){
+      res.send({
+        "success": true,
+        "message": null,
+        "data": [
+            {
+                "refect": 0.1,
+                "transmission": 0.45,
+                "bondacust": 0.7875,
+                "rate": 10
+            },
+            {
+                "refect": 0.2,
+                "transmission": 0.47,
+                "bondacust": 0.7391,
+                "rate": 20
+            }
+        ]
+      });
+    } else {
+
     res.send({
       "success": true,
       "message": null,
@@ -224,6 +245,7 @@ const proxy = {
           // }
       ]
     });
+    }
   },
   'GET /bigmetaMng/big/sample': {
     "success": true,

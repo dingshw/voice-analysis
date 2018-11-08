@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Button, Slider, InputNumber, Row, Col, Tag, Tooltip, message } from 'antd'
+import { Button, Slider, InputNumber, Tag, Tooltip, message } from 'antd'
 import _ from 'lodash'
 import echarts from 'echarts2/echarts' // 必须
 import 'echarts2/component/tooltip'
@@ -19,7 +19,6 @@ import 'echarts2/chart/bar'
 import styles from './ParamAnalysis.less'
 
 let myChart = null
-let historyAnalysisData = []
 let analysisState = ""
 const lengendMap = {
   refect: '反射系数',
@@ -150,11 +149,9 @@ export default class ParamAnalysis extends Component {
           analysisState = 'hasAdd'
         }
         if(analysisState === 'show'){
-          if(!_.isEqual(data, historyAnalysisData)) {
-            analysisState = "haShow"
-            historyAnalysisData = _.cloneDeep(data)
-            this.changeChartData(data)
-          }
+          analysisState = "haShow"
+          this.setState({noData: false})
+          this.changeChartData(data)
         }
       }
     } else if(data && data.length===0 && myChart) {
@@ -348,7 +345,7 @@ export default class ParamAnalysis extends Component {
     const chartMap = this.initSeries(seriesDataMap)
     chartOptionTemp.series = chartMap.series
     chartOptionTemp.legend.data = chartMap.legendData
-    myChart.setOption(chartOptionTemp);
+    myChart.setOption(chartOptionTemp,true);
   }
 
   startContrast = () => {
@@ -565,11 +562,8 @@ export default class ParamAnalysis extends Component {
               </div>
               <Button type="primary" className={styles.startBtn} onClick={this.startContrast}>开始对比</Button>
             </div>
-            {noData ?
-              (<h4 className={styles.noDataSpan}>暂无数据，请重新选择</h4>)
-              :
-              <div id="mainChart" className={styles.chartArea} />
-            }
+            <h4 style={{display: noData ? 'block':'none'}} className={styles.noDataSpan}>暂无数据，请重新选择</h4>
+            <div id="mainChart" className={styles.chartArea} style={{display: noData ? 'none':'block'}} />
 
           </div>
         </div>

@@ -39,7 +39,7 @@ export default class TestSystem extends Component {
               <Carousel afterChange={this.onChange} className={styles.carousel}>
                 {
                   testData.photos && testData.photos.length>0 ?
-                  testData.photos.map(item => <div key={item.pk}><img src={item.url} alt="测试系统" /></div>) : <div><img src={testmodel} alt="测试系统" /></div>
+                  testData.photos.map(item => <div key={item.pk} className={styles.imgItem}><img src={item.url} alt="测试系统" /></div>) : <div><img src={testmodel} alt="测试系统" /></div>
                 }
               </Carousel>
             </div>

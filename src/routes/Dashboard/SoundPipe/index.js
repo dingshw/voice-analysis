@@ -22,7 +22,6 @@ export default class SoundPipe extends Component {
   state = {
     selectSampleData: {},
     selectBackingData: {},
-    dataMap: {},
   }
 
   componentDidMount () {
@@ -65,7 +64,6 @@ export default class SoundPipe extends Component {
 
       } */
       const { dispatch } = this.props;
-      this.setState({dataMap})
       dispatch({
         type: 'soundpipe/getSoundPipeData',
         payload: {
@@ -76,28 +74,41 @@ export default class SoundPipe extends Component {
   }
 
   dataDownLoad = () => {
-    const {dataMap} = this.state
+    const {soundPipeData} = this.props
+    const {dataParam} = soundPipeData
     let url = `${window.location.host}/excelUpload/downloadSmall`
-    if (dataMap) {
+    if (dataParam) {
       const paramsArray = [];
       // 拼接参数
-      Object.keys(dataMap).forEach(key => paramsArray.push(`${key  }=${  dataMap[key]}`))
+      Object.keys(dataParam).forEach(key => paramsArray.push(`${key  }=${  dataParam[key]}`))
       if (url.search(/\?/) === -1) {
           url += `?${  paramsArray.join('&')}`
       } else {
           url += `&${  paramsArray.join('&')}`
       }
     }
-    window.open(url);
+    window.open(url, "_blank");
   }
 
   render() {
     const { sampleData, backingData, soundPipeData } = this.props
-    const { selectSampleData, selectBackingData, dataMap } = this.state
+    const {dataParam} = soundPipeData
+    const { selectSampleData, selectBackingData } = this.state
 
     const param = {
       backingname: selectBackingData.name,
       samplename: selectSampleData.name,
+    }
+    let url = '/excelUpload/downloadSmall'
+    if (dataParam) {
+      const paramsArray = [];
+      // 拼接参数
+      Object.keys(dataParam).forEach(key => paramsArray.push(`${key  }=${  dataParam[key]}`))
+      if (url.search(/\?/) === -1) {
+          url += `?${  paramsArray.join('&')}`
+      } else {
+          url += `&${  paramsArray.join('&')}`
+      }
     }
     return (
       <div className={styles.main}>
@@ -105,9 +116,12 @@ export default class SoundPipe extends Component {
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
           </Button>
-          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton} onClick={this.dataDownLoad}>
-            <span>数据下载</span>
+          <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton}>
+            <a href={url} download>数据下载</a>
           </Button>
+          {/* <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton} onClick={this.dataDownLoad}>
+            <span>数据下载</span>
+          </Button> */}
           <UploadFile catalog="smallDemo" />
           <ReduceReport />
         </div>

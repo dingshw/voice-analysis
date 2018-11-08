@@ -24,7 +24,7 @@ export default class EditModal extends Component {
 
   componentWillMount () {
     let { dataModel } = this.state
-    const {fileList} = this.state
+    let {fileList} = this.state
     const { modalData, isCreate } = this.props
     if(isCreate) {
       dataModel = {}
@@ -32,6 +32,7 @@ export default class EditModal extends Component {
       dataModel = _.cloneDeep(modalData)
       dataModel.oldName = modalData.name
       if(dataModel.photos && dataModel.photos.length>0) {
+        fileList = []
         dataModel.photos.forEach((item, index) => {
           fileList.push({
             uid: index,
@@ -48,7 +49,7 @@ export default class EditModal extends Component {
 
   componentWillReceiveProps () {
     let { dataModel } = this.state
-    const {fileList} = this.state
+    let {fileList} = this.state
     const { modalData, isCreate } = this.props
     if(isCreate) {
       dataModel = {}
@@ -56,6 +57,7 @@ export default class EditModal extends Component {
       dataModel = _.cloneDeep(modalData)
       dataModel.oldName = modalData.name
       if(dataModel.photos && dataModel.photos.length>0) {
+        fileList = []
         dataModel.photos.forEach((item, index) => {
           fileList.push({
             uid: index,
@@ -231,6 +233,7 @@ export default class EditModal extends Component {
         >
           <div className={`${styles.imgList} clearfix`}>
             <Upload
+              key={dataModel.name}
               // action="//jsonplaceholder.typicode.com/posts/"
               action="/photoMng/uploadPhoto"
               withCredentials={withCredentials}

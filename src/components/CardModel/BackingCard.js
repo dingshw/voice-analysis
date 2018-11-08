@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Icon, Popconfirm, Tooltip } from 'antd'
+import { Icon, Popconfirm, Tooltip, Carousel } from 'antd'
 import EditModal from './EditModal'
 import styles from './index.less'
 
@@ -34,12 +34,27 @@ export default class BackingCard extends Component {
         </div>
         {backingData? (
           <div className={styles.cardbox}>
-            <div className={styles.backingBoxImg}>
-              <div className={styles.imgWater}><span>水</span></div>
-              <div className={styles.imgSample}><span>样品</span></div>
-              <div className={styles.imgBacking}><span>背衬</span></div>
-              <div className={backingData.name && backingData.name.includes('30mm钢') ? styles.imgAir : styles.imgWater}><span>{backingData.name && backingData.name.includes('30mm钢') ? '空气' : '水'}</span></div>
-            </div>
+            {
+              backingData.photos && backingData.photos.length>0 ?
+              (
+                <div className={`${styles.boxImg} ${styles.experimentImg}`}>
+                  <Carousel afterChange={this.onChange} className={styles.carousel}>
+                    {
+                      backingData.photos.map(item => <div key={item.pk} className={styles.imgItem}><img src={item.url} alt="背衬" /></div>)
+                    }
+                  </Carousel>
+                </div>
+              )
+            :
+              (
+                <div className={styles.backingBoxImg}>
+                  <div className={styles.imgWater}><span>水</span></div>
+                  <div className={styles.imgSample}><span>样品</span></div>
+                  <div className={styles.imgBacking}><span>背衬</span></div>
+                  <div className={backingData.name && backingData.name.includes('30mm钢') ? styles.imgAir : styles.imgWater}><span>{backingData.name && backingData.name.includes('30mm钢') ? '空气' : '水'}</span></div>
+                </div>
+              )
+            }
             <ul className={styles.backingItemUl}>
               <span>背衬基本介绍</span>
               <li><span>背衬名称</span><span>{backingData.name|| ''}</span></li>

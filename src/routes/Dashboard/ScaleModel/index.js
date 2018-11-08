@@ -25,7 +25,6 @@ export default class ScaleModel extends Component {
     selectTestModel: {},
     selectTestConditions: {},
     selectLayingSchemes: {},
-    dataMap: {},
   }
 
   componentDidMount () {
@@ -71,7 +70,6 @@ export default class ScaleModel extends Component {
   handleScaleCondition = (dataMap) => {
     if(dataMap) {
       const { dispatch } = this.props;
-      this.setState({dataMap})
       dispatch({
         type: 'scalemodel/getScaleCondition',
         payload: {
@@ -82,24 +80,26 @@ export default class ScaleModel extends Component {
   }
 
   dataDownLoad = () => {
-    const {dataMap} = this.state
+    const {scaleCondition} = this.props
+    const {dataParam} = scaleCondition
     let url = `${window.location.host}/excelUpload/downloadScale`
-    if (dataMap) {
+    if (dataParam) {
       const paramsArray = [];
       // 拼接参数
-      Object.keys(dataMap).forEach(key => paramsArray.push(`${key  }=${  dataMap[key]}`))
+      Object.keys(dataParam).forEach(key => paramsArray.push(`${key  }=${  dataParam[key]}`))
       if (url.search(/\?/) === -1) {
           url += `?${  paramsArray.join('&')}`
       } else {
           url += `&${  paramsArray.join('&')}`
       }
     }
-    window.open(url);
+    window.open(url, "_blank");
   }
 
   render() {
     const { testModel, testConditions, layingSchemes, scaleCondition } = this.props
-    const { selectTestConditions, selectTestModel, selectLayingSchemes,dataMap } = this.state
+    const {dataParam} = scaleCondition
+    const { selectTestConditions, selectTestModel, selectLayingSchemes } = this.state
 
     const selectAnalysisName = `${selectTestModel.name  } ${  selectTestConditions.name} ${  selectLayingSchemes.name}`
     const isScaleModel = true
@@ -108,11 +108,11 @@ export default class ScaleModel extends Component {
       testConditionName: selectTestConditions.name,
       layingSchemeName: selectLayingSchemes.name,
     }
-    let url = `${window.origin  }/excelUpload/downloadScale`
-    if (dataMap) {
+    let url = `/excelUpload/downloadScale`
+    if (dataParam) {
       const paramsArray = [];
       // 拼接参数
-      Object.keys(dataMap).forEach(key => paramsArray.push(`${key  }=${  dataMap[key]}`))
+      Object.keys(dataParam).forEach(key => paramsArray.push(`${key  }=${  dataParam[key]}`))
       if (url.search(/\?/) === -1) {
           url += `?${  paramsArray.join('&')}`
       } else {
@@ -125,9 +125,12 @@ export default class ScaleModel extends Component {
           <Button type="primary" className={styles.toolsButton}>
             <a href={excel}>模板下载</a>
           </Button>
-          <Button type="primary" disabled={_.isEmpty(dataMap)} className={styles.toolsButton} onClick={this.dataDownLoad}>
-            <span>数据下载</span>
+          <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton}>
+            <a href={url} download>数据下载</a>
           </Button>
+          {/* <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton} onClick={this.dataDownLoad}>
+            <span>数据下载</span>
+          </Button> */}
           <UploadFile catalog="conDemo" />
           <ReduceReport />
         </div>
