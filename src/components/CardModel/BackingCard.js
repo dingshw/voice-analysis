@@ -12,7 +12,7 @@ export default class BackingCard extends Component {
 
   render () {
 
-    const {backingData, styleWidth, showTools, changeData} = this.props
+    const {backingData, styleWidth, showTools, changeData, dataList} = this.props
     return (
       <div style={{width: styleWidth}} className={`${styles.card} ${styles.backingCard}`}>
         <div className={styles.cardTitle}>
@@ -24,7 +24,7 @@ export default class BackingCard extends Component {
             showTools ? (
               <div className={styles.toolsIcon}>
                 {/* <Icon type="edit" className={styles.iconStyle} onClick={this.editSample} /> */}
-                <EditModal type='isBacking' changeData={changeData} modalData={backingData} />
+                <EditModal type='isBacking' dataList={dataList} changeData={changeData} modalData={backingData} />
                 <Popconfirm title="是否要删除?" onConfirm={this.onDelete} okText="删除" cancelText="取消">
                   <Icon type="delete" className={styles.iconStyle} />
                 </Popconfirm>

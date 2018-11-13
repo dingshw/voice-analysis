@@ -45,7 +45,8 @@ export default class TestSystem extends Component {
             </div>
             <ul className={styles.itemUl}>
               <li><span>名称</span><span>{testData.name || ''}</span></li>
-              <TextArea className={styles.textarea} defaultValue={testData.describe || ''} />
+              <li><span>介绍</span></li>
+              <TextArea className={styles.textarea} value={testData.describe || ''} />
             </ul>
           </div>): ''
         }

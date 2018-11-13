@@ -96,10 +96,11 @@ export default {
     *updateTestModelData({ payload }, { call, put }) {
       const response = yield call(queryUpdateTestModelData, payload);
       if(response) {
-        const data = response.data || []
+        // const data = response.data || []
+        // data.photos = payload.photos
         yield put({
           type: 'handelUpdateTestModel',
-          payload: data,
+          payload,
         });
       }
     },
@@ -107,6 +108,7 @@ export default {
       const response = yield call(queryAddTestModelData, payload)
       if(response) {
         const data = response.data || []
+        data.photos = payload.photos
         yield put({
           type: 'handelAddTestModel',
           payload: data,
@@ -125,10 +127,10 @@ export default {
     *updateTestConditions({ payload }, { call, put }) {
       const response = yield call(queryUpdateTestConditions, payload);
       if(response) {
-        const data = response.data || []
+        // const data = response.data || []
         yield put({
           type: 'handelUpdateTestConditions',
-          payload: data,
+          payload,
         });
       }
     },
@@ -136,6 +138,7 @@ export default {
       const response = yield call(queryAddTestConditions, payload)
       if(response) {
         const data = response.data || []
+        data.photos = payload.photos
         yield put({
           type: 'handelAddTestConditions',
           payload: data,
@@ -154,10 +157,10 @@ export default {
     *updateLayingSchemes({ payload }, { call, put }) {
       const response = yield call(queryUpdateLayingSchemes, payload);
       if(response) {
-        const data = response.data || []
+        // const data = response.data || []
         yield put({
           type: 'handelUpdateLayingSchemes',
-          payload: data,
+          payload,
         });
       }
     },
@@ -165,6 +168,7 @@ export default {
       const response = yield call(queryAddLayingSchemes, payload)
       if(response) {
         const data = response.data || []
+        data.photos = payload.photos
         yield put({
           type: 'handelAddLayingSchemes',
           payload: data,
@@ -273,7 +277,7 @@ export default {
     handelAddTestModel(state, { payload }) {
       const {testModel} = state
       const testModelTemp = _.cloneDeep(testModel)
-      testModelTemp.push(payload)
+      testModelTemp.unshift(payload)
       return {
         ...state,
         testModel: testModelTemp,
@@ -313,7 +317,7 @@ export default {
     handelAddTestConditions(state, { payload }) {
       const {testConditions} = state
       const testConditionsTemp = _.cloneDeep(testConditions)
-      testConditionsTemp.push(payload)
+      testConditionsTemp.unshift(payload)
       return {
         ...state,
         testConditions: testConditionsTemp,
@@ -353,7 +357,7 @@ export default {
     handelAddLayingSchemes(state, { payload }) {
       const {layingSchemes} = state
       const layingSchemesTemp = _.cloneDeep(layingSchemes)
-      layingSchemesTemp.push(payload)
+      layingSchemesTemp.unshift(payload)
       return {
         ...state,
         layingSchemes: layingSchemesTemp,
@@ -375,7 +379,7 @@ export default {
     handelAddScaleData(state, { payload }) {
       const {scaleManage} = state
       const scaleManageTemp = _.cloneDeep(scaleManage)
-      scaleManageTemp.push(payload)
+      scaleManageTemp.unshift(payload)
       return {
         ...state,
         scaleManage: scaleManageTemp,
@@ -433,7 +437,7 @@ export default {
         scaleMetaData: payload,
       }
     },
-    downloadScaleHandle(state, { payload }) {
+    downloadScaleHandle(state) {
       return {
         ...state,
       }

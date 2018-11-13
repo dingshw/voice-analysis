@@ -33,13 +33,16 @@ const chartOption = {
   title: { text: '' },
   tooltip : {
     trigger: 'axis',
+    axisPointer:{
+      show: true,
+      type : 'cross',
+      lineStyle: {
+          type : 'dashed',
+          width : 1,
+      },
+    },
     formatter (params) {
-        const tar = params[0];
-        let str = ''
-        params.forEach(item => {
-          str += `${  item.seriesName} : ${item.value}<br/>`
-        })
-        return `频率 : ${tar.name}<br/>${str}`;
+        return `频率 : ${params.value[0]}<br/>${params.seriesName}:${params.value[1]}`;
     },
   },
   toolbox: {
@@ -67,8 +70,11 @@ const chartOption = {
     x: 'center',
     y: 'bottom',
   },
+  calculable: true,
   xAxis: {
-    data: ['频率1', '频率2', '频率3'],
+    type : 'value',
+    splitNumber: 20,
+    min: 0,
     name: '频率',
   },
   yAxis: {name: '系数'},
@@ -77,7 +83,7 @@ const chartOption = {
       // 根据名字对应到相应的系列
       name: '指数1',
       type: 'line',
-      data: [],
+      data: [[10],[20]],
       markLine: {
           data: [
               {type: 'average', name: '平均值'},
@@ -87,7 +93,7 @@ const chartOption = {
       // 根据名字对应到相应的系列
       name: '指数2',
       type: 'line',
-      data: [],
+      data: [[10],[20]],
       markLine: {
         data: [
             {type: 'average', name: '平均值'},
@@ -97,7 +103,7 @@ const chartOption = {
       // 根据名字对应到相应的系列
       name: '指数3',
       type: 'line',
-      data: [],
+      data: [[10],[20]],
       markLine: {
         data: [
             {type: 'average', name: '平均值'},
@@ -168,18 +174,22 @@ export default class WaterParamAnalysis extends Component {
   onChangeAnalysisData = (type, value) => {
     const { analysisParam } = this.state
     if(Object.prototype.hasOwnProperty.call(analysisParam, type)) {
-      analysisParam[type] = value || 0
+      analysisParam[type] = Number(value) || 0
     } else if(type === 'rate') {
-      analysisParam.rateMin = value[0] || 0
-      analysisParam.rateMax = value[1] || 10
+      analysisParam.rateMin = Number(value[0]) || 0
+      analysisParam.rateMax = Number(value[1]) || 10
     } else if(type === 'rateMin') {
-      analysisParam.rateMin = value || 0
+      analysisParam.rateMin = Number(value) || 0
     } else if(type === 'rateMax') {
-      analysisParam.rateMax = value || 10
+      analysisParam.rateMax = Number(value) || 10
     }
     this.setState({
       analysisParam,
     });
+  }
+
+  changeFormatterData = (type, value) => {
+    debugger
   }
 
   checkAnalysisData = (param) => {
@@ -213,7 +223,7 @@ export default class WaterParamAnalysis extends Component {
               errMsg = '请选择下拉框内容'
               break
           }
-          message.error(errMsg);
+          message.error(errMsg, [0.01]);
           return false
         }
       }
@@ -289,12 +299,12 @@ export default class WaterParamAnalysis extends Component {
     for(const i in analysisData) {
       if(analysisData[i]) {
         categories.push(analysisData[i].rate)
-        seriesData.refect.push(analysisData[i].refect)
-        seriesData.transmission.push(analysisData[i].transmission)
-        seriesData.bondacust.push(analysisData[i].bondacust)
-        seriesData.radiation.push(analysisData[i].radiation)
-        seriesData.radiationlose.push(analysisData[i].radiationlose)
-        seriesData.echoes.push(analysisData[i].echoes)
+        seriesData.refect.push([analysisData[i].rate, analysisData[i].refect])
+        seriesData.transmission.push([analysisData[i].rate, analysisData[i].transmission])
+        seriesData.bondacust.push([analysisData[i].rate, analysisData[i].bondacust])
+        seriesData.radiation.push([analysisData[i].rate, analysisData[i].radiation])
+        seriesData.radiationlose.push([analysisData[i].rate, analysisData[i].radiationlose])
+        seriesData.echoes.push([analysisData[i].rate, analysisData[i].echoes])
       }
     }
     return {categories, seriesData}
@@ -307,11 +317,16 @@ export default class WaterParamAnalysis extends Component {
       if(Object.hasOwnProperty.call(seriesData, key)) {
         if(lengendMap[key]) {
           seriesData[key].forEach((value, index) => {
-            legendData.push(`${lengendMap[key]}${index}`)
+            legendData.push(`${lengendMap[key]}${index+1}`)
             series.push({
-              name: `${lengendMap[key]}${index}`,
+              name: `${lengendMap[key]}${index+1}`,
               type: 'line',
               data: value || [],
+              markPoint : {
+                data : [
+                  {type : 'average', name : '平均值'},
+                ],
+              },
               markLine: {
                   data: [
                       {type: 'average', name: '平均值'},
@@ -347,7 +362,8 @@ export default class WaterParamAnalysis extends Component {
     // 填入数据
     // chartOptionTemp.series
     const chartOptionTemp = _.cloneDeep(chartOption)
-    chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    // chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    chartOptionTemp.xAxis.max = Math.max(...categories)
     const seriesDataMap = {
       'refect': [seriesData.refect],
       'transmission': [seriesData.transmission],
@@ -407,7 +423,8 @@ export default class WaterParamAnalysis extends Component {
     }
     const chartMap = this.initSeries(seriesDataMap)
     const chartOptionTemp = _.cloneDeep(chartOption)
-    chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    // chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    chartOptionTemp.xAxis.max = Math.max(...categories)
     chartOptionTemp.series = chartMap.series
     chartOptionTemp.legend.data = chartMap.legendData
     if(chartMap.legendData.length>6) {
@@ -483,18 +500,14 @@ export default class WaterParamAnalysis extends Component {
                     max={analysisParam.rateMax}
                     value={analysisParam.rateMin}
                     onChange={this.onChangeAnalysisData.bind(this, 'rateMin')}
-                    formatter={value => `${value}KHz`}
-                    parser={value => value.replace('KHz', '')}
-                  />
+                  />kHz
                   ~
                   <InputNumber
                     min={analysisParam.rateMin}
                     max={30}
                     value={analysisParam.rateMax}
                     onChange={this.onChangeAnalysisData.bind(this, 'rateMax')}
-                    formatter={value => `${value}KHz`}
-                    parser={value => value.replace('KHz', '')}
-                  />
+                  />kHz
                 </div>
               </div>
               <Slider
@@ -517,9 +530,8 @@ export default class WaterParamAnalysis extends Component {
                           step={0.5}
                           value={analysisParam.press}
                           onChange={this.onChangeAnalysisData.bind(this, 'press')}
-                          formatter={value => `${value}MPa`}
-                          parser={value => value.replace('MPa', '')}
-                        />
+                          onblur={this.changeFormatterData.bind(this, 'press')}
+                        />MPa
                       </div>
                     </div>
                     <Slider
@@ -527,6 +539,7 @@ export default class WaterParamAnalysis extends Component {
                       max={4.5}
                       step={0.5}
                       marks={paMarks}
+                      included={false}
                       value={analysisParam.press}
                       onChange={this.onChangeAnalysisData.bind(this, 'press')}
                     />
@@ -539,9 +552,7 @@ export default class WaterParamAnalysis extends Component {
                           step={5}
                           value={analysisParam.temparture}
                           onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
-                          formatter={value => `${value}度`}
-                          parser={value => value.replace('度', '')}
-                        />
+                        />度
                       </div>
                     </div>
                     <Slider
@@ -549,6 +560,7 @@ export default class WaterParamAnalysis extends Component {
                       max={30}
                       step={5}
                       marks={tMarks}
+                      included={false}
                       value={analysisParam.temparture}
                       onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
                     />
@@ -576,7 +588,7 @@ export default class WaterParamAnalysis extends Component {
               <span>已加入的对比数据</span>
               <div className={styles.itemList}>
                 {compareAnalysisData && compareAnalysisData.map((item, index) => {
-                  const tag = `对比数据${index}`
+                  const tag = `对比数据${index+1}`
                   const isLongTag = tag.length > 10;
                   const tagElem = (
                     <Tag key={tag} className={styles.chartItem} closable={index !== 0} afterClose={() => this.removeAnalysisData(index)}>
@@ -588,11 +600,8 @@ export default class WaterParamAnalysis extends Component {
               </div>
               <Button type="primary" className={styles.startBtn} onClick={this.startContrast}>开始对比</Button>
             </div>
-            {noData ?
-              (<h4 className={styles.noDataSpan}>暂无数据，请重新选择</h4>)
-              :
-              <div id="mainChart" className={styles.chartArea} />
-            }
+            <h4 style={{display: noData ? 'block':'none'}} className={styles.noDataSpan}>暂无数据，请选择</h4>
+            <div id="mainChart" className={styles.chartArea} style={{display: noData ? 'none':'block'}} />
           </div>
         </div>
       </div>

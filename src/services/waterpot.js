@@ -55,19 +55,19 @@ export async function queryDelBigTestData(params) {
   })
 }
 export async function queryUpdateBigTestSystemsData(params) {
-  return request('/testModelMng/modifyTestModel', {
+  return request('/testModelMng/modifyTestSystem', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryAddBigTestSystemsData(params) {
-  return request('/testModelMng/saveTestModel', {
+  return request('/testModelMng/saveTestSystem', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryDelBigTestSystemsData(params) {
-  return request('/testModelMng/deleteTestModel', {
+  return request('/testModelMng/deleteTestSystem', {
     method: 'POST',
     body: params,
   })

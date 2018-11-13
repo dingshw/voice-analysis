@@ -2,19 +2,42 @@ import React, {Component} from 'react'
 import {Form, Input} from 'antd'
 
 const FormItem = Form.Item;
-
-export default class OuterForm extends Component{
+const { TextArea } = Input;
+class OuterForm extends Component{
 
   render () {
 
-    const {dataModel, formItemLayout, onChangeName} = this.props
+    const {dataModel, formItemLayout, onChangeName, onBlurName,form} = this.props
+    const { getFieldDecorator } = form;
     return (
       <Form layout="inline">
         <FormItem
           {...formItemLayout}
           label="名称"
         >
-          <Input value={dataModel.name || ''} onChange={onChangeName.bind(this, 'name')} />
+          {getFieldDecorator('name', {
+            initialValue: dataModel.name,
+            rules: [{
+              required: true, message: '名称不能为空',
+            },
+              (rule, value, callback) => {
+                const flag = onBlurName(value,dataModel.pk)
+                if(flag) {
+                  callback(flag);
+                }
+                if(value.length > 15) {
+                  callback('名称最长为15个字符');
+                }
+                callback();
+              },
+            ],
+          },
+          {
+            validator: this.validateToName,
+          }
+          )(
+            <Input onChange={onChangeName.bind(this, 'name')} />
+          )}
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -56,12 +79,10 @@ export default class OuterForm extends Component{
           {...formItemLayout}
           label="其他"
         >
-          <Input
-            value={dataModel.other || ''}
-            onChange={onChangeName.bind(this, 'other')}
-          />
+         <TextArea value={dataModel.other || ''} onChange={onChangeName.bind(this, 'other')} />
         </FormItem>
       </Form>
     )
   }
 }
+export default OuterForm = Form.create()(OuterForm)

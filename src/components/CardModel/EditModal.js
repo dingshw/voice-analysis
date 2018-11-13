@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Icon, Upload, Button, message } from 'antd';
 import _ from 'lodash'
-import request from '../../utils/request';
 import SampleForm from '../FormModel/SampleForm'
 import BackingForm from '../FormModel/BackingForm'
 import InnerForm from '../FormModel/InnerForm'
@@ -11,6 +10,7 @@ import TestForm from '../FormModel/TestForm'
 import LayForm from '../FormModel/LayForm'
 import styles from './EditModal.less'
 
+let keyIndex = 0
 export default class EditModal extends Component {
 
   state = {
@@ -31,8 +31,8 @@ export default class EditModal extends Component {
     } else {
       dataModel = _.cloneDeep(modalData)
       dataModel.oldName = modalData.name
+      fileList = []
       if(dataModel.photos && dataModel.photos.length>0) {
-        fileList = []
         dataModel.photos.forEach((item, index) => {
           fileList.push({
             uid: index,
@@ -56,8 +56,8 @@ export default class EditModal extends Component {
     } else {
       dataModel = _.cloneDeep(modalData)
       dataModel.oldName = modalData.name
+      fileList = []
       if(dataModel.photos && dataModel.photos.length>0) {
-        fileList = []
         dataModel.photos.forEach((item, index) => {
           fileList.push({
             uid: index,
@@ -75,15 +75,16 @@ export default class EditModal extends Component {
   onChangeName = (type, e) => {
     const { value } = e.target
     const { dataModel } = this.state
-    const { dataList } = this.props
-    if(type === 'name') {
-      if(this.checkHasName(dataList, value)) {
-        message.error(`${value} 已经存在，请更换其他名称.`);
-        return
-      }
-    }
     dataModel[type] = value
     this.setState({dataModel})
+  }
+
+  onBlurName = (value, pk) => {
+    const { dataList } = this.props
+    if(this.checkHasName(dataList, value, pk)) {
+      return `${value} 已经存在.`
+    }
+    return false
   }
 
   onChangeDataModel = (type, unit, value) => {
@@ -96,24 +97,20 @@ export default class EditModal extends Component {
     if(file.pk) {
       const { dataModel } = this.state
       if(dataModel.photos && dataModel.photos.length>0) {
-        for(let i; i<dataModel.photos.length; i+=1) {
+        for(let i=0; i<dataModel.photos.length; i+=1) {
           if(dataModel.photos[i].pk === file.pk) {
             dataModel.photos.splice(i, 1)
           }
         }
       }
       this.setState({dataModel})
-      request(`/photoMng/deletePhoto`, {
-        method: 'POST',
-        body: {pk: file.pk},
-      })
       return true
     }
     }
 
-  checkHasName = (dataList, name) => {
+  checkHasName = (dataList, name, pk) => {
     for(const item of dataList) {
-      if(item.name == name) {
+      if(item.name == name && item.pk !== pk) {
         return true
       }
     }
@@ -121,14 +118,43 @@ export default class EditModal extends Component {
   }
 
   showModal = () => {
-    this.setState({
-      visible: true,
-    });
+    let { dataModel } = this.state
+    let {fileList} = this.state
+    const { modalData, isCreate } = this.props
+    if(isCreate) {
+      dataModel = {}
+      fileList = []
+    } else {
+      dataModel = _.cloneDeep(modalData)
+      dataModel.oldName = modalData.name
+      fileList = []
+      if(dataModel.photos && dataModel.photos.length>0) {
+        dataModel.photos.forEach((item, index) => {
+          fileList.push({
+            uid: index,
+            name: item.prevname || `图片${index}`,
+            status: 'done',
+            pk: item.pk,
+            url: item.url,
+          })
+        });
+      }
+    }
+    keyIndex +=1
+    this.setState({dataModel, fileList, visible: true})
   }
 
   handleOk = () => {
-    const {changeData} = this.props
+    const {changeData, dataList} = this.props
     const {dataModel} = this.state
+    if(!dataModel.name || dataModel.name === '') {
+      message.error('名称不能为空，请输入名称', [0.01])
+      return;
+    }
+    if(this.checkHasName(dataList, dataModel.name, dataModel.pk)) {
+      message.error('名称重复，请更换名称', [0.01])
+      return;
+    }
     this.setState({
       visible: false,
       dataModel: {},
@@ -186,9 +212,9 @@ export default class EditModal extends Component {
       case 'isOuter':
         return '外场试验模型'
       case 'isExperment':
-        return '测试系统管理'
-      case 'isTest':
         return '试验情况'
+      case 'isTest':
+        return '测试系统'
       default:
         return '敷设方案'
     }
@@ -236,6 +262,7 @@ export default class EditModal extends Component {
               key={dataModel.name}
               // action="//jsonplaceholder.typicode.com/posts/"
               action="/photoMng/uploadPhoto"
+              accept="image/png, image/jpg"
               withCredentials={withCredentials}
               listType="picture-card"
               fileList={fileList}
@@ -250,13 +277,14 @@ export default class EditModal extends Component {
               <img alt="example" style={{ width: '100%' }} src={previewImage} />
             </Modal>
           </div>
-          <div className={styles.modalItem}>
+          <div className={styles.modalItem} key={keyIndex}>
             {type === 'isSample' ? (
               <SampleForm
                 dataModel={dataModel}
                 formItemLayout={formItemLayout}
                 initInputValue={this.initInputValue}
                 onChangeName={this.onChangeName}
+                onBlurName={this.onBlurName}
                 onChangeDataModel={this.onChangeDataModel}
               />
             ) : ''}
@@ -265,6 +293,7 @@ export default class EditModal extends Component {
                 dataModel={dataModel}
                 formItemLayout={formItemLayout}
                 onChangeName={this.onChangeName}
+                onBlurName={this.onBlurName}
               />
             ): ''}
             {type === 'isInner' ? (
@@ -272,6 +301,7 @@ export default class EditModal extends Component {
                 dataModel={dataModel}
                 formItemLayout={formItemLayout}
                 onChangeName={this.onChangeName}
+                onBlurName={this.onBlurName}
               />
             ): ''}
             {type === 'isOuter' ? (
@@ -279,6 +309,7 @@ export default class EditModal extends Component {
                 dataModel={dataModel}
                 formItemLayout={formItemLayout}
                 onChangeName={this.onChangeName}
+                onBlurName={this.onBlurName}
               />
             ): ''}
             {type === 'isExperment' ? (
@@ -286,6 +317,7 @@ export default class EditModal extends Component {
                 dataModel={dataModel}
                 formItemLayout={formItemLayout}
                 onChangeName={this.onChangeName}
+                onBlurName={this.onBlurName}
               />
             ): ''}
             {type === 'isTest' ? (
@@ -293,6 +325,7 @@ export default class EditModal extends Component {
                 dataModel={dataModel}
                 formItemLayout={formItemLayout}
                 onChangeName={this.onChangeName}
+                onBlurName={this.onBlurName}
               />
             ): ''}
             {type === 'isLay' ? (
@@ -300,6 +333,7 @@ export default class EditModal extends Component {
                 dataModel={dataModel}
                 formItemLayout={formItemLayout}
                 onChangeName={this.onChangeName}
+                onBlurName={this.onBlurName}
               />
             ): ''}
           </div>

@@ -222,7 +222,31 @@ const proxy = {
                 "transmission": 0.47,
                 "bondacust": 0.7391,
                 "rate": 20
-            }
+            },
+            {
+              "refect": 0.3,
+              "transmission": 0.49,
+              "bondacust": 0.78752,
+              "rate": 40
+          },
+          {
+              "refect": 0.5,
+              "transmission": 0.47,
+              "bondacust": 0.73913,
+              "rate": 60
+          },
+          {
+            "refect": 0.6,
+            "transmission": 0.49,
+            "bondacust": 0.78755,
+            "rate": 100
+        },
+        {
+            "refect": 0.8,
+            "transmission": 0.6,
+            "bondacust": 0.73918,
+            "rate": 120
+        }
         ]
       });
     } else {

@@ -55,9 +55,9 @@ export default class LoginPage extends Component {
             {login.status === 'error' &&
               login.type === 'account' &&
               !submitting &&
-              this.renderMessage('账户或密码错误（admin/admin')}
-            <UserName name="username" placeholder="admin/user" />
-            <Password name="pass" placeholder="admin/user" />
+              this.renderMessage('账户或密码错误')}
+            <UserName name="username" placeholder="用户名" />
+            <Password name="pass" />
           </Tab>
           <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>

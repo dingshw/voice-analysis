@@ -30,13 +30,16 @@ const chartOption = {
   title: { text: '' },
   tooltip : {
     trigger: 'axis',
+    axisPointer:{
+      show: true,
+      type : 'cross',
+      lineStyle: {
+          type : 'dashed',
+          width : 1,
+      },
+    },
     formatter (params) {
-        const tar = params[0];
-        let str = ''
-        params.forEach(item => {
-          str += `${  item.seriesName} : ${item.value}<br/>`
-        })
-        return `频率 : ${tar.name}<br/>${str}`;
+        return `频率 : ${params.value[0]}<br/>${params.seriesName}:${params.value[1]}`;
     },
   },
   toolbox: {
@@ -64,17 +67,24 @@ const chartOption = {
     x: 'center',
     y: 'bottom',
   },
+  calculable: true,
   xAxis: {
-    data: ['频率1', '频率2', '频率3'],
+    type : 'value',
+    splitNumber: 20,
+    min: 0,
     name: '频率',
   },
-  yAxis: {name: '系数'},
+  yAxis: {
+    type: 'value',
+    name: '系数',
+  },
   series: [
     {
       // 根据名字对应到相应的系列
       name: '指数1',
       type: 'line',
-      data: [],
+      data: [[10],[20]],
+      itemStyle : { normal: {label : {show: true}}},
       markLine: {
           data: [
               {type: 'average', name: '平均值'},
@@ -84,7 +94,8 @@ const chartOption = {
       // 根据名字对应到相应的系列
       name: '指数2',
       type: 'line',
-      data: [],
+      data: [[10],[20]],
+      itemStyle : { normal: {label : {show: true}}},
       markLine: {
         data: [
             {type: 'average', name: '平均值'},
@@ -94,7 +105,8 @@ const chartOption = {
       // 根据名字对应到相应的系列
       name: '指数3',
       type: 'line',
-      data: [],
+      data: [[10],[20]],
+      itemStyle : { normal: {label : {show: true}}},
       markLine: {
         data: [
             {type: 'average', name: '平均值'},
@@ -210,7 +222,7 @@ export default class ParamAnalysis extends Component {
               errMsg = '请选择下拉框内容'
               break
           }
-          message.error(errMsg);
+          message.error(errMsg, [0.01]);
           return false
         }
       }
@@ -280,9 +292,9 @@ export default class ParamAnalysis extends Component {
     for(const i in analysisData) {
       if(analysisData[i]) {
         categories.push(analysisData[i].rate)
-        seriesData.refect.push(analysisData[i].refect)
-        seriesData.transmission.push(analysisData[i].transmission)
-        seriesData.bondacust.push(analysisData[i].bondacust)
+        seriesData.refect.push([analysisData[i].rate, analysisData[i].refect])
+        seriesData.transmission.push([analysisData[i].rate, analysisData[i].transmission])
+        seriesData.bondacust.push([analysisData[i].rate, analysisData[i].bondacust])
       }
     }
     return {categories, seriesData}
@@ -296,17 +308,22 @@ export default class ParamAnalysis extends Component {
         if(lengendMap[key]) {
           seriesData[key].forEach((value, index) => {
             if(seriesData[key].length>1){
-              legendData.push(`${lengendMap[key]}${index}`)
+              legendData.push(`${lengendMap[key]}${index+1}`)
             } else {
               legendData.push(`${lengendMap[key]}`)
             }
             series.push({
-              name: seriesData[key].length>1 ? `${lengendMap[key]}${index}` : lengendMap[key],
+              name: seriesData[key].length>1 ? `${lengendMap[key]}${index+1}` : lengendMap[key],
               type: 'line',
               data: value || [],
-              markLine: {
-                  data: [
-                      {type: 'average', name: '平均值'},
+              markPoint : {
+                data : [
+                  {type : 'average', name : '平均值'},
+                ],
+              },
+              markLine : {
+                  data : [
+                      {type : 'average', name : '平均值'},
                   ],
               },
             })
@@ -336,7 +353,8 @@ export default class ParamAnalysis extends Component {
     // 填入数据
     // chartOptionTemp.series
     const chartOptionTemp = _.cloneDeep(chartOption)
-    chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    // chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    chartOptionTemp.xAxis.max = Math.max(...categories)
     const seriesDataMap = {
       'refect': [seriesData.refect],
       'transmission': [seriesData.transmission],
@@ -345,7 +363,7 @@ export default class ParamAnalysis extends Component {
     const chartMap = this.initSeries(seriesDataMap)
     chartOptionTemp.series = chartMap.series
     chartOptionTemp.legend.data = chartMap.legendData
-    myChart.setOption(chartOptionTemp,true);
+    myChart.setOption(chartOptionTemp);
   }
 
   startContrast = () => {
@@ -381,7 +399,8 @@ export default class ParamAnalysis extends Component {
     }
     const chartMap = this.initSeries(seriesDataMap)
     const chartOptionTemp = _.cloneDeep(chartOption)
-    chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    // chartOptionTemp.xAxis.data = categories.length >0 ? categories : ['频率1', '频率2', '频率3']
+    chartOptionTemp.xAxis.max = Math.max(...categories)
     chartOptionTemp.series = chartMap.series
     chartOptionTemp.legend.data = chartMap.legendData
     if(chartMap.legendData.length>6) {
@@ -457,18 +476,14 @@ export default class ParamAnalysis extends Component {
                     max={analysisParam.rateMax}
                     value={analysisParam.rateMin}
                     onChange={this.onChangeAnalysisData.bind(this, 'rateMin')}
-                    formatter={value => `${value}KHz`}
-                    parser={value => value.replace('KHz', '')}
-                  />
+                  />kHz
                   ~
                   <InputNumber
                     min={analysisParam.rateMin}
                     max={30}
                     value={analysisParam.rateMax}
                     onChange={this.onChangeAnalysisData.bind(this, 'rateMax')}
-                    formatter={value => `${value}KHz`}
-                    parser={value => value.replace('KHz', '')}
-                  />
+                  />kHz
                 </div>
               </div>
               <Slider
@@ -491,9 +506,7 @@ export default class ParamAnalysis extends Component {
                           step={0.5}
                           value={analysisParam.press}
                           onChange={this.onChangeAnalysisData.bind(this, 'press')}
-                          formatter={value => `${value}MPa`}
-                          parser={value => value.replace('MPa', '')}
-                        />
+                        />MPa
                       </div>
                     </div>
                     <Slider
@@ -501,6 +514,7 @@ export default class ParamAnalysis extends Component {
                       max={4.5}
                       step={0.5}
                       marks={paMarks}
+                      included={false}
                       value={analysisParam.press}
                       onChange={this.onChangeAnalysisData.bind(this, 'press')}
                     />
@@ -513,9 +527,7 @@ export default class ParamAnalysis extends Component {
                           step={5}
                           value={analysisParam.temparture}
                           onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
-                          formatter={value => `${value}度`}
-                          parser={value => value.replace('度', '')}
-                        />
+                        />度
                       </div>
                     </div>
                     <Slider
@@ -523,6 +535,7 @@ export default class ParamAnalysis extends Component {
                       max={30}
                       step={5}
                       marks={tMarks}
+                      included={false}
                       value={analysisParam.temparture}
                       onChange={this.onChangeAnalysisData.bind(this, 'temparture')}
                     />
@@ -550,7 +563,7 @@ export default class ParamAnalysis extends Component {
               <span>已加入的对比数据</span>
               <div className={styles.itemList}>
                 {compareAnalysisData && compareAnalysisData.map((item, index) => {
-                  const tag = `对比数据${index}`
+                  const tag = `对比数据${index+1}`
                   const isLongTag = tag.length > 10;
                   const tagElem = (
                     <Tag key={tag} className={styles.chartItem} closable={index !== 0} afterClose={() => this.removeAnalysisData(index)}>
@@ -562,7 +575,7 @@ export default class ParamAnalysis extends Component {
               </div>
               <Button type="primary" className={styles.startBtn} onClick={this.startContrast}>开始对比</Button>
             </div>
-            <h4 style={{display: noData ? 'block':'none'}} className={styles.noDataSpan}>暂无数据，请重新选择</h4>
+            <h4 style={{display: noData ? 'block':'none'}} className={styles.noDataSpan}>暂无数据，请选择</h4>
             <div id="mainChart" className={styles.chartArea} style={{display: noData ? 'none':'block'}} />
 
           </div>

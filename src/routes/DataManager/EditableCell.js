@@ -26,7 +26,7 @@ export default class EditableCell extends Component {
       )
     }
     return (
-      <Input defaultValue={record[dataIndex]} onChange={this.changeValue.bind(this, record, dataIndex)} />
+      <Input type='number' defaultValue={record[dataIndex]} onChange={this.changeValue.bind(this, record, dataIndex)} />
     );
   };
 

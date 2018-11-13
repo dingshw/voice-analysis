@@ -68,7 +68,7 @@ const menuData = [
         path: 'outer',
       },
       {
-        name: '测试系统管理',
+        name: '测试系统',
         path: 'test',
       },
       {

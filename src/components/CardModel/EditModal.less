@@ -6,6 +6,7 @@
   width: 50%;
 }
 .editModal {
+  z-index: 1;
   .iconStyle {
     font-size: 16;
     color: #08c;
@@ -16,6 +17,9 @@
 :global {
   .ant-form-item {
     width: 100%;
+    .ant-input {
+      padding-left: 11px;
+    }
     .ant-input-number {
       width: 100%;
     }

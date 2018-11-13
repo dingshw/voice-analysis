@@ -40,22 +40,16 @@ export default class EditableTable extends Component {
                 <EditableContext.Consumer>
                   {form => (
                     <div className={styles.saveBtn}>
+                      <a style={{ marginRight: 8 }} onClick={() => this.cancel(record.key)}>取消</a>
                       <a
                         href="javascript:;"
                         onClick={() => this.save(form, record)}
-                        style={{ marginRight: 8 }}
                       >
                         保存
                       </a>
                     </div>
                   )}
                 </EditableContext.Consumer>
-                <Popconfirm
-                  title="确定取消?"
-                  onConfirm={() => this.cancel(record.key)}
-                >
-                  <a>取消</a>
-                </Popconfirm>
               </span>
             ) : (
               <div className={styles.opertion}>
@@ -127,6 +121,10 @@ export default class EditableTable extends Component {
       message.error('删除失败')
     }
     // console.log('selectedRowKeys changed: ', keyList);
+  }
+
+  setRowClassName = (record) => {
+    return record.id === this.isEditing(record) ? 'clickRowStyl' : '';
   }
 
   handelDataChange = (record, dataIndex, value) => {
@@ -327,7 +325,7 @@ export default class EditableTable extends Component {
             return isEqule
           })}
           columns={columns}
-          rowClassName="editable-row"
+          rowClassName={this.setRowClassName}
         />
       </div>
     );

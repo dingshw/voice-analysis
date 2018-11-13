@@ -96,10 +96,11 @@ export default {
     *updateBigTestData({ payload }, { call, put }) {
       const response = yield call(queryUpdateBigTestData, payload);
       if(response) {
-        const data = response.data || []
+        // const data = response.data || []
+        // data.photos = payload.photos
         yield put({
           type: 'handelUpdateBigTest',
-          payload: data,
+          payload,
         });
       }
     },
@@ -107,6 +108,7 @@ export default {
       const response = yield call(queryAddBigTestData, payload)
       if(response) {
         const data = response.data || []
+        data.photos = payload.photos
         yield put({
           type: 'handelAddBigTest',
           payload: data,
@@ -125,10 +127,10 @@ export default {
     *updateBigTestSystemsData({ payload }, { call, put }) {
       const response = yield call(queryUpdateBigTestSystemsData, payload);
       if(response) {
-        const data = response.data || []
+        // const data = response.data || []
         yield put({
           type: 'handelUpdateBigTestSystems',
-          payload: data,
+          payload,
         });
       }
     },
@@ -136,6 +138,7 @@ export default {
       const response = yield call(queryAddBigTestSystemsData, payload)
       if(response) {
         const data = response.data || []
+        data.photos = payload.photos
         yield put({
           type: 'handelAddBigTestSystems',
           payload: data,
@@ -239,7 +242,7 @@ export default {
     handelAddBigTest(state, { payload }) {
       const {bigTestData} = state
       const bigTestDataTemp = _.cloneDeep(bigTestData)
-      bigTestDataTemp.push(payload)
+      bigTestDataTemp.unshift(payload)
       return {
         ...state,
         bigTestData: bigTestDataTemp,
@@ -279,7 +282,7 @@ export default {
     handelAddBigTestSystems(state, { payload }) {
       const {bigTestSystemsData} = state
       const bigTestSystemsDataTemp = _.cloneDeep(bigTestSystemsData)
-      bigTestSystemsDataTemp.push(payload)
+      bigTestSystemsDataTemp.unshift(payload)
       return {
         ...state,
         bigTestSystemsData: bigTestSystemsDataTemp,
@@ -301,7 +304,7 @@ export default {
     handelAddWaterData(state, { payload }) {
       const {waterpotManageData} = state
       const waterpotManageDataTemp = _.cloneDeep(waterpotManageData)
-      waterpotManageDataTemp.push(payload)
+      waterpotManageDataTemp.unshift(payload)
       return {
         ...state,
         waterpotManageData: waterpotManageDataTemp,
@@ -359,7 +362,7 @@ export default {
         waterMetaData: payload,
       };
     },
-    downloadBigHandle(state, { payload }) {
+    downloadBigHandle(state) {
       return {
         ...state,
       };

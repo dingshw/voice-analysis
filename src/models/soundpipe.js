@@ -83,10 +83,11 @@ export default {
     *updateSampleData({ payload }, { call, put }) {
       const response = yield call(queryUpdateSampleData, payload);
       if(response) {
-        const data = response.data || []
+        // const data = response.data || []
+        // data.photos = payload.photos
         yield put({
           type: 'handelUpdateSample',
-          payload: data,
+          payload,
         });
       }
     },
@@ -94,6 +95,7 @@ export default {
       const response = yield call(queryAddSampleData, payload)
       if(response) {
         const data = response.data || []
+        data.photos = payload.photos
         yield put({
           type: 'handelAddSample',
           payload: data,
@@ -112,10 +114,11 @@ export default {
     *updateBackingData({ payload }, { call, put }) {
       const response = yield call(queryUpdateBackingData, payload)
       if(response) {
-        const data = response.data || []
+        // const data = response.data || []
+        // data.photos = payload.photos
         yield put({
           type: 'handelUpdateBacking',
-          payload: data,
+          payload,
         });
       }
     },
@@ -123,6 +126,7 @@ export default {
       const response = yield call(queryAddBackingData, payload)
       if(response) {
         const data = response.data || []
+        data.photos = payload.photos
         yield put({
           type: 'handelAddBacking',
           payload: data,
@@ -208,7 +212,7 @@ export default {
       const {sampleData} = state
       const sampleDataTemp = _.cloneDeep(sampleData)
       for(const item of sampleDataTemp) {
-        if(item.name === payload.oldName) {
+        if(item.pk === payload.pk) {
           for(const key in payload) {
             if(Object.prototype.hasOwnProperty.call(payload, key)
             && Object.prototype.hasOwnProperty.call(item, key)){
@@ -225,7 +229,7 @@ export default {
     handelAddSample(state, { payload }) {
       const {sampleData} = state
       const sampleDataTemp = _.cloneDeep(sampleData)
-      sampleDataTemp.push(payload)
+      sampleDataTemp.unshift(payload)
       return {
         ...state,
         sampleData: sampleDataTemp,
@@ -248,7 +252,7 @@ export default {
       const {backingData} = state
       const backingDataTemp = _.cloneDeep(backingData)
       for(const item of backingDataTemp) {
-        if(item.name === payload.oldName) {
+        if(item.pk === payload.pk) {
           for(const key in payload) {
             if(Object.prototype.hasOwnProperty.call(payload, key)
             && Object.prototype.hasOwnProperty.call(item, key)){
@@ -265,7 +269,7 @@ export default {
     handelAddBacking(state, { payload }) {
       const {backingData} = state
       const backingDataTemp = _.cloneDeep(backingData)
-      backingDataTemp.push(payload)
+      backingDataTemp.unshift(payload)
       return {
         ...state,
         backingData: backingDataTemp,
@@ -287,7 +291,7 @@ export default {
     handelAddSoundData(state, { payload }) {
       const {soundManageData} = state
       const soundManageDataTemp = _.cloneDeep(soundManageData)
-      soundManageDataTemp.push(payload)
+      soundManageDataTemp.unshift(payload)
       return {
         ...state,
         soundManageData: soundManageDataTemp,
@@ -345,7 +349,7 @@ export default {
         soundMetaData: payload,
       };
     },
-    downloadSmallHandle(state, { payload }) {
+    downloadSmallHandle(state) {
       return {
         ...state,
       };

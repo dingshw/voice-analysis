@@ -165,7 +165,7 @@ export default class SoundPipe extends Component {
               _.uniqBy(bigTestData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
-          <span>测试系统选择</span>
+          <span>测试系统选择</span>
           <Select
             showSearch
             style={{ width: 200 }}

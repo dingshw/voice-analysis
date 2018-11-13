@@ -13,7 +13,7 @@ const map = {
     rules: [
       {
         required: true,
-        message: 'Please enter username!',
+        message: '请输入用户名!',
       },
     ],
   },
@@ -23,12 +23,12 @@ const map = {
       size: 'large',
       prefix: <Icon type="lock" className={styles.prefixIcon} />,
       type: 'password',
-      placeholder: 'admin',
+      placeholder: '密码',
     },
     rules: [
       {
         required: true,
-        message: 'Please enter password!',
+        message: '请输入密码!',
       },
     ],
   },
