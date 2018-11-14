@@ -174,7 +174,7 @@ export default class ScaleModel extends Component {
         </div>
         <div className={styles.mainCard}>
           <OuterExperimentCard experimentData={selectTestModel} styleWidth="32%" />
-          <ExperimentCondition experimentData={selectTestConditions} styleWidth="32%" styleMarginLeft="2%" />
+          <ExperimentCondition experimentData={selectTestConditions} styleWidth="32%"/>
           <LayingScheme experimentData={selectLayingSchemes} styleWidth="32%" />
         </div>
         <ScaleParamAnalysis

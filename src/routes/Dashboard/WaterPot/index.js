@@ -180,7 +180,7 @@ export default class SoundPipe extends Component {
         </div>
         <div className={styles.mainCard}>
           <SampleCard sampleData={selectBigSampleData} styleWidth="32%" />
-          <InnerExperimentCard experimentData={selectTestData} styleWidth="32%" styleMarginLeft="2%" />
+          <InnerExperimentCard experimentData={selectTestData} styleWidth="32%" />
           <TestSystem testData={selectBigTestSystemsData} styleWidth="32%" />
         </div>
         <WaterParamAnalysis

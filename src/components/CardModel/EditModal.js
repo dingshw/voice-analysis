@@ -163,18 +163,23 @@ export default class EditModal extends Component {
   }
 
   handleChange = (info) => {
-    this.setState({fileList: info.fileList})
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      const {dataModel} = this.state
-      if(info.file.response && info.file.response.success) {
-        const data = info.file.response.data || []
-        if(data && data.length>0) {
-          dataModel.photos = dataModel.photos && dataModel.photos.length>0 ?
-            [...dataModel.photos, ...data] : data
-          this.setState({dataModel})
+    if(info.file.type === 'image/png' || info.file.type === 'image/jpg' || info.file.type === 'image/jpeg') {
+      this.setState({fileList: info.fileList})
+      if (info.file.status === 'done') {
+        // Get this url from response in real world.
+        const {dataModel} = this.state
+        if(info.file.response && info.file.response.success) {
+          const data = info.file.response.data || []
+          if(data && data.length>0) {
+            dataModel.photos = dataModel.photos && dataModel.photos.length>0 ?
+              [...dataModel.photos, ...data] : data
+            this.setState({dataModel})
+          }
         }
       }
+    } else {
+    message.error('请上传.png .jpg格式的图片')
+    return false
     }
   }
 
@@ -262,7 +267,6 @@ export default class EditModal extends Component {
               key={dataModel.name}
               // action="//jsonplaceholder.typicode.com/posts/"
               action="/photoMng/uploadPhoto"
-              accept="image/png, image/jpg"
               withCredentials={withCredentials}
               listType="picture-card"
               fileList={fileList}
