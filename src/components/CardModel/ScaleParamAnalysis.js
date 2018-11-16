@@ -82,7 +82,7 @@ const chartOption = {
       // 根据名字对应到相应的系列
       name: '指数1',
       type: 'line',
-      data: [[10],[20]],
+      data: [[10,0],[20,0]],
       markLine: {
           data: [
               {type: 'average', name: '平均值'},
@@ -92,7 +92,7 @@ const chartOption = {
       // 根据名字对应到相应的系列
       name: '指数2',
       type: 'line',
-      data: [[10],[20]],
+      data: [[10,0],[20,0]],
       markLine: {
         data: [
             {type: 'average', name: '平均值'},
@@ -102,7 +102,7 @@ const chartOption = {
       // 根据名字对应到相应的系列
       name: '指数3',
       type: 'line',
-      data: [[10],[20]],
+      data: [[10,0],[20,0]],
       markLine: {
         data: [
             {type: 'average', name: '平均值'},
