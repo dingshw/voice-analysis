@@ -101,6 +101,26 @@ const menuData = [
       },
     ],
   },
+  {
+    name: '元数据管理',
+    icon: 'line-chart',
+    path: 'metamanager',
+    authority: 'admin',
+    children: [
+      {
+        name: '声管小样',
+        path: 'soundmetadata',
+      },
+      {
+        name: '水罐大样',
+        path: 'waterpotmetadata',
+      },
+      {
+        name: '缩比模型',
+        path: 'scalemetadata',
+      },
+    ],
+  },
 ];
 
 function formatter(data, parentPath = '/', parentAuthority) {

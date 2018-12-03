@@ -5,7 +5,7 @@ import { connect } from 'dva';
 import SampleCard from 'components/CardModel/SampleCard'
 import BackingCard from 'components/CardModel/BackingCard'
 import ParamAnalysis from 'components/CardModel/ParamAnalysis'
-import UploadFile from '../UploadFile'
+// import UploadFile from 'components/UploadFile/UploadFile'
 import ReduceReport from '../ReduceReport'
 import styles from '../index.less';
 import excel from '../../../../public/SamoleData.xlsx'
@@ -122,7 +122,7 @@ export default class SoundPipe extends Component {
           {/* <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton} onClick={this.dataDownLoad}>
             <span>数据下载</span>
           </Button> */}
-          <UploadFile catalog="smallDemo" />
+          {/* <UploadFile catalog="smallDemo" /> */}
           <ReduceReport />
         </div>
         <div className={styles.headerBox}>

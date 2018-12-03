@@ -4,7 +4,8 @@ import { queryBigSampleData, queryBigTestData, queryBigTestSystemsData,
   queryAddBigTestData, queryDelBigTestData,
   queryUpdateBigTestSystemsData, queryAddBigTestSystemsData,
   queryDelBigTestSystemsData, queryAddWaterData, queryUpdateWaterData,
-  queryDelWaterData, queryDelWaterDataList, queryWaterMetaData, queryDownloadBig} from '../services/waterpot';
+  queryDelWaterData, queryDelWaterDataList, queryWaterMetaData, queryDownloadBig,
+  queryAddWaterMetaData, queryUpdateWaterMetaData, queryDelWaterMetaData} from '../services/waterpot';
 
 export default {
   namespace: 'waterpot',
@@ -193,6 +194,36 @@ export default {
         });
       }
     },
+    *addWaterMetaData({ payload }, { call, put }) {
+      const response = yield call(queryAddWaterMetaData, payload);
+      if(response) {
+        const data = response.data || []
+        const pk = data && data.pk
+        yield put({
+          type: 'handelAddWaterMetaData',
+          payload: {...payload, pk},
+        });
+      }
+    },
+    *updateWaterMetaData({ payload }, { call, put }) {
+      const response = yield call(queryUpdateWaterMetaData, payload);
+      if(response) {
+        // const data = response.data || []
+        yield put({
+          type: 'handelUpdateWaterMetaData',
+          payload,
+        });
+      }
+    },
+    *delWaterMetaData({ payload }, { call, put }) {
+      const response = yield call(queryDelWaterMetaData, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelWaterMetaData',
+          payload,
+        });
+      }
+    },
   },
 
   reducers: {
@@ -366,6 +397,46 @@ export default {
       return {
         ...state,
       };
+    },
+    handelAddWaterMetaData(state, { payload }) {
+      const {waterMetaData} = state
+      const waterMetaDataTemp = _.cloneDeep(waterMetaData)
+      waterMetaDataTemp.unshift(payload)
+      return {
+        ...state,
+        waterMetaData: waterMetaDataTemp,
+      }
+    },
+    handelUpdateWaterMetaData(state, { payload }) {
+      const {waterMetaData} = state
+      const waterMetaDataTemp = _.cloneDeep(waterMetaData)
+      for(const item of waterMetaDataTemp) {
+        if(item.pk === payload.pk) {
+          for(const key in payload) {
+            if(Object.prototype.hasOwnProperty.call(payload, key)
+            && Object.prototype.hasOwnProperty.call(item, key)){
+              item[key] = payload[key]
+            }
+          }
+        }
+      }
+      return {
+        ...state,
+        waterMetaData: waterMetaDataTemp,
+      }
+    },
+    handelDelWaterMetaData(state, { payload }) {
+      const {waterMetaData} = state
+      const waterMetaDataTemp = _.cloneDeep(waterMetaData)
+      for(let i=0; i < waterMetaDataTemp.length; i+=1) {
+        if(waterMetaDataTemp[i].pk === payload.pk) {
+          waterMetaDataTemp.splice(i, 1)
+          return {
+            ...state,
+            waterMetaData: waterMetaDataTemp,
+          }
+        }
+      }
     },
   },
 };

@@ -99,3 +99,21 @@ export async function querySoundMetaData(params) {
     body: params,
   })
 }
+export async function queryAddSoundMetaData(params) {
+  return request('/smallMng/addSoundeMeta', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateSoundMetaData(params) {
+  return request('/smallMng/updateSoundeMeta', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelSoundMetaData(params) {
+  return request('/smallMng/deleteSoundeMeta', {
+    method: 'POST',
+    body: params,
+  })
+}

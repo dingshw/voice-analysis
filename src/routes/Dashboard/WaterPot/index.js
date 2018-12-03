@@ -6,7 +6,7 @@ import SampleCard from 'components/CardModel/SampleCard'
 import WaterParamAnalysis from 'components/CardModel/WaterParamAnalysis'
 import InnerExperimentCard from 'components/CardModel/InnerExperimentCard'
 import TestSystem from 'components/CardModel/TestSystem'
-import UploadFile from '../UploadFile'
+// import UploadFile from 'components/UploadFile/UploadFile'
 import ReduceReport from '../ReduceReport'
 import styles from '../index.less';
 import excel from '../../../../public/SamoleData.xlsx'
@@ -137,7 +137,7 @@ export default class SoundPipe extends Component {
           {/* <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton} onClick={this.dataDownLoad}>
             <span>数据下载</span>
           </Button> */}
-          <UploadFile catalog="bigDemo" />
+          {/* <UploadFile catalog="bigDemo" /> */}
           <ReduceReport />
         </div>
         <div className={styles.headerBox}>

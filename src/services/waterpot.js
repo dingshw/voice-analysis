@@ -102,3 +102,21 @@ export async function queryWaterMetaData(params) {
     body: params,
   })
 }
+export async function queryAddWaterMetaData(params) {
+  return request('/bigMng/addMetaData', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateWaterMetaData(params) {
+  return request('/bigMng/updateMetaData', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelWaterMetaData(params) {
+  return request('/bigMng/delMetaData', {
+    method: 'POST',
+    body: params,
+  })
+}

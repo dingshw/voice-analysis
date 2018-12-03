@@ -113,6 +113,15 @@ export const getRouterData = app => {
     '/datamanager/scaledata': {
       component: dynamicWrapper(app, ['scalemodel'], () => import('../routes/DataManager/ScaleData')),
     },
+    '/metamanager/soundmetadata': {
+      component: dynamicWrapper(app, ['soundpipe'], () => import('../routes/MetaManager/SoundMetaData')),
+    },
+    '/metamanager/waterpotmetadata': {
+      component: dynamicWrapper(app, ['waterpot'], () => import('../routes/MetaManager/WaterPotMetaData')),
+    },
+    '/metamanager/scalemetadata': {
+      component: dynamicWrapper(app, ['scalemodel'], () => import('../routes/MetaManager/ScaleMetaData')),
+    },
     '/exception/403': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
     },

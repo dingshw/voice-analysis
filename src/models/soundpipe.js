@@ -3,7 +3,8 @@ import { queryBackingData, querySampleData, querySoundPipeData,
   querySoundManageData, queryUpdateSampleData, queryAddSampleData,
   queryDelSampleData, queryUpdateBackingData, queryAddBackingData,
   queryDelBackingData, queryAddSoundData, queryDelSoundData,
-  queryUpdateSoundData, queryDelSoundDataList, querySoundMetaData, queryDownloadSmall } from '../services/soundpipe';
+  queryUpdateSoundData, queryDelSoundDataList, querySoundMetaData, queryDownloadSmall,
+  queryAddSoundMetaData, queryUpdateSoundMetaData, queryDelSoundMetaData } from '../services/soundpipe';
 
 export default {
   namespace: 'soundpipe',
@@ -181,6 +182,36 @@ export default {
         });
       }
     },
+    *addSoundMetaData({ payload }, { call, put }) {
+      const response = yield call(queryAddSoundMetaData, payload);
+      if(response) {
+        const data = response.data || []
+        const pk = data && data.pk
+        yield put({
+          type: 'handelAddSoundMetaData',
+          payload: {...payload, pk},
+        });
+      }
+    },
+    *updateSoundMetaData({ payload }, { call, put }) {
+      const response = yield call(queryUpdateSoundMetaData, payload);
+      if(response) {
+        // const data = response.data || []
+        yield put({
+          type: 'handelUpdateSoundMetaData',
+          payload,
+        });
+      }
+    },
+    *delSoundMetaData({ payload }, { call, put }) {
+      const response = yield call(queryDelSoundMetaData, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelSoundMetaData',
+          payload,
+        });
+      }
+    },
   },
 
   reducers: {
@@ -353,6 +384,46 @@ export default {
       return {
         ...state,
       };
+    },
+    handelAddSoundMetaData(state, { payload }) {
+      const {soundMetaData} = state
+      const soundMetaDataTemp = _.cloneDeep(soundMetaData)
+      soundMetaDataTemp.unshift(payload)
+      return {
+        ...state,
+        soundMetaData: soundMetaDataTemp,
+      }
+    },
+    handelUpdateSoundMetaData(state, { payload }) {
+      const {soundMetaData} = state
+      const soundMetaDataTemp = _.cloneDeep(soundMetaData)
+      for(const item of soundMetaDataTemp) {
+        if(item.pk === payload.pk) {
+          for(const key in payload) {
+            if(Object.prototype.hasOwnProperty.call(payload, key)
+            && Object.prototype.hasOwnProperty.call(item, key)){
+              item[key] = payload[key]
+            }
+          }
+        }
+      }
+      return {
+        ...state,
+        soundMetaData: soundMetaDataTemp,
+      }
+    },
+    handelDelSoundMetaData(state, { payload }) {
+      const {soundMetaData} = state
+      const soundMetaDataTemp = _.cloneDeep(soundMetaData)
+      for(let i=0; i < soundMetaDataTemp.length; i+=1) {
+        if(soundMetaDataTemp[i].pk === payload.pk) {
+          soundMetaDataTemp.splice(i, 1)
+          return {
+            ...state,
+            soundMetaData: soundMetaDataTemp,
+          }
+        }
+      }
     },
   },
 };

@@ -6,7 +6,7 @@ import LayingScheme from 'components/CardModel/LayingScheme'
 import OuterExperimentCard from 'components/CardModel/OuterExperimentCard'
 import ExperimentCondition from 'components/CardModel/ExperimentCondition'
 import ScaleParamAnalysis from 'components/CardModel/ScaleParamAnalysis'
-import UploadFile from '../UploadFile'
+// import UploadFile from 'components/UploadFile/UploadFile'
 import ReduceReport from '../ReduceReport'
 import styles from '../index.less';
 import excel from '../../../../public/SamoleData.xlsx'
@@ -131,7 +131,7 @@ export default class ScaleModel extends Component {
           {/* <Button type="primary" disabled={_.isEmpty(dataParam)} className={styles.toolsButton} onClick={this.dataDownLoad}>
             <span>数据下载</span>
           </Button> */}
-          <UploadFile catalog="conDemo" />
+          {/* <UploadFile catalog="conDemo" /> */}
           <ReduceReport />
         </div>
         <div className={styles.headerBox}>
@@ -174,7 +174,7 @@ export default class ScaleModel extends Component {
         </div>
         <div className={styles.mainCard}>
           <OuterExperimentCard experimentData={selectTestModel} styleWidth="32%" />
-          <ExperimentCondition experimentData={selectTestConditions} styleWidth="32%"/>
+          <ExperimentCondition experimentData={selectTestConditions} styleWidth="32%" />
           <LayingScheme experimentData={selectLayingSchemes} styleWidth="32%" />
         </div>
         <ScaleParamAnalysis

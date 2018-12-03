@@ -1013,6 +1013,7 @@ const proxy = {
         {
           "ts": 1536763514000,
           "pk": "8f87ba80-6273-40d6-a5e1-acd2d1f872e5",
+          "metaname": '元数据1',
           "temparture": 15,
           "press": 1,
           "small": true,
@@ -1026,6 +1027,7 @@ const proxy = {
         {
           "ts": 1536763514000,
           "pk": "8f87ba80-6273-40d6-a5e1-acd2d1f872e52",
+          "metaname": '元数据2',
           "temparture": 15,
           "press": 1,
           "small": true,
@@ -1039,6 +1041,7 @@ const proxy = {
         {
           "ts": 1536763514000,
           "pk": "8f87ba80-6273-40d6-a5e1-acd2d1f872e53",
+          "metaname": '元数据3',
           "temparture": 15,
           "press": 1,
           "small": true,
@@ -1060,6 +1063,7 @@ const proxy = {
         {
           "ts": 1536764084000,
           "pk": "c2b4cf72-a6d0-49a6-b98a-2f67887d106b",
+          "metaname": '元数据1',
           "temparture": 15,
           "press": 1,
           "sampleName": "阿波罗",
@@ -1075,6 +1079,7 @@ const proxy = {
         {
           "ts": 1536764084000,
           "pk": "c2b4cf72-a6d0-49a6-b98a-2f67887d106b2",
+          "metaname": '元数据2',
           "temparture": 15,
           "press": 1,
           "sampleName": "阿波罗",
@@ -1090,6 +1095,7 @@ const proxy = {
         {
           "ts": 1536764084000,
           "pk": "c2b4cf72-a6d0-49a6-b98a-2f67887d106b3",
+          "metaname": '元数据3',
           "temparture": 15,
           "press": 1,
           "sampleName": "阿波罗",
@@ -1113,6 +1119,7 @@ const proxy = {
         {
           "ts": 1537200124000,
           "pk": "8ee1f367-f835-49d5-ad20-ba77a0ebc6fa",
+          "metaname": '元数据1',
           "testModelObjName": null,
           "testModelObjPk": null,
           "layingSchemeName": null,
@@ -1126,6 +1133,7 @@ const proxy = {
         {
             "ts": 1537200007000,
             "pk": "94e84395-8000-49ef-aede-162de8a90e58",
+            "metaname": '元数据2',
             "testModelObjName": "testModelObjName1",
             "testModelObjPk": "testModelObjPk",
             "layingSchemeName": "layingSchemeName",
@@ -1139,6 +1147,7 @@ const proxy = {
         {
             "ts": 1537075069000,
             "pk": "acebcd69-7432-4529-a057-cae3eb406a14",
+            "metaname": '元数据3',
             "testModelObjName": "中尺度模型",
             "testModelObjPk": "95dffea1-3065-4521-95ca-c73e60652192",
             "layingSchemeName": "文字文字",
@@ -1150,6 +1159,87 @@ const proxy = {
             "testModelObjPO": null
         }
       ]
+    })
+  },
+  'POST /smallMng/addSoundeMeta': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /smallMng/updateSoundeMeta': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /smallMng/deleteSoundeMeta': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /scaleMng/addMetaData': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /scaleMng/updateMetaData': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /scaleMng/delMetaData': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /bigMng/addMetaData': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /bigMng/updateMetaData': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
+    })
+  },
+  'POST /bigMng/delMetaData': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": {
+        ...req.body
+      }
     })
   },
 

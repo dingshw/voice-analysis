@@ -4,7 +4,8 @@ import { queryTestModel, queryTestConditions, queryLayingSchemes,
   queryAddTestModelData, queryDelTestModelData, queryUpdateTestConditions,
   queryAddTestConditions, queryDelTestConditions, queryUpdateLayingSchemes,
   queryAddLayingSchemes, queryDelLayingSchemes, queryAddScaleData, queryUpdateScaleData,
-  queryDelScaleData, queryDelScaleDataList, queryScaleMetaData, queryDownloadScale} from '../services/scalemodel';
+  queryDelScaleData, queryDelScaleDataList, queryScaleMetaData, queryDownloadScale,
+  queryAddScaleMetaData, queryUpdateScaleMetaData, queryDelScaleMetaData} from '../services/scalemodel';
 
 export default {
   namespace: 'scalemodel',
@@ -219,6 +220,36 @@ export default {
       if(response) {
         yield put({
           type: 'handelDelScaleDataList',
+          payload,
+        });
+      }
+    },
+    *addScaleMetaData({ payload }, { call, put }) {
+      const response = yield call(queryAddScaleMetaData, payload);
+      if(response) {
+        const data = response.data || []
+        const pk = data && data.pk
+        yield put({
+          type: 'handelAddScaleMetaData',
+          payload: {...payload, pk},
+        });
+      }
+    },
+    *updateScaleMetaData({ payload }, { call, put }) {
+      const response = yield call(queryUpdateScaleMetaData, payload);
+      if(response) {
+        // const data = response.data || []
+        yield put({
+          type: 'handelUpdateScaleMetaData',
+          payload,
+        });
+      }
+    },
+    *delScaleMetaData({ payload }, { call, put }) {
+      const response = yield call(queryDelScaleMetaData, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelScaleMetaData',
           payload,
         });
       }
@@ -440,6 +471,46 @@ export default {
     downloadScaleHandle(state) {
       return {
         ...state,
+      }
+    },
+    handelAddScaleMetaData(state, { payload }) {
+      const {scaleMetaData} = state
+      const scaleMetaTemp = _.cloneDeep(scaleMetaData)
+      scaleMetaTemp.unshift(payload)
+      return {
+        ...state,
+        scaleMetaData: scaleMetaTemp,
+      }
+    },
+    handelUpdateScaleMetaData(state, { payload }) {
+      const {scaleMetaData} = state
+      const scaleMetaTemp = _.cloneDeep(scaleMetaData)
+      for(const item of scaleMetaTemp) {
+        if(item.pk === payload.pk) {
+          for(const key in payload) {
+            if(Object.prototype.hasOwnProperty.call(payload, key)
+            && Object.prototype.hasOwnProperty.call(item, key)){
+              item[key] = payload[key]
+            }
+          }
+        }
+      }
+      return {
+        ...state,
+        scaleMetaData: scaleMetaTemp,
+      }
+    },
+    handelDelScaleMetaData(state, { payload }) {
+      const {scaleMetaData} = state
+      const scaleMetaTemp = _.cloneDeep(scaleMetaData)
+      for(let i=0; i < scaleMetaTemp.length; i+=1) {
+        if(scaleMetaTemp[i].pk === payload.pk) {
+          scaleMetaTemp.splice(i, 1)
+          return {
+            ...state,
+            scaleMetaData: scaleMetaTemp,
+          }
+        }
       }
     },
   },

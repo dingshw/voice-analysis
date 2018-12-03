@@ -119,3 +119,21 @@ export async function queryScaleMetaData(params) {
     body: params,
   })
 }
+export async function queryAddScaleMetaData(params) {
+  return request('/scaleMng/addMetaData', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryUpdateScaleMetaData(params) {
+  return request('/scaleMng/updateMetaData', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelScaleMetaData(params) {
+  return request('/scaleMng/delMetaData', {
+    method: 'POST',
+    body: params,
+  })
+}
