@@ -31,9 +31,11 @@ export default class SoundMetaData extends Component {
       data.push({
         key: i.toString(),
         pk: formatdata[i].pk,
-        metaname: formatdata[i].metaname,
+        name: formatdata[i].name,
         samplename: formatdata[i].samplename,
+        samplepk: formatdata[i].samplepk,
         backingname: formatdata[i].backingname,
+        bakingpk: formatdata[i].bakingpk,
         press: formatdata[i].press,
         temparture: formatdata[i].temparture,
       });
@@ -86,7 +88,7 @@ export default class SoundMetaData extends Component {
     const columns = [
       {
         title: '元数据名称',
-        dataIndex: 'metaname',
+        dataIndex: 'name',
         isSelect: true,
         width: '16%',
         editable: false,
@@ -133,7 +135,7 @@ export default class SoundMetaData extends Component {
       },
     ]
     const metaContent = {
-      metaname: '',samplename: '', backingname:'',press:'',temparture:'',
+      name: '',samplename: '', backingname:'',press:'',temparture:'',
     }
     const selectMap = {'samplename': sampleData, 'backingname': backingData}
     return (

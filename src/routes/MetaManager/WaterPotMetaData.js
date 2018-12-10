@@ -59,7 +59,7 @@ export default class WaterPotMetaData extends Component {
       data.push({
         key: i.toString(),
         pk: formatdata[i].pk,
-        metaname: formatdata[i].metaname,
+        name: formatdata[i].name,
         sampleName: formatdata[i].sampleName,
         testModelName: formatdata[i].testModelName,
         testSystemName: formatdata[i].testSystemName,
@@ -79,7 +79,7 @@ export default class WaterPotMetaData extends Component {
     const columns = [
       {
         title: '元数据名称',
-        dataIndex: 'metaname',
+        dataIndex: 'name',
         isSelect: true,
         width: '14%',
         editable: false,
@@ -123,7 +123,7 @@ export default class WaterPotMetaData extends Component {
       },
     ]
     const metaContent = {
-      metaname: '',sampleName: '', testModelName:'',testSystemName: '',press:'',temparture:'',
+      name: '',sampleName: '', testModelName:'',testSystemName: '',press:'',temparture:'',
     }
     const selectMap = {sampleName: bigSampleData, testModelName: bigTestData, testSystemName: bigTestSystemsData}
     return (

@@ -16,12 +16,12 @@ export default class MetaManageModal extends Component {
 
   handleOk =()=> {
     const {handelAddData, handelUpdateData, onShowModal, metaContent} = this.props
+    metaContent.callBackFunc = onShowModal
     if(metaContent.pk) {
       handelUpdateData(metaContent)
     } else {
       handelAddData(metaContent)
     }
-    onShowModal()
   }
 
   handleCancel = () => {
@@ -40,9 +40,9 @@ export default class MetaManageModal extends Component {
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          width={700}
+          width={500}
         >
-          <div style={{display: 'flex',flexDirection: 'column'}}>
+          <div style={{display: 'flex',flexDirection: 'column',width: '100%'}}>
             {type === 'isSound' && <SoundForm {...this.props} /> }
             {type === 'isScale' && <ScaleForm {...this.props} /> }
             {type === 'isWater' && <WaterForm {...this.props} /> }

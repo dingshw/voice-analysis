@@ -33,7 +33,7 @@ export default class scalemetadata extends Component {
       data.push({
         key: i.toString(),
         pk: formatdata[i].pk,
-        metaname: formatdata[i].metaname,
+        name: formatdata[i].name,
         testModelObjName: formatdata[i].testModelObjName,
         layingSchemeName: formatdata[i].layingSchemeName,
         testConditionName: formatdata[i].testConditionName,
@@ -77,7 +77,7 @@ export default class scalemetadata extends Component {
     const columns = [
       {
         title: '元数据名称',
-        dataIndex: 'metaname',
+        dataIndex: 'name',
         isSelect: true,
         width: '16%',
         editable: false,
@@ -105,7 +105,7 @@ export default class scalemetadata extends Component {
       },
     ]
     const metaContent = {
-      metaname: '',testModelObjName: '', testConditionName:'',layingSchemeName:'',
+      name: '',testModelObjName: '', testConditionName:'',layingSchemeName:'',
     }
     const selectMap = {
       testModelObjName: testModel,

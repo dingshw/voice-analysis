@@ -25,7 +25,7 @@ class WaterForm extends Component{
           label="元数据名称"
         >
           {getFieldDecorator('name', {
-            initialValue: metaContent.metaname,
+            initialValue: metaContent.name,
             rules: [{
               required: true, message: '名称不能为空',
             },
@@ -46,7 +46,7 @@ class WaterForm extends Component{
           }
           )(
             <Input
-              onChange={onChangeName.bind(this, 'metaname')}
+              onChange={onChangeName.bind(this, 'name')}
             />
           )}
         </FormItem>
@@ -64,7 +64,6 @@ class WaterForm extends Component{
             }
           >
             <Select
-              style={{ width: 150, marginLeft: '10px'}}
               placeholder=""
               value={metaContent[key]}
               onChange={onChangeName.bind(this, key)}

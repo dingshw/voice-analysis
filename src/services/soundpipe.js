@@ -100,19 +100,25 @@ export async function querySoundMetaData(params) {
   })
 }
 export async function queryAddSoundMetaData(params) {
-  return request('/smallMng/addSoundeMeta', {
+  return request('/smallManager/save', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryUpdateSoundMetaData(params) {
-  return request('/smallMng/updateSoundeMeta', {
+  return request('/smallManager/update', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryDelSoundMetaData(params) {
-  return request('/smallMng/deleteSoundeMeta', {
+  return request('/smallManager/delete', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function querySoundMetaDataByCondition(params) {
+  return request('/smallManager/queryByCondition', {
     method: 'POST',
     body: params,
   })
