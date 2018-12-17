@@ -185,11 +185,9 @@ export default {
     },
     *addSoundMetaData({ payload }, { call, put }) {
       const response1 = yield call(querySoundMetaDataByCondition, payload)
-      if(response1.data.length>0) {
-        if(response1.data.length>1 || !payload.pk || response1.data[0].pk !== payload.pk) {
-          message.error('已存在该组合的元数据');
-          return;
-        }
+      if(response1.data && response1.data.length>0) {
+        message.error('已存在该组合的元数据');
+        return;
       }
       // 调用回调
       payload.callBackFunc()
@@ -205,7 +203,7 @@ export default {
     },
     *updateSoundMetaData({ payload }, { call, put }) {
       const response1 = yield call(querySoundMetaDataByCondition, payload)
-      if(response1.data.length>0) {
+      if(response1.data && response1.data.length>0) {
         if(response1.data.length>1 || !payload.pk || response1.data[0].pk !== payload.pk) {
           message.error('已存在该组合的元数据');
           return;
