@@ -10,29 +10,29 @@ export default class ScaleForm extends Component {
 
   handleChange = (type, value) => {
     const {scaleData, handelScaleData} = this.props
-    if(value.target) {
-      if(value.target.value<0 || value.target.value>1) {
-        message.error('请输入0-1之间的值')
-        return
-      }
-    }
+    // if(value.target) {
+    //   if(value.target.value<0 || value.target.value>1) {
+    //     message.error('请输入0-1之间的值')
+    //     return
+    //   }
+    // }
     const valueTemp = value.target ? value.target.value : value
-    if(type === 'rate') {
-      const {modalDataMap} = this.props
-      const {scaleCondition} = modalDataMap
-      const {data} = scaleCondition
-      for(const item of data) {
-        if(item.rate == valueTemp) {
-          scaleData.lightShellTS = item.lightShellTS
-          scaleData.lightShellSP = item.lightShellSP
-          scaleData.layingShellTS = item.layingShellTS
-          scaleData.layingShellSP = item.layingShellSP
-          scaleData.reductionTS = item.reductionTS
-          scaleData.reductionSP = item.reductionSP
-        }
-      }
-    }
-    scaleData[type] = !_.isNaN(Number(valueTemp)) ? Number(valueTemp) : valueTemp
+    // if(type === 'rate') {
+    //   const {modalDataMap} = this.props
+    //   const {scaleCondition} = modalDataMap
+    //   const {data} = scaleCondition
+    //   for(const item of data) {
+    //     if(item.rate == valueTemp) {
+    //       scaleData.lightShellTS = item.lightShellTS
+    //       scaleData.lightShellSP = item.lightShellSP
+    //       scaleData.layingShellTS = item.layingShellTS
+    //       scaleData.layingShellSP = item.layingShellSP
+    //       scaleData.reductionTS = item.reductionTS
+    //       scaleData.reductionSP = item.reductionSP
+    //     }
+    //   }
+    // }
+    scaleData[type] = valueTemp
     // this.setState({soundData})
     handelScaleData(scaleData)
   }
@@ -94,6 +94,26 @@ export default class ScaleForm extends Component {
         <div className={styles.leftForm}>
           <FormItem
             {...formItemLayout}
+            label="元数据名称"
+          >
+            <Input value={scaleData.name} disabled />
+            {/* <Select
+              value={soundData.samplename}
+              onChange={this.handleChange.bind(this, 'samplename')}
+            >
+              {
+                sampleData && sampleData.map(item => {
+                  if(_.isObject(item)) {
+                    return (<Option key={item.name}>{item.name}</Option>)
+                  } else {
+                    return (<Option key={item}>{item}</Option>)
+                  }
+                })
+              }
+            </Select> */}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
             label="试验模型名称"
           >
             <Input value={scaleData.testModelObjName} disabled />
@@ -152,7 +172,7 @@ export default class ScaleForm extends Component {
               }
             </Select> */}
           </FormItem>
-          <FormItem
+          {/* <FormItem
             {...formItemLayout}
             label="频率范围"
           >
@@ -170,9 +190,9 @@ export default class ScaleForm extends Component {
                 })
               }
             </Select>
-          </FormItem>
+          </FormItem> */}
         </div>
-        <div className={styles.centerForm}>
+        {/* <div className={styles.centerForm}>
           <Button
             type="primary"
             onClick={this.handelComputeSoundeData}
@@ -180,13 +200,14 @@ export default class ScaleForm extends Component {
           >
             计算
           </Button>
-        </div>
+        </div> */}
         <div className={styles.rightForm}>
           <FormItem
             {...formItemLayout2}
             label="频率(f/Hz)"
           >
-            <Select
+            <Input value={scaleData.rate} onChange={this.handleChange.bind(this, 'rate')} />
+            {/* <Select
               value={scaleData.rate}
               onChange={this.handleChange.bind(this, 'rate')}
             >
@@ -199,7 +220,7 @@ export default class ScaleForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout2}

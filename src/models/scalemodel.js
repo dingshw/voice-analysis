@@ -1,11 +1,13 @@
 import _ from 'lodash'
+import {message} from 'antd'
 import { queryTestModel, queryTestConditions, queryLayingSchemes,
   queryScaleCondition, queryScaleManage, queryUpdateTestModelData,
   queryAddTestModelData, queryDelTestModelData, queryUpdateTestConditions,
   queryAddTestConditions, queryDelTestConditions, queryUpdateLayingSchemes,
   queryAddLayingSchemes, queryDelLayingSchemes, queryAddScaleData, queryUpdateScaleData,
   queryDelScaleData, queryDelScaleDataList, queryScaleMetaData, queryDownloadScale,
-  queryAddScaleMetaData, queryUpdateScaleMetaData, queryDelScaleMetaData} from '../services/scalemodel';
+  queryAddScaleMetaData, queryUpdateScaleMetaData, queryDelScaleMetaData,
+  queryScaleMetaDataByCondition, queryDelScaleMetaList} from '../services/scalemodel';
 
 export default {
   namespace: 'scalemodel',
@@ -118,11 +120,16 @@ export default {
     },
     *delTestModelData({ payload }, { call, put }) {
       const response = yield call(queryDelTestModelData, payload);
-      if(response) {
+      if(response.success) {
         yield put({
           type: 'handelDeleteTestModel',
           payload,
         });
+        message.info('操作成功')
+      } else if(response.message){
+        message.error(response.message)
+      } else {
+        message.error('接口请求报错')
       }
     },
     *updateTestConditions({ payload }, { call, put }) {
@@ -148,11 +155,16 @@ export default {
     },
     *delTestConditions({ payload }, { call, put }) {
       const response = yield call(queryDelTestConditions, payload);
-      if(response) {
+      if(response.success) {
         yield put({
           type: 'handelDeleteTestConditions',
           payload,
         });
+        message.info('操作成功')
+      } else if(response.message){
+        message.error(response.message)
+      } else {
+        message.error('接口请求报错')
       }
     },
     *updateLayingSchemes({ payload }, { call, put }) {
@@ -178,11 +190,16 @@ export default {
     },
     *delLayingSchemes({ payload }, { call, put }) {
       const response = yield call(queryDelLayingSchemes, payload);
-      if(response) {
+      if(response.success) {
         yield put({
           type: 'handelDeleteLayingSchemes',
           payload,
         });
+        message.info('操作成功')
+      } else if(response.message){
+        message.error(response.message)
+      } else {
+        message.error('接口请求报错')
       }
     },
     *addScaleData({ payload }, { call, put }) {
@@ -225,6 +242,13 @@ export default {
       }
     },
     *addScaleMetaData({ payload }, { call, put }) {
+      const response1 = yield call(queryScaleMetaDataByCondition, payload)
+      if(response1.data && response1.data.length>0) {
+        message.error('已存在该组合的元数据');
+        return;
+      }
+      // 调用回调
+      payload.callBackFunc()
       const response = yield call(queryAddScaleMetaData, payload);
       if(response) {
         const data = response.data || []
@@ -236,6 +260,15 @@ export default {
       }
     },
     *updateScaleMetaData({ payload }, { call, put }) {
+      const response1 = yield call(queryScaleMetaDataByCondition, payload)
+      if(response1.data && response1.data.length>0) {
+        if(response1.data.length>1 || !payload.pk || response1.data[0].pk !== payload.pk) {
+          message.error('已存在该组合的元数据');
+          return;
+        }
+      }
+      // 调用回调
+      payload.callBackFunc()
       const response = yield call(queryUpdateScaleMetaData, payload);
       if(response) {
         // const data = response.data || []
@@ -250,6 +283,15 @@ export default {
       if(response) {
         yield put({
           type: 'handelDelScaleMetaData',
+          payload,
+        });
+      }
+    },
+    *delScaleMetaList({ payload }, { call, put }) {
+      const response = yield call(queryDelScaleMetaList, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelScaleMetaList',
           payload,
         });
       }
@@ -511,6 +553,21 @@ export default {
             scaleMetaData: scaleMetaTemp,
           }
         }
+      }
+    },
+    handelDelScaleMetaList(state, { payload }) {
+      const {scaleMetaData} = state
+      const scaleMetaTemp = _.cloneDeep(scaleMetaData)
+      for(const pk of payload.pks) {
+        for(let i=0; i < scaleMetaTemp.length; i+=1) {
+          if(scaleMetaTemp[i].pk === pk) {
+            scaleMetaTemp.splice(i, 1)
+          }
+        }
+      }
+      return {
+        ...state,
+        scaleMetaData: scaleMetaTemp,
       }
     },
   },

@@ -8,6 +8,7 @@ export default class DataManageModal extends Component {
   state = {
     visible: false,
     soundData: {
+      name: null,
       samplename: null,
       backingname: null,
       press: null,

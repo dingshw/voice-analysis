@@ -63,7 +63,7 @@ export default class SampleManage extends Component {
       type: 'soundpipe/delSampleData',
       payload: {pk: dataModel.pk},
     });
-    message.info('操作成功')
+    // message.info('操作成功')
   }
 
   render () {

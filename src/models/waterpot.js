@@ -1,11 +1,13 @@
 import _ from 'lodash'
+import {message} from 'antd'
 import { queryBigSampleData, queryBigTestData, queryBigTestSystemsData,
   queryWaterpotData, queryWaterpotManageData, queryUpdateBigTestData,
   queryAddBigTestData, queryDelBigTestData,
   queryUpdateBigTestSystemsData, queryAddBigTestSystemsData,
   queryDelBigTestSystemsData, queryAddWaterData, queryUpdateWaterData,
   queryDelWaterData, queryDelWaterDataList, queryWaterMetaData, queryDownloadBig,
-  queryAddWaterMetaData, queryUpdateWaterMetaData, queryDelWaterMetaData} from '../services/waterpot';
+  queryAddWaterMetaData, queryUpdateWaterMetaData, queryDelWaterMetaData,
+  queryWaterMetaDataByCondition, queryDelWaterMetaList} from '../services/waterpot';
 
 export default {
   namespace: 'waterpot',
@@ -118,11 +120,16 @@ export default {
     },
     *delBigTestData({ payload }, { call, put }) {
       const response = yield call(queryDelBigTestData, payload);
-      if(response) {
+      if(response.success) {
         yield put({
           type: 'handelDeleteBigTest',
           payload,
         });
+        message.info('操作成功')
+      } else if(response.message){
+        message.error(response.message)
+      } else {
+        message.error('接口请求报错')
       }
     },
     *updateBigTestSystemsData({ payload }, { call, put }) {
@@ -148,11 +155,16 @@ export default {
     },
     *delBigTestSystemsData({ payload }, { call, put }) {
       const response = yield call(queryDelBigTestSystemsData, payload);
-      if(response) {
+      if(response.success) {
         yield put({
           type: 'handelDeleteBigTestSystems',
           payload,
         });
+        message.info('操作成功')
+      } else if(response.message){
+        message.error(response.message)
+      } else {
+        message.error('接口请求报错')
       }
     },
     *addWaterData({ payload }, { call, put }) {
@@ -195,6 +207,13 @@ export default {
       }
     },
     *addWaterMetaData({ payload }, { call, put }) {
+      const response1 = yield call(queryWaterMetaDataByCondition, payload)
+      if(response1.data && response1.data.length>0) {
+        message.error('已存在该组合的元数据');
+        return;
+      }
+      // 调用回调
+      payload.callBackFunc()
       const response = yield call(queryAddWaterMetaData, payload);
       if(response) {
         const data = response.data || []
@@ -206,6 +225,15 @@ export default {
       }
     },
     *updateWaterMetaData({ payload }, { call, put }) {
+      const response1 = yield call(queryWaterMetaDataByCondition, payload)
+      if(response1.data && response1.data.length>0) {
+        if(response1.data.length>1 || !payload.pk || response1.data[0].pk !== payload.pk) {
+          message.error('已存在该组合的元数据');
+          return;
+        }
+      }
+      // 调用回调
+      payload.callBackFunc()
       const response = yield call(queryUpdateWaterMetaData, payload);
       if(response) {
         // const data = response.data || []
@@ -220,6 +248,15 @@ export default {
       if(response) {
         yield put({
           type: 'handelDelWaterMetaData',
+          payload,
+        });
+      }
+    },
+    *delWaterMetaList({ payload }, { call, put }) {
+      const response = yield call(queryDelWaterMetaList, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelWaterMetaList',
           payload,
         });
       }
@@ -436,6 +473,21 @@ export default {
             waterMetaData: waterMetaDataTemp,
           }
         }
+      }
+    },
+    handelDelWaterMetaList(state, { payload }) {
+      const {waterMetaData} = state
+      const waterMetaDataTemp = _.cloneDeep(waterMetaData)
+      for(const pk of payload.pks) {
+        for(let i=0; i < waterMetaDataTemp.length; i+=1) {
+          if(waterMetaDataTemp[i].pk === pk) {
+            waterMetaDataTemp.splice(i, 1)
+          }
+        }
+      }
+      return {
+        ...state,
+        waterMetaData: waterMetaDataTemp,
       }
     },
   },

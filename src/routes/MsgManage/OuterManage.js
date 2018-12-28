@@ -35,7 +35,7 @@ export default class OuterManage extends Component {
       type: 'scalemodel/delTestModelData',
       payload: {pk: dataModel.pk},
     });
-    message.info('操作成功')
+    // message.info('操作成功')
   }
 
   // 调用action 执行后台接口更新数据

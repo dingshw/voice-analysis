@@ -120,19 +120,31 @@ export async function queryScaleMetaData(params) {
   })
 }
 export async function queryAddScaleMetaData(params) {
-  return request('/scaleMng/addMetaData', {
+  return request('/scaleManager/save', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryUpdateScaleMetaData(params) {
-  return request('/scaleMng/updateMetaData', {
+  return request('/scaleManager/modify', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryDelScaleMetaData(params) {
-  return request('/scaleMng/delMetaData', {
+  return request('/scaleManager/delete', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryScaleMetaDataByCondition(params) {
+  return request('/scaleManager/queryByCondition', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelScaleMetaList(params) {
+  return request('/scaleManager/deleteAll', {
     method: 'POST',
     body: params,
   })

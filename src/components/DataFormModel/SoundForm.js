@@ -23,26 +23,26 @@ export default class SoundForm extends Component {
 
   handleChange = (type, value) => {
     const {soundData, handelSoundData} = this.props
-    if(value.target) {
-      if(value.target.value<0 || value.target.value>1) {
-        message.error('请输入0-1之间的值')
-        return
-      }
-    }
+    // if(value.target && type!=='rate') {
+    //   if(value.target.value<0 || value.target.value>1) {
+    //     message.error('请输入0-1之间的值')
+    //     return
+    //   }
+    // }
     const valueTemp = value.target ? value.target.value : value
-    if(type === 'rate') {
-      const {modalDataMap} = this.props
-      const {soundPipeData} = modalDataMap
-      const {data} = soundPipeData
-      for(const item of data) {
-        if(item.rate == valueTemp) {
-          soundData.refect = item.refect
-          soundData.transmission = item.transmission
-          soundData.bondacust = item.bondacust
-        }
-      }
-    }
-    soundData[type] = !_.isNaN(Number(valueTemp)) ? Number(valueTemp) : valueTemp
+    // if(type === 'rate') {
+    //   const {modalDataMap} = this.props
+    //   const {soundPipeData} = modalDataMap
+    //   const {data} = soundPipeData
+    //   for(const item of data) {
+    //     if(item.rate == valueTemp) {
+    //       soundData.refect = item.refect
+    //       soundData.transmission = item.transmission
+    //       soundData.bondacust = item.bondacust
+    //     }
+    //   }
+    // }
+    soundData[type] = valueTemp
     // this.setState({soundData})
     handelSoundData(soundData)
   }
@@ -103,6 +103,26 @@ export default class SoundForm extends Component {
     return (
       <Form layout="horizontal" className={styles.dataForm}>
         <div className={styles.leftForm}>
+          <FormItem
+            {...formItemLayout}
+            label="元数据名称"
+          >
+            <Input value={soundData.name} disabled />
+            {/* <Select
+              value={soundData.samplename}
+              onChange={this.handleChange.bind(this, 'samplename')}
+            >
+              {
+                sampleData && sampleData.map(item => {
+                  if(_.isObject(item)) {
+                    return (<Option key={item.name}>{item.name}</Option>)
+                  } else {
+                    return (<Option key={item}>{item}</Option>)
+                  }
+                })
+              }
+            </Select> */}
+          </FormItem>
           <FormItem
             {...formItemLayout}
             label="样品名称"
@@ -183,7 +203,7 @@ export default class SoundForm extends Component {
               }
             </Select> */}
           </FormItem>
-          <FormItem
+          {/* <FormItem
             {...formItemLayout}
             label="频率范围"
           >
@@ -201,9 +221,9 @@ export default class SoundForm extends Component {
                 })
               }
             </Select>
-          </FormItem>
+          </FormItem> */}
         </div>
-        <div className={styles.centerForm}>
+        {/* <div className={styles.centerForm}>
           <Button
             type="primary"
             onClick={this.handelComputeSoundeData}
@@ -211,13 +231,14 @@ export default class SoundForm extends Component {
           >
             计算
           </Button>
-        </div>
+        </div> */}
         <div className={styles.rightForm}>
           <FormItem
             {...formItemLayout}
             label="频率(f/Hz)"
           >
-            <Select
+            <Input value={soundData.rate} onChange={this.handleChange.bind(this, 'rate')} />
+            {/* <Select
               value={soundData.rate}
               onChange={this.handleChange.bind(this, 'rate')}
             >
@@ -230,7 +251,7 @@ export default class SoundForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout}

@@ -35,7 +35,7 @@ export default class LayManage extends Component {
       type: 'scalemodel/delLayingSchemes',
       payload: {pk: dataModel.pk},
     });
-    message.info('操作成功')
+    // message.info('操作成功')
   }
 
   // 调用action 执行后台接口更新数据

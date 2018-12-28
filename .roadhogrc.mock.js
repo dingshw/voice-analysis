@@ -246,7 +246,102 @@ const proxy = {
             "transmission": 0.6,
             "bondacust": 0.73918,
             "rate": 120
-        }
+        },
+        {
+          "refect": 0.8,
+          "transmission": 0.6,
+          "bondacust": 0.73918,
+          "rate": 120
+      },{
+        "refect": 0.8,
+        "transmission": 0.6,
+        "bondacust": 0.73918,
+        "rate": 120
+    },
+    {
+      "refect": 0.8,
+      "transmission": 0.6,
+      "bondacust": 0.73918,
+      "rate": 120
+  },
+  {
+    "refect": 0.8,
+    "transmission": 0.6,
+    "bondacust": 0.73918,
+    "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 120
+},
+{
+  "refect": 0.8,
+  "transmission": 0.6,
+  "bondacust": 0.73918,
+  "rate": 240
+}
         ]
       });
     } else {
@@ -525,6 +620,7 @@ const proxy = {
       "data": [
         {
           pk: 123,
+          name:'123',
           "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4171",
           "samplename":"阿波罗",
           "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6902",
@@ -538,6 +634,7 @@ const proxy = {
       },
       {
         pk: 456,
+        name: '小样05',
         "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4173",
         "samplename":"阿波罗2",
         "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6904",
@@ -551,6 +648,7 @@ const proxy = {
       },
       {
         pk: 789,
+        name: '小样06',
         "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4175",
         "samplename":"阿波罗3",
         "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6906",
@@ -564,6 +662,7 @@ const proxy = {
       },
       {
         pk: 234,
+        name: '小样02',
         "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4177",
         "samplename":"阿波罗4",
         "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6908",
@@ -577,6 +676,7 @@ const proxy = {
       },
       {
         pk: 345,
+        name: '小样08',
         "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4179",
         "samplename":"阿波罗5",
         "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6904",
@@ -598,13 +698,14 @@ const proxy = {
       "data": [
         {
           pk: 1,
+          name: '小样01',
           "sampleName":"阿波罗0",
           "samplepk":"b480db62-5a06-4058-a8db-44fb946763f72",
           "testModelName":"双层局域实尺度试验模型1",
           "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f243",
           "testSystemName":"测试系统名称1",
           "temparture":"15",
-			    "press":"1",
+			    "press":"2",
           "refect": 0.1,
           "transmission": 0.45,
           "bondacust": 0.7875,
@@ -615,6 +716,7 @@ const proxy = {
         },
         {
           pk: 2,
+          name: '小样05',
           "sampleName":"阿波罗",
           "samplepk":"b480db62-5a06-4058-a8db-44fb946763f71",
           "testModelName":"双层局域实尺度试验模型2",
@@ -632,13 +734,14 @@ const proxy = {
         },
         {
           pk: 3,
+          name: '小样03',
           "sampleName":"阿波罗2",
           "samplepk":"b480db62-5a06-4058-a8db-44fb946763f73",
           "testModelName":"双层局域实尺度试验模型3",
           "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f244",
           "testSystemName":"测试系统名称3",
           "temparture":"15",
-			    "press":"1",
+			    "press":"3",
           "refect": 0.1,
           "transmission": 0.45,
           "bondacust": 0.7875,
@@ -649,13 +752,14 @@ const proxy = {
         },
         {
           pk: 4,
+          name: '小样04',
           "sampleName":"阿波罗3",
           "samplepk":"b480db62-5a06-4058-a8db-44fb946763f75",
           "testModelName":"双层局域实尺度试验模型4",
           "testModelPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f246",
           "testSystemName":"测试系统名称4",
           "temparture":"15",
-			    "press":"1",
+			    "press":"0.1",
           "refect": 0.1,
           "transmission": 0.45,
           "bondacust": 0.7875,
@@ -675,6 +779,7 @@ const proxy = {
         {
           pk: 1,
           "testModelObjName":"中尺度模型1",
+          rate: 123,
           "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f241",
           "layingSchemeName":"集成方案1",
           "layingSchemePk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f242",
@@ -789,7 +894,7 @@ const proxy = {
       }
     })
   },
-  'POST /testModelMng/modifyTestModel': (req, res) => {
+  'POST /testSystemMng/modifyTestModel': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -798,7 +903,7 @@ const proxy = {
       }
     })
   },
-  'POST /testModelMng/saveTestModel': (req, res) => {
+  'POST /testSystemMng/saveTestModel': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -807,7 +912,7 @@ const proxy = {
       }
     })
   },
-  'POST /testModelMng/deleteTestModel': (req, res) => {
+  'POST /testSystemMng/deleteTestModel': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -1170,7 +1275,7 @@ const proxy = {
       }
     })
   },
-  'POST /smallManager/update': (req, res) => {
+  'POST /smallManager/modify': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -1195,7 +1300,7 @@ const proxy = {
       "data": []
     })
   },
-  'POST /scaleMng/addMetaData': (req, res) => {
+  'POST /scaleManager/save': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -1204,7 +1309,7 @@ const proxy = {
       }
     })
   },
-  'POST /scaleMng/updateMetaData': (req, res) => {
+  'POST /scaleManager/modify': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -1213,7 +1318,7 @@ const proxy = {
       }
     })
   },
-  'POST /scaleMng/delMetaData': (req, res) => {
+  'POST /scaleManager/delete': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -1222,7 +1327,14 @@ const proxy = {
       }
     })
   },
-  'POST /bigMng/addMetaData': (req, res) => {
+  'POST /scaleManager/queryByCondition': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": []
+    })
+  },
+  'POST /bigManager/save': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -1231,7 +1343,7 @@ const proxy = {
       }
     })
   },
-  'POST /bigMng/updateMetaData': (req, res) => {
+  'POST /bigManager/modify': (req, res) => {
     res.send({
       "success": true,
       "message": null,
@@ -1240,13 +1352,20 @@ const proxy = {
       }
     })
   },
-  'POST /bigMng/delMetaData': (req, res) => {
+  'POST /bigManager/delete': (req, res) => {
     res.send({
       "success": true,
       "message": null,
       "data": {
         ...req.body
       }
+    })
+  },
+  'POST /bigManager/queryByCondition': (req, res) => {
+    res.send({
+      "success": true,
+      "message": null,
+      "data": []
     })
   },
 

@@ -5,7 +5,8 @@ import { queryBackingData, querySampleData, querySoundPipeData,
   queryDelSampleData, queryUpdateBackingData, queryAddBackingData,
   queryDelBackingData, queryAddSoundData, queryDelSoundData,
   queryUpdateSoundData, queryDelSoundDataList, querySoundMetaData, queryDownloadSmall,
-  queryAddSoundMetaData, queryUpdateSoundMetaData, queryDelSoundMetaData, querySoundMetaDataByCondition } from '../services/soundpipe';
+  queryAddSoundMetaData, queryUpdateSoundMetaData, queryDelSoundMetaData,
+  querySoundMetaDataByCondition, queryDelSoundMetaList } from '../services/soundpipe';
 
 export default {
   namespace: 'soundpipe',
@@ -106,11 +107,16 @@ export default {
     },
     *delSampleData({ payload }, { call, put }) {
       const response = yield call(queryDelSampleData, payload);
-      if(response) {
+      if(response.success) {
         yield put({
           type: 'handelDeleteSample',
           payload,
         });
+        message.info('操作成功')
+      } else if(response.message){
+        message.error(response.message)
+      } else {
+        message.error('接口请求报错')
       }
     },
     *updateBackingData({ payload }, { call, put }) {
@@ -137,11 +143,16 @@ export default {
     },
     *delBackingData({ payload }, { call, put }) {
       const response = yield call(queryDelBackingData, payload);
-      if(response) {
+      if(response.success) {
         yield put({
           type: 'handelDeleteBacking',
           payload,
         });
+        message.info('操作成功')
+      } else if(response.message){
+        message.error(response.message)
+      } else {
+        message.error('接口请求报错')
       }
     },
     *addSoundData({ payload }, { call, put }) {
@@ -225,6 +236,15 @@ export default {
       if(response) {
         yield put({
           type: 'handelDelSoundMetaData',
+          payload,
+        });
+      }
+    },
+    *delSoundMetaList({ payload }, { call, put }) {
+      const response = yield call(queryDelSoundMetaList, payload);
+      if(response) {
+        yield put({
+          type: 'handelDelSoundMetaList',
           payload,
         });
       }
@@ -440,6 +460,21 @@ export default {
             soundMetaData: soundMetaDataTemp,
           }
         }
+      }
+    },
+    handelDelSoundMetaList(state, { payload }) {
+      const {soundMetaData} = state
+      const soundMetaDataTemp = _.cloneDeep(soundMetaData)
+      for(const pk of payload.pks) {
+        for(let i=0; i < soundMetaDataTemp.length; i+=1) {
+          if(soundMetaDataTemp[i].pk === pk) {
+            soundMetaDataTemp.splice(i, 1)
+          }
+        }
+      }
+      return {
+        ...state,
+        soundMetaData: soundMetaDataTemp,
       }
     },
   },

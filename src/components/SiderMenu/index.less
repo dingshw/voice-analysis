@@ -3,6 +3,7 @@
 .logo {
   position: relative;
   padding-left: (@menu-collapsed-width - 32px) / 2;
+  padding-top: 18px;
   transition: all 0.3s;
   overflow: hidden;
   img {
@@ -40,6 +41,7 @@
 .icon {
   width: 14px;
   margin-right: 10px;
+  opacity: 0.6;
 }
 
 :global {
@@ -47,7 +49,7 @@
     background: #001529;
   }
   .ant-menu.ant-menu-dark .ant-menu-item {
-    padding-left: 24px !important;
+    // padding-left: 24px !important;
   }
   .ant-menu-inline-collapsed {
     & > .ant-menu-item .sider-menu-item-img + span,

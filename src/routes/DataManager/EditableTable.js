@@ -1,13 +1,11 @@
 import React, {Component} from 'react'
-import { Table, Popconfirm, Form, Button, Icon, message, Select } from 'antd';
+import { Table, Form, Icon, message, Modal } from 'antd';
 import _ from 'lodash'
-import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableCell from './EditableCell'
 import styles from './EdittableCell.less'
 
 const EditableContext = React.createContext();
-const Option = Select && Select.Option
-
+const confirm = Modal && Modal.confirm
 const EditableRow = ({ form, index, ...props }) => (
   <EditableContext.Provider value={form}>
     <tr {...props} />
@@ -23,9 +21,6 @@ export default class EditableTable extends Component {
     this.state = {
       data,
       editingKey: '',
-      selectedRowKeys: [],
-      showModal: false,
-      filters: {},
      };
     this.columns = [...columns, {
       title: '操作',
@@ -54,9 +49,7 @@ export default class EditableTable extends Component {
             ) : (
               <div className={styles.opertion}>
                 <Icon className={styles.iconStyle} type="edit" onClick={() => this.edit(record.key)} />
-                <Popconfirm title="确定删除?" onConfirm={() => this.handleDelete(record.pk)}>
-                  <Icon className={styles.iconStyle} type="delete" />
-                </Popconfirm>
+                <Icon className={styles.iconStyle} type="delete" onClick={() => this.handleDelete(record.pk)} />
               </div>
             )}
           </div>
@@ -65,34 +58,8 @@ export default class EditableTable extends Component {
     }]
   }
 
-
-  onSelectChange = (selectedRowKeys) => {
-    // console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
-  }
-
-  handleDelete = (pk) => {
-    // const { data } = this.state
-    const {handelDelData} = this.props
-    if(pk) {
-      handelDelData(pk)
-    } else {
-      message.error('删除失败')
-    }
-    // const dataSource = [...data];
-    // this.setState({ data: dataSource.filter(item => item.key !== key) });
-  }
-
-  handleAdd = () => {
-    // const { count, data } = this.state;
-    // const newData = {
-    //   key: count,
-    // };
-    // this.setState({
-    //   data: [newData, ...data],
-    //   count: count + 1,
-    // });
-    this.setState({showModal: true})
+  setRowClassName = (record) => {
+    return record.id === this.isEditing(record) ? 'clickRowStyl' : '';
   }
 
   isEditing = (record) => {
@@ -107,24 +74,49 @@ export default class EditableTable extends Component {
 
 
   handleSelectDelete = () => {
-    const {selectedRowKeys, data} = this.state
-    const keyList = []
-    for(const key of selectedRowKeys) {
-      if(data[key].pk) {
-        keyList.push(data[key].pk)
-      }
-    }
-    const {handelDelData} = this.props
-    if(keyList.length>0) {
-      handelDelData(keyList)
-    } else {
-      message.error('删除失败')
-    }
+    const that = this
+    confirm({
+      title: '是否确认删除?',
+      content: '',
+      onOk() {
+        const {selectedRowKeys, data} = that.state
+        const keyList = []
+        for(const key of selectedRowKeys) {
+          if(data[key].pk) {
+            keyList.push(data[key].pk)
+          }
+        }
+        const {handelDelData} = that.props
+        if(keyList.length>0) {
+          handelDelData(keyList)
+        } else {
+          message.error('删除失败')
+        }
+      },
+      onCancel() {},
+    });
     // console.log('selectedRowKeys changed: ', keyList);
   }
 
-  setRowClassName = (record) => {
-    return record.id === this.isEditing(record) ? 'clickRowStyl' : '';
+  handleDelete = (pk) => {
+    const that = this
+    confirm({
+      title: '是否确认删除?',
+      content: '',
+      onOk() {
+        // const { data } = this.state
+        const {handelDelData} = that.props
+        if(pk) {
+          handelDelData(pk)
+        } else {
+          message.error('删除失败')
+        }
+      },
+      onCancel() {},
+    });
+
+    // const dataSource = [...data];
+    // this.setState({ data: dataSource.filter(item => item.key !== key) });
   }
 
   handelDataChange = (record, dataIndex, value) => {
@@ -148,22 +140,9 @@ export default class EditableTable extends Component {
     this.setState({ editingKey: key });
   }
 
-  handleChange(key, value) {
-    const {filters} = this.state
-    if(key === 'rate' && value && value !== '') {
-      const rateMin = value.substring(0, value.indexOf('-')) * 1000
-      const rateMax = value.substring(value.indexOf('-')+1, value.indexOf('k')) * 1000
-      filters[key] = [rateMin, rateMax]
-    } else {
-      filters[key] = value
-    }
-    this.setState({ filters });
-
-  }
-
   render() {
-    const { data, selectedRowKeys, showModal, filters } = this.state
-    const { selectMap, type } = this.props
+    const { data } = this.state
+    const { handelChange, pagination, filters, rowSelection } = this.props
     const components = {
       body: {
         row: EditableFormRow,
@@ -188,124 +167,15 @@ export default class EditableTable extends Component {
         }),
       };
     });
-
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-    };
-    const hasSelected = selectedRowKeys.length > 0;
     return (
       <div>
-        <div style={{display: 'flex', marginTop: '10px',alignItems: 'baseline'}}>
-
-          {Object.keys(selectMap).map((key) => (
-            <div key={key} style={{marginLeft: '10px'}}>
-              {(key.toLowerCase() === 'samplename' && '样品名称')
-                || (key === 'backingname' && '背衬名称')
-                || (key === 'testModelName' && '试验模型名称')
-                || (key === 'testSystemName' && '测试系统名称')
-                || (key === 'testModelObjName' && '试验模型名称')
-                || (key === 'testConditionName' && '试验情况名称')
-                || (key === 'layingSchemeName' && '敷设方案名称')
-              }
-              <Select
-                style={{ width: 150, marginLeft: '10px'}}
-                placeholder=""
-                onChange={this.handleChange.bind(this, key)}
-                allowClear
-              >
-                {
-                  selectMap[key].map(item => {
-                    if(_.isObject(item)) {
-                      return (<Option key={item.name}>{item.name}</Option>)
-                    } else {
-                      return (<Option key={item}>{item}</Option>)
-                    }
-                  })
-                }
-              </Select>
-            </div>
-          ))}
-          <div style={{marginLeft: '10px'}}>
-            压力
-            <Select
-              style={{ width: 100, marginLeft: '10px'}}
-              onChange={this.handleChange.bind(this, 'press')}
-              allowClear
-            >
-              {
-                [0,0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5].map(item => {
-                  if(_.isObject(item)) {
-                    return (<Option key={item.name}>{item.name}</Option>)
-                  } else {
-                    return (<Option key={item}>{item}</Option>)
-                  }
-                })
-              }
-            </Select>
-          </div>
-          {
-            type !== 'isScale' ?
-              (
-                <div style={{marginLeft: '10px'}}>
-                  温度
-                  <Select
-                    style={{ width: 100, marginLeft: '10px'}}
-                    onChange={this.handleChange.bind(this, 'temparture')}
-                    allowClear
-                  >
-                    {
-                      [0,5,10,15,20,25,30].map(item => {
-                        if(_.isObject(item)) {
-                          return (<Option key={item.name}>{item.name}</Option>)
-                        } else {
-                          return (<Option key={item}>{item}</Option>)
-                        }
-                      })
-                    }
-                  </Select>
-                </div>
-              ) : ''
-          }
-          {
-            type !== 'isScale' ? (
-              <div style={{marginLeft: '10px'}}>
-                频率
-                <Select
-                  style={{ width: 100, marginLeft: '10px'}}
-                  onChange={this.handleChange.bind(this, 'rate')}
-                  allowClear
-                >
-                  {
-                    ['0-1k','1-3k','3-10k','10-30k'].map(item => {
-                      if(_.isObject(item)) {
-                        return (<Option key={item.name}>{item.name}</Option>)
-                      } else {
-                        return (<Option key={item}>{item}</Option>)
-                      }
-                    })
-                  }
-                </Select>
-              </div>
-            ) : ''
-          }
-        </div>
-        {showModal? '':''}
-        <div style={{display: 'flex', alignItems: 'baseline'}}>
-          <DataManageModal
-            {...this.props}
-          />
-          <Popconfirm title="确定删除?" onConfirm={this.handleSelectDelete}>
-            <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }}>
-              批量删除
-            </Button>
-          </Popconfirm>
-        </div>
         <Table
           rowSelection={rowSelection}
+          pagination={pagination}
           scroll={{ y: 500 }}
           components={components}
           bordered
+          onChange={handelChange}
           size="middle"
           dataSource={_.isEmpty(filters) ? data : data.filter(item => {
             let isEqule = true
@@ -316,9 +186,11 @@ export default class EditableTable extends Component {
                     if(item[key] < filters[key][0] || item[key] > filters[key][1]) {
                       isEqule = false
                     }
-                  } else if(item[key] != filters[key]) {
-                      isEqule = false
-                    }
+                  } else if(key === 'name' && item[key].toString().indexOf(filters[key])===-1) {
+                    isEqule = false
+                  } else if(key !== 'name' && item[key] != filters[key]) {
+                    isEqule = false
+                  }
                 }
               }
             }

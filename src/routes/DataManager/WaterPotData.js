@@ -1,7 +1,12 @@
 import React, {Component} from 'react'
-import _ from 'lodash'
 import { connect } from 'dva';
+import { Button, Select, Input } from 'antd';
+import _ from 'lodash'
+import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableTable from './EditableTable'
+import styles from './EdittableCell.less'
+
+const Option = Select && Select.Option
 
 @connect(({ waterpot }) => ({
   waterpotData: waterpot.waterpotData,
@@ -13,6 +18,12 @@ import EditableTable from './EditableTable'
 }))
 
 export default class WaterPotData extends Component {
+
+  state = {
+    sorter: null,
+    showModal: false,
+    selectedRowKeys: [],
+  }
 
   componentDidMount () {
     const { dispatch } = this.props;
@@ -31,6 +42,11 @@ export default class WaterPotData extends Component {
     dispatch({
       type: 'waterpot/getWaterpotManageData',
     });
+  }
+
+  onSelectChange = (selectedRowKeys) => {
+    // console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
   }
 
   handleWaterPotData = (dataMap) => {
@@ -92,6 +108,7 @@ export default class WaterPotData extends Component {
       data.push({
         key: i.toString(),
         pk: formatdata[i].pk,
+        name: formatdata[i].name,
         sampleName: formatdata[i].sampleName,
         testModelName: formatdata[i].testModelName,
         testSystemName: formatdata[i].testSystemName,
@@ -109,33 +126,103 @@ export default class WaterPotData extends Component {
     return data
   }
 
+  handelChange = (pagination, filters, sorter) => {
+    if(sorter.columnKey === 'name') {
+      const {waterpotManageData} = this.props
+      for(let i=0; i<waterpotManageData.length-1; i++) {
+        for(let j=0; j<waterpotManageData.length-1-i; j++) {
+          if(sorter.order === 'descend' ? waterpotManageData[j].name>
+          waterpotManageData[j+1].name:waterpotManageData[j].name<waterpotManageData[j+1].name){
+            const temp=waterpotManageData[j];
+            waterpotManageData[j]=waterpotManageData[j+1];
+            waterpotManageData[j+1]=temp;
+        }
+        }
+      }
+      this.setState({
+        waterpotManageData,
+        sorter,
+        pagination,
+      })
+    } else {
+      this.setState({
+        sorter,
+        pagination,
+      })
+    }
+  }
+
+  changeFilters = (filters) => {
+    this.setState({filters})
+  }
+
+  handleAdd = () => {
+    this.setState({showModal: true})
+  }
+
+  handleChange(key, value) {
+    let {filters} = this.state
+    filters = filters || {}
+    let valueTemp = value
+    if(value && value.target){
+      valueTemp = value.target.value
+    }
+    if(key === 'rate' && valueTemp && valueTemp !== '') {
+      const rateMin = valueTemp.substring(0, valueTemp.indexOf('-')) * 1000
+      const rateMax = valueTemp.substring(valueTemp.indexOf('-')+1, valueTemp.indexOf('k')) * 1000
+      filters[key] = [rateMin, rateMax]
+    } else {
+      filters[key] = valueTemp
+    }
+    this.changeFilters(filters)
+
+  }
+
   render () {
 
     const {waterpotManageData, waterpotData, waterMetaData,
       bigSampleData, bigTestData, bigTestSystemsData} = this.props
-
+    let {sorter, filters, pagination} = this.state
+    const {showModal, selectedRowKeys} = this.state
+    sorter = sorter || {}
+    filters = filters || {}
+    pagination = pagination || {}
     let data = [];
-    data = this.formatData(waterpotManageData)
+    if(this.state && this.state.waterpotManageData) {
+      data = this.formatData(this.state.waterpotManageData)
+    } else {
+      data = this.formatData(waterpotManageData)
+    }
     const columns = [
+      {
+        title: '元数据名称',
+        dataIndex: 'name',
+        isSelect: true,
+        width: '9%',
+        sorter: true,
+        editable: false,
+        sortOrder: sorter.columnKey === 'name' && sorter.order,
+        selectdata: [],
+      },
       {
         title: '样品名称',
         dataIndex: 'sampleName',
         isSelect: true,
-        width: '8%',
+        width: '7%',
         editable: false,
       },
       {
         title: '试验模型名称',
         dataIndex: 'testModelName',
         isSelect: true,
-        width: '10%',
+        width: '9%',
         editable: false,
       },
       {
         title: '测试系统名称',
         dataIndex: 'testSystemName',
         isSelect: true,
-        width: '10%',
+        width: '9%',
         editable: false,
       },
       {
@@ -144,6 +231,7 @@ export default class WaterPotData extends Component {
         isSelect: true,
         width: '6%',
         sorter: (a, b) => a.press - b.press,
+        sortOrder: sorter.columnKey === 'press' && sorter.order,
         editable: false,
       },
       {
@@ -152,6 +240,7 @@ export default class WaterPotData extends Component {
         isSelect: true,
         width: '6%',
         sorter: (a, b) => a.temparture - b.temparture,
+        sortOrder: sorter.columnKey === 'temparture' && sorter.order,
         editable: false,
       },
       {
@@ -159,7 +248,10 @@ export default class WaterPotData extends Component {
         dataIndex: 'rate',
         isSelect: true,
         width: '6%',
-        sorter: (a, b) => a.rate - b.rate,
+        sorter: (a, b) => {
+          return a.rate - b.rate
+        },
+        sortOrder: sorter.columnKey === 'rate' && sorter.order,
         editable: false,
       },
       {
@@ -189,22 +281,130 @@ export default class WaterPotData extends Component {
       {
         title: '辐射声功率',
         dataIndex: 'radiation',
-        width: '8%',
+        width: '5%',
         editable: true,
       },
       {
         title: '辐射声功率插入损失',
         dataIndex: 'radiationlose',
-        width: '8%',
+        width: '6%',
         editable: true,
       },
     ]
     const modalDataMap = {waterpotData}
     const selectMap = {sampleName: bigSampleData, testModelName: bigTestData, testSystemName: bigTestSystemsData}
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
     return (
       <div>
+        <div className={styles.filterlist}>
+          <div className={styles.filteritem}>
+            元数据
+            <Input className={styles.iteminput} onChange={this.handleChange.bind(this, 'name')} />
+          </div>
+          {Object.keys(selectMap).map((key) => (
+            <div key={key} style={{marginLeft: '10px'}}>
+              {(key.toLowerCase() === 'samplename' && '样品名称')
+                || (key === 'backingname' && '背衬名称')
+                || (key === 'testModelName' && '试验模型名称')
+                || (key === 'testSystemName' && '测试系统名称')
+                || (key === 'testModelObjName' && '试验模型名称')
+                || (key === 'testConditionName' && '试验情况名称')
+                || (key === 'layingSchemeName' && '敷设方案名称')
+              }
+              <Select
+                className={styles.iteminput}
+                placeholder=""
+                onChange={this.handleChange.bind(this, key)}
+                allowClear
+              >
+                {
+                  selectMap[key].map(item => {
+                    if(_.isObject(item)) {
+                      return (<Option key={item.name}>{item.name}</Option>)
+                    } else {
+                      return (<Option key={item}>{item}</Option>)
+                    }
+                  })
+                }
+              </Select>
+            </div>
+          ))}
+          <div className={styles.filteritem}>
+            压力
+            <Select
+              className={styles.iteminput}
+              onChange={this.handleChange.bind(this, 'press')}
+              allowClear
+            >
+              {
+                [0,0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5].map(item => {
+                  if(_.isObject(item)) {
+                    return (<Option key={item.name}>{item.name}</Option>)
+                  } else {
+                    return (<Option key={item}>{item}</Option>)
+                  }
+                })
+              }
+            </Select>
+          </div>
+          <div className={styles.filteritem}>
+            温度
+            <Select
+              className={styles.iteminput}
+              onChange={this.handleChange.bind(this, 'temparture')}
+              allowClear
+            >
+              {
+                [0,5,10,15,20,25,30].map(item => {
+                  if(_.isObject(item)) {
+                    return (<Option key={item.name}>{item.name}</Option>)
+                  } else {
+                    return (<Option key={item}>{item}</Option>)
+                  }
+                })
+              }
+            </Select>
+          </div>
+          {
+            <div className={styles.filteritem}>
+              频率
+              <Select
+                className={styles.iteminput}
+                onChange={this.handleChange.bind(this, 'rate')}
+                allowClear
+              >
+                {
+                  ['0-1k','1-3k','3-10k','10-30k'].map(item => {
+                    if(_.isObject(item)) {
+                      return (<Option key={item.name}>{item.name}</Option>)
+                    } else {
+                      return (<Option key={item}>{item}</Option>)
+                    }
+                  })
+                }
+              </Select>
+            </div>
+          }
+        </div>
+        {showModal? '':''}
+        <div style={{display: 'flex', alignItems: 'baseline'}}>
+          <DataManageModal
+            metaData={waterMetaData}
+            type='isSound'
+            handelAddData={this.handelAddData}
+            modalDataMap={modalDataMap}
+            handelCompute={this.handleSoundPipeData}
+          />
+          <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }} onClick={this.handleSelectDelete}>
+            批量删除
+          </Button>
+        </div>
         <EditableTable
-          key={data.length}
+          key={Math.random()}
           columns={columns}
           data={data}
           modalDataMap={modalDataMap}
@@ -215,6 +415,11 @@ export default class WaterPotData extends Component {
           handelAddData={this.handelAddData}
           handelUpdateData={this.handelUpdateData}
           handelDelData={this.handelDelData}
+          handelChange={this.handelChange}
+          filters={filters}
+          pagination={pagination}
+          changeFilters={this.changeFilters}
+          rowSelection={rowSelection}
         />
       </div>
     )

@@ -35,7 +35,7 @@ export default class TestManage extends Component {
       type: 'waterpot/delBigTestSystemsData',
       payload: dataModel,
     });
-    message.info('操作成功')
+    // message.info('操作成功')
   }
 
   // 调用action 执行后台接口更新数据

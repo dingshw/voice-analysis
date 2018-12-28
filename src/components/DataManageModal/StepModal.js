@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import _ from 'lodash'
-import { Steps, Button } from 'antd';
+import { Steps, Button, message } from 'antd';
 import MetaContent from './MetaContent'
 import RateRangeContent from './RateRangeContent'
 
 const Step = Steps && Steps.Step;
 
 const soundColumns = {
+  name: '元数据名称',
   samplename: '样品名称',
   backingname: '背衬名称',
   press: '压力',
@@ -14,6 +15,7 @@ const soundColumns = {
 }
 
 const waterColumns = {
+  name: '元数据名称',
   sampleName: '样品名称',
   testModelName: '试验模型名称',
   testSystemName: '测试系统名称',
@@ -22,6 +24,7 @@ const waterColumns = {
 }
 
 const scaleColumns = {
+  name: '元数据名称',
   testModelObjName: '试验模型名称',
   testConditionName: '试验情况名称',
   layingSchemeName: '敷设方案名称',
@@ -34,6 +37,7 @@ export default class StepModal extends Component {
       current: 0,
       selectColData: null,
       soundData: {
+        name: null,
         smallPO: null,
         samplename: null,
         backingname: null,
@@ -45,6 +49,7 @@ export default class StepModal extends Component {
         bondacust: null,
       },
       waterdData: {
+        name: null,
         bigDemoMetadata: null,
         sampleName: null,
         testModelName:null,
@@ -60,6 +65,7 @@ export default class StepModal extends Component {
         echoes: null,
       },
       scaleData: {
+        name: null,
         scaleMataPO: null,
         testModelObjName: null,
         layingSchemeName:null,
@@ -112,7 +118,11 @@ export default class StepModal extends Component {
   }
 
   next = () => {
-    const {current} = this.state;
+    const {current, selectColData} = this.state;
+    if(selectColData===null) {
+      message.error('请选择元数据', [0.01])
+      return ;
+    }
     this.setState({ current : current + 1 });
   }
 

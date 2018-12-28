@@ -106,7 +106,7 @@ export async function queryAddSoundMetaData(params) {
   })
 }
 export async function queryUpdateSoundMetaData(params) {
-  return request('/smallManager/update', {
+  return request('/smallManager/modify', {
     method: 'POST',
     body: params,
   })
@@ -119,6 +119,12 @@ export async function queryDelSoundMetaData(params) {
 }
 export async function querySoundMetaDataByCondition(params) {
   return request('/smallManager/queryByCondition', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelSoundMetaList(params) {
+  return request('/smallManager/deleteAll', {
     method: 'POST',
     body: params,
   })

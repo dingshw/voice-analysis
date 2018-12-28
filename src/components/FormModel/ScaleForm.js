@@ -54,6 +54,7 @@ class ScaleForm extends Component{
           <FormItem
             key={key}
             {...formItemLayout}
+            required
             label={(key.toLowerCase() === 'samplename' && '样品名称')
               || (key === 'backingname' && '背衬名称')
               || (key === 'testModelName' && '试验模型名称')

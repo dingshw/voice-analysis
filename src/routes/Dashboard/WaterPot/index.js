@@ -9,7 +9,7 @@ import TestSystem from 'components/CardModel/TestSystem'
 // import UploadFile from 'components/UploadFile/UploadFile'
 import ReduceReport from '../ReduceReport'
 import styles from '../index.less';
-import excel from '../../../../public/SamoleData.xlsx'
+import excel from '../../../../public/exampleData.xlsx'
 
 const Option = Select && Select.Option;
 @connect(({ waterpot }) => ({

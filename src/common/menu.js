@@ -19,12 +19,12 @@ const menuData = [
     authority: '', // 配置准入权限
     path: 'scalemodel',
   },
-  {
-    name: '其他模型数据',
-    icon: 'public/nav004.svg',
-    authority: '', // 配置准入权限
-    path: 'othermodel',
-  },
+  // {
+  //   name: '其他模型数据',
+  //   icon: 'public/nav004.svg',
+  //   authority: '', // 配置准入权限
+  //   path: 'othermodel',
+  // },
   {
     name: '账户',
     icon: 'user',
@@ -103,7 +103,7 @@ const menuData = [
   },
   {
     name: '元数据管理',
-    icon: 'line-chart',
+    icon: 'database',
     path: 'metamanager',
     authority: 'admin',
     children: [

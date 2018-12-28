@@ -53,6 +53,7 @@ class SoundForm extends Component{
         {Object.keys(selectMap).map((key) => (
           <FormItem
             key={key}
+            required
             {...formItemLayout}
             label={(key.toLowerCase() === 'samplename' && '样品名称')
               || (key === 'backingname' && '背衬名称')
@@ -82,6 +83,7 @@ class SoundForm extends Component{
           </FormItem>
         ))}
         <FormItem
+          required
           {...formItemLayout}
           label="压力"
         >
@@ -93,6 +95,7 @@ class SoundForm extends Component{
         <FormItem
           {...formItemLayout}
           label="温度"
+          required
         >
           <Input
             onChange={onChangeName.bind(this, 'temparture')}

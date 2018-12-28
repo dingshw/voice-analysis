@@ -70,7 +70,7 @@ const chartOption = {
   calculable: true,
   xAxis: {
     type : 'value',
-    splitNumber: 20,
+    splitNumber: 10,
     min: 0,
     name: '频率',
   },
@@ -315,7 +315,7 @@ export default class ParamAnalysis extends Component {
             series.push({
               name: seriesData[key].length>1 ? `${lengendMap[key]}${index+1}` : lengendMap[key],
               type: 'line',
-              data: value || [],
+              data: value || [0,0],
               markPoint : {
                 data : [
                   {type : 'average', name : '平均值'},

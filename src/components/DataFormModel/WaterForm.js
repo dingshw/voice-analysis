@@ -10,29 +10,29 @@ export default class WaterForm extends Component {
 
   handleChange = (type, value) => {
     const {waterdData, handelWaterData} = this.props
-    if(value.target) {
-      if(value.target.value<0 || value.target.value>1) {
-        message.error('请输入0-1之间的值')
-        return
-      }
-    }
+    // if(value.target) {
+    //   if(value.target.value<0 || value.target.value>1) {
+    //     message.error('请输入0-1之间的值')
+    //     return
+    //   }
+    // }
     const valueTemp = value.target ? value.target.value : value
-    if(type === 'rate') {
-      const {modalDataMap} = this.props
-      const {waterpotData} = modalDataMap
-      const {data} = waterpotData
-      for(const item of data) {
-        if(item.rate == valueTemp) {
-          waterdData.refect = item.refect
-          waterdData.transmission = item.transmission
-          waterdData.bondacust = item.bondacust
-          waterdData.radiation = item.radiation
-          waterdData.radiationlose = item.radiationlose
-          waterdData.echoes = item.echoes
-        }
-      }
-    }
-    waterdData[type] = !_.isNaN(Number(valueTemp)) ? Number(valueTemp) : valueTemp
+    // if(type === 'rate') {
+    //   const {modalDataMap} = this.props
+    //   const {waterpotData} = modalDataMap
+    //   const {data} = waterpotData
+    //   for(const item of data) {
+    //     if(item.rate == valueTemp) {
+    //       waterdData.refect = item.refect
+    //       waterdData.transmission = item.transmission
+    //       waterdData.bondacust = item.bondacust
+    //       waterdData.radiation = item.radiation
+    //       waterdData.radiationlose = item.radiationlose
+    //       waterdData.echoes = item.echoes
+    //     }
+    //   }
+    // }
+    waterdData[type] = valueTemp
     // this.setState({soundData})
     handelWaterData(waterdData)
   }
@@ -105,6 +105,26 @@ export default class WaterForm extends Component {
     return (
       <Form layout="horizontal" className={styles.dataForm}>
         <div className={styles.leftForm}>
+          <FormItem
+            {...formItemLayout}
+            label="元数据名称"
+          >
+            <Input value={waterdData.name} disabled />
+            {/* <Select
+              value={soundData.samplename}
+              onChange={this.handleChange.bind(this, 'samplename')}
+            >
+              {
+                sampleData && sampleData.map(item => {
+                  if(_.isObject(item)) {
+                    return (<Option key={item.name}>{item.name}</Option>)
+                  } else {
+                    return (<Option key={item}>{item}</Option>)
+                  }
+                })
+              }
+            </Select> */}
+          </FormItem>
           <FormItem
             {...formItemLayout}
             label="样品名称"
@@ -205,7 +225,7 @@ export default class WaterForm extends Component {
               }
             </Select> */}
           </FormItem>
-          <FormItem
+          {/* <FormItem
             {...formItemLayout}
             label="频率范围"
           >
@@ -223,9 +243,9 @@ export default class WaterForm extends Component {
                 })
               }
             </Select>
-          </FormItem>
+          </FormItem> */}
         </div>
-        <div className={styles.centerForm}>
+        {/* <div className={styles.centerForm}>
           <Button
             type="primary"
             onClick={this.handelComputeSoundeData}
@@ -233,13 +253,14 @@ export default class WaterForm extends Component {
           >
             计算
           </Button>
-        </div>
+        </div> */}
         <div className={styles.rightForm}>
           <FormItem
             {...formItemLayout2}
             label="频率(f/Hz)"
           >
-            <Select
+            <Input value={waterdData.rate} onChange={this.handleChange.bind(this, 'rate')} />
+            {/* <Select
               value={waterdData.rate}
               onChange={this.handleChange.bind(this, 'rate')}
             >
@@ -252,7 +273,7 @@ export default class WaterForm extends Component {
                   }
                 })
               }
-            </Select>
+            </Select> */}
           </FormItem>
           <FormItem
             {...formItemLayout2}

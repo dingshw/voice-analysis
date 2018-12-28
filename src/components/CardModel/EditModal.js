@@ -10,6 +10,7 @@ import TestForm from '../FormModel/TestForm'
 import LayForm from '../FormModel/LayForm'
 import styles from './EditModal.less'
 
+const confirm = Modal && Modal.confirm;
 let keyIndex = 0
 export default class EditModal extends Component {
 
@@ -155,15 +156,32 @@ export default class EditModal extends Component {
       message.error('名称重复，请更换名称', [0.01])
       return;
     }
-    this.setState({
-      visible: false,
-      dataModel: {},
-    });
-    changeData(dataModel)
+    const that = this
+    const callBack = function(){
+      that.setState({
+        visible: false,
+        dataModel: {},
+      });
+      changeData(dataModel)
+    }
+    if(dataModel.pk) {
+      confirm({
+        title: '是否确认修改?',
+        content: '该数据被元数据引用，此次修改后对应元数据内容会被修改',
+        onOk() {
+          callBack()
+        },
+        onCancel() {},
+      });
+    } else {
+
+      callBack()
+    }
+
   }
 
   handleChange = (info) => {
-    if(info.file.type === 'image/png' || info.file.type === 'image/jpg' || info.file.type === 'image/jpeg') {
+    if(!info.file.type || info.file.type === 'image/png' || info.file.type === 'image/jpg' || info.file.type === 'image/jpeg') {
       this.setState({fileList: info.fileList})
       if (info.file.status === 'done') {
         // Get this url from response in real world.

@@ -55,19 +55,19 @@ export async function queryDelBigTestData(params) {
   })
 }
 export async function queryUpdateBigTestSystemsData(params) {
-  return request('/testModelMng/modifyTestSystem', {
+  return request('/testSystemMng/modifyTestSystem', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryAddBigTestSystemsData(params) {
-  return request('/testModelMng/saveTestSystem', {
+  return request('/testSystemMng/saveTestSystem', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryDelBigTestSystemsData(params) {
-  return request('/testModelMng/deleteTestSystem', {
+  return request('/testSystemMng/deleteTestSystem', {
     method: 'POST',
     body: params,
   })
@@ -103,19 +103,31 @@ export async function queryWaterMetaData(params) {
   })
 }
 export async function queryAddWaterMetaData(params) {
-  return request('/bigMng/addMetaData', {
+  return request('/bigManager/save', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryUpdateWaterMetaData(params) {
-  return request('/bigMng/updateMetaData', {
+  return request('/bigManager/modify', {
     method: 'POST',
     body: params,
   })
 }
 export async function queryDelWaterMetaData(params) {
-  return request('/bigMng/delMetaData', {
+  return request('/bigManager/delete', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryWaterMetaDataByCondition(params) {
+  return request('/bigManager/queryByCondition', {
+    method: 'POST',
+    body: params,
+  })
+}
+export async function queryDelWaterMetaList(params) {
+  return request('/bigManager/deleteAll', {
     method: 'POST',
     body: params,
   })
