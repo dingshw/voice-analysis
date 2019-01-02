@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import { Table, Form, Icon, message, Modal } from 'antd';
+import { Table, Form, Icon, message, Modal, Button} from 'antd';
 import _ from 'lodash'
+import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableCell from './EditableCell'
 import styles from './EdittableCell.less'
 
@@ -21,6 +22,7 @@ export default class EditableTable extends Component {
     this.state = {
       data,
       editingKey: '',
+      selectedRowKeys: [],
      };
     this.columns = [...columns, {
       title: '操作',
@@ -58,6 +60,11 @@ export default class EditableTable extends Component {
     }]
   }
 
+  onSelectChange = (selectedRowKeys) => {
+    // console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
+  }
+
   setRowClassName = (record) => {
     return record.id === this.isEditing(record) ? 'clickRowStyl' : '';
   }
@@ -79,7 +86,7 @@ export default class EditableTable extends Component {
       title: '是否确认删除?',
       content: '',
       onOk() {
-        const {selectedRowKeys, data} = that.state
+        const {data,selectedRowKeys} = that.state
         const keyList = []
         for(const key of selectedRowKeys) {
           if(data[key].pk) {
@@ -141,8 +148,8 @@ export default class EditableTable extends Component {
   }
 
   render() {
-    const { data } = this.state
-    const { handelChange, pagination, filters, rowSelection } = this.props
+    const { data,selectedRowKeys } = this.state
+    const { handelChange, pagination, filters } = this.props
     const components = {
       body: {
         row: EditableFormRow,
@@ -167,8 +174,22 @@ export default class EditableTable extends Component {
         }),
       };
     });
+
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
     return (
       <div>
+        <div style={{display: 'flex', alignItems: 'baseline'}}>
+          <DataManageModal
+            {...this.props}
+          />
+          <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }} onClick={this.handleSelectDelete}>
+            批量删除
+          </Button>
+        </div>
         <Table
           rowSelection={rowSelection}
           pagination={pagination}

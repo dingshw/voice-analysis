@@ -293,7 +293,7 @@ export default class WaterPotMetaData extends Component {
           rowSelection={rowSelection}
           pagination={pagination}
           filters={filters}
-          selectedRowKeys
+          selectedRowKeys={selectedRowKeys}
         />
       </div>
     )

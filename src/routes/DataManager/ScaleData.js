@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'dva';
-import { Button, Select, Input } from 'antd';
+import { Button, Select, Input, Modal } from 'antd';
 import _ from 'lodash'
 import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableTable from './EditableTable'
@@ -22,7 +22,6 @@ export default class scaledata extends Component {
   state = {
     sorter: null,
     showModal: false,
-    selectedRowKeys: [],
   }
 
   componentDidMount () {
@@ -42,11 +41,6 @@ export default class scaledata extends Component {
     dispatch({
       type: 'scalemodel/getScaleManageData',
     });
-  }
-
-  onSelectChange = (selectedRowKeys) => {
-    // console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
   }
 
   formatData = (formatdata) => {
@@ -116,19 +110,19 @@ export default class scaledata extends Component {
 
   handelChange = (pagination, filters, sorter) => {
     if(sorter.columnKey === 'name') {
-      const {scaleMetaData} = this.props
-      for(let i=0; i<scaleMetaData.length-1; i++) {
-        for(let j=0; j<scaleMetaData.length-1-i; j++) {
-          if(sorter.order === 'descend' ? scaleMetaData[j].name>
-          scaleMetaData[j+1].name:scaleMetaData[j].name<scaleMetaData[j+1].name){
-            const temp=scaleMetaData[j];
-            scaleMetaData[j]=scaleMetaData[j+1];
-            scaleMetaData[j+1]=temp;
+      const {scaleManage} = this.props
+      for(let i=0; i<scaleManage.length-1; i++) {
+        for(let j=0; j<scaleManage.length-1-i; j++) {
+          if(sorter.order === 'descend' ? scaleManage[j].name>
+          scaleManage[j+1].name:scaleManage[j].name<scaleManage[j+1].name){
+            const temp=scaleManage[j];
+            scaleManage[j]=scaleManage[j+1];
+            scaleManage[j+1]=temp;
         }
         }
       }
       this.setState({
-        scaleMetaData,
+        scaleManage,
         sorter,
         pagination,
       })
@@ -168,9 +162,9 @@ export default class scaledata extends Component {
 
   render () {
 
-    const {scaleManage, scaleCondition, scaleMetaData, testModel, layingSchemes, testConditions} = this.props
+    const {scaleManage, scaleCondition, testModel, layingSchemes, testConditions, scaleMetaData} = this.props
     let {sorter, filters, pagination} = this.state
-    const {showModal, selectedRowKeys} = this.state
+    const {showModal} = this.state
     sorter = sorter || {}
     filters = filters || {}
     pagination = pagination || {}
@@ -267,11 +261,6 @@ export default class scaledata extends Component {
       testConditionName: testConditions,
       layingSchemeName: layingSchemes,
     }
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-    };
-    const hasSelected = selectedRowKeys.length > 0;
     return (
       <div>
         <div className={styles.filterlist}>
@@ -328,19 +317,6 @@ export default class scaledata extends Component {
             </div>
           }
         </div>
-        {showModal? '':''}
-        <div style={{display: 'flex', alignItems: 'baseline'}}>
-          <DataManageModal
-            metaData={scaleMetaData}
-            type='isSound'
-            handelAddData={this.handelAddData}
-            modalDataMap={modalDataMap}
-            handelCompute={this.handleSoundPipeData}
-          />
-          <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }} onClick={this.handleSelectDelete}>
-            批量删除
-          </Button>
-        </div>
         <EditableTable
           key={Math.random()}
           columns={columns}
@@ -357,7 +333,6 @@ export default class scaledata extends Component {
           filters={filters}
           pagination={pagination}
           changeFilters={this.changeFilters}
-          rowSelection={rowSelection}
         />
       </div>
     )

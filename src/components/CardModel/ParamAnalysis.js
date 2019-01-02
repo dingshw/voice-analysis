@@ -76,7 +76,6 @@ const chartOption = {
   },
   yAxis: {
     type: 'value',
-    name: '系数',
   },
   series: [
     {

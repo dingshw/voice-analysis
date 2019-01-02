@@ -77,7 +77,7 @@ const chartOption = {
     min: 0,
     name: '频率',
   },
-  yAxis: {name: '系数'},
+  yAxis: {},
   series: [
     {
       // 根据名字对应到相应的系列

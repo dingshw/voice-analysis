@@ -93,7 +93,7 @@ export default class EditableMetaTable extends Component {
       content: '',
       onOk() {
         const {data} = that.state
-        const {selectedRowKeys} = this.props
+        const {selectedRowKeys, rowSelection} = that.props
         const keyList = []
         for(const key of selectedRowKeys) {
           if(data[key].pk) {
@@ -103,6 +103,7 @@ export default class EditableMetaTable extends Component {
         const {handelDelData} = that.props
         if(keyList.length>0) {
           handelDelData(keyList)
+          rowSelection.onChange([])
         } else {
           message.error('删除失败')
         }

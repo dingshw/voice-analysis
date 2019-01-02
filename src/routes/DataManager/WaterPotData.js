@@ -390,19 +390,6 @@ export default class WaterPotData extends Component {
             </div>
           }
         </div>
-        {showModal? '':''}
-        <div style={{display: 'flex', alignItems: 'baseline'}}>
-          <DataManageModal
-            metaData={waterMetaData}
-            type='isSound'
-            handelAddData={this.handelAddData}
-            modalDataMap={modalDataMap}
-            handelCompute={this.handleSoundPipeData}
-          />
-          <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }} onClick={this.handleSelectDelete}>
-            批量删除
-          </Button>
-        </div>
         <EditableTable
           key={Math.random()}
           columns={columns}
@@ -419,7 +406,6 @@ export default class WaterPotData extends Component {
           filters={filters}
           pagination={pagination}
           changeFilters={this.changeFilters}
-          rowSelection={rowSelection}
         />
       </div>
     )

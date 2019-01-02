@@ -1,13 +1,11 @@
 import React, {Component} from 'react'
 import { connect } from 'dva';
-import { Button, Select, Input } from 'antd';
+import { Select, Input } from 'antd';
 import _ from 'lodash'
-import DataManageModal from '../../components/DataManageModal/DataManageModal'
 import EditableTable from './EditableTable'
 import styles from './EdittableCell.less'
 
 const Option = Select && Select.Option
-
 @connect(({ soundpipe }) => ({
   soundPipeData: soundpipe.soundPipeData,
   soundManageData: soundpipe.soundManageData,
@@ -165,7 +163,7 @@ export default class SoundData extends Component {
   render () {
     const {soundManageData, soundPipeData, soundMetaData, sampleData, backingData} = this.props
     let {sorter, filters, pagination} = this.state
-    const {showModal, selectedRowKeys} = this.state
+    const {showModal} = this.state
     sorter = sorter || {}
     filters = filters || {}
     pagination = pagination || {}
@@ -262,11 +260,6 @@ export default class SoundData extends Component {
     ]
     const modalDataMap = {soundPipeData}
     const selectMap = {'samplename': sampleData, 'backingname': backingData}
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-    };
-    const hasSelected = selectedRowKeys.length > 0;
     return (
       <div>
         <div className={styles.filterlist}>
@@ -359,19 +352,6 @@ export default class SoundData extends Component {
             </div>
           }
         </div>
-        {showModal? '':''}
-        <div style={{display: 'flex', alignItems: 'baseline'}}>
-          <DataManageModal
-            metaData={soundMetaData}
-            type='isSound'
-            handelAddData={this.handelAddData}
-            modalDataMap={modalDataMap}
-            handelCompute={this.handleSoundPipeData}
-          />
-          <Button disabled={!hasSelected} type="primary" style={{ marginBottom: 10 }} onClick={this.handleSelectDelete}>
-            批量删除
-          </Button>
-        </div>
         <EditableTable
           key={Math.random()}
           columns={columns}
@@ -388,7 +368,6 @@ export default class SoundData extends Component {
           filters={filters}
           pagination={pagination}
           changeFilters={this.changeFilters}
-          rowSelection={rowSelection}
         />
       </div>
     )

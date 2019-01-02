@@ -243,7 +243,7 @@ export default class scalemetadata extends Component {
           pagination={pagination}
           changeFilters={this.changeFilters}
           rowSelection={rowSelection}
-          selectedRowKeys
+          selectedRowKeys={selectedRowKeys}
         />
       </div>
     )
