@@ -108,13 +108,30 @@ export default class SoundData extends Component {
     }
   }
 
+  sortName = (order, obj1, obj2) => {
+    const reg = /(\d+)$/g
+    const reg1 = /(\d+)$/g
+    const result1 = reg.exec(obj1.name)
+    const result2 = reg1.exec(obj2.name)
+    if(order === 'descend') {
+      if(result1 && result2 && (obj1.name.substr(0,result1.index) === obj2.name.substr(0,result2.index))) {
+        return Number(result1[0]) > Number(result2[0])
+      } else {
+        return obj1.name > obj2.name
+      }
+    } else if(result1 && result2 && (obj1.name.substr(0,result1.index) === obj2.name.substr(0,result2.index))) {
+        return Number(result1[0]) <= Number(result2[0])
+      } else {
+        return obj1.name <= obj2.name
+      }
+  }
+
   handelChange = (pagination, filters, sorter) => {
     if(sorter.columnKey === 'name') {
       const {soundManageData} = this.props
       for(let i=0; i<soundManageData.length-1; i++) {
         for(let j=0; j<soundManageData.length-1-i; j++) {
-          if(sorter.order === 'descend' ? soundManageData[j].name>
-          soundManageData[j+1].name:soundManageData[j].name<soundManageData[j+1].name){
+          if(this.sortName(sorter.order, soundManageData[j], soundManageData[j+1])){
             const temp=soundManageData[j];
             soundManageData[j]=soundManageData[j+1];
             soundManageData[j+1]=temp;
@@ -268,7 +285,7 @@ export default class SoundData extends Component {
             <Input className={styles.iteminput} onChange={this.handleChange.bind(this, 'name')} />
           </div>
           {Object.keys(selectMap).map((key) => (
-            <div key={key} style={{marginLeft: '10px'}}>
+            <div key={key} className={styles.filteritem}>
               {(key.toLowerCase() === 'samplename' && '样品名称')
                 || (key === 'backingname' && '背衬名称')
                 || (key === 'testModelName' && '试验模型名称')

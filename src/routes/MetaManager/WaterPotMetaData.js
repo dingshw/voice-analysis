@@ -90,13 +90,30 @@ export default class WaterPotMetaData extends Component {
     return data
   }
 
+  sortName = (order, obj1, obj2) => {
+    const reg = /(\d+)$/g
+    const reg1 = /(\d+)$/g
+    const result1 = reg.exec(obj1.name)
+    const result2 = reg1.exec(obj2.name)
+    if(order === 'descend') {
+      if(result1 && result2 && (obj1.name.substr(0,result1.index) === obj2.name.substr(0,result2.index))) {
+        return Number(result1[0]) > Number(result2[0])
+      } else {
+        return obj1.name > obj2.name
+      }
+    } else if(result1 && result2 && (obj1.name.substr(0,result1.index) === obj2.name.substr(0,result2.index))) {
+        return Number(result1[0]) <= Number(result2[0])
+      } else {
+        return obj1.name <= obj2.name
+      }
+  }
+
   handelChange = (pagination, filters, sorter) => {
     if(sorter.columnKey === 'name') {
       const {waterMetaData} = this.props
       for(let i=0; i<waterMetaData.length-1; i++) {
         for(let j=0; j<waterMetaData.length-1-i; j++) {
-          if(sorter.order === 'descend' ? waterMetaData[j].name>
-          waterMetaData[j+1].name:waterMetaData[j].name<waterMetaData[j+1].name){
+          if(this.sortName(sorter.order, waterMetaData[j], waterMetaData[j+1])){
             const temp=waterMetaData[j];
             waterMetaData[j]=waterMetaData[j+1];
             waterMetaData[j+1]=temp;

@@ -60,9 +60,9 @@ const chartOption = {
   },
   grid: {
     x: 30,
-    x2: 50,
+    x2: 40,
     y: 30,
-    y2: 60,
+    y2: 50,
   },
   legend: {
     data:['指数1','指数2','指数3'],

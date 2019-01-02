@@ -662,7 +662,7 @@ const proxy = {
       },
       {
         pk: 234,
-        name: '小样02',
+        name: '小样2',
         "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4177",
         "samplename":"阿波罗4",
         "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6908",
@@ -676,7 +676,7 @@ const proxy = {
       },
       {
         pk: 345,
-        name: '小样08',
+        name: '小样18',
         "samplepk":"faae722c-a685-44e6-973e-6bfcde20e4179",
         "samplename":"阿波罗5",
         "bakingpk":"5948ffbb-c18d-4f45-8747-773485bdd6904",
@@ -734,7 +734,7 @@ const proxy = {
         },
         {
           pk: 3,
-          name: '小样03',
+          name: '小样3',
           "sampleName":"阿波罗2",
           "samplepk":"b480db62-5a06-4058-a8db-44fb946763f73",
           "testModelName":"双层局域实尺度试验模型3",
@@ -752,7 +752,7 @@ const proxy = {
         },
         {
           pk: 4,
-          name: '小样04',
+          name: '小样14',
           "sampleName":"阿波罗3",
           "samplepk":"b480db62-5a06-4058-a8db-44fb946763f75",
           "testModelName":"双层局域实尺度试验模型4",
@@ -778,6 +778,7 @@ const proxy = {
       "data": [
         {
           pk: 1,
+          name: '10',
           "testModelObjName":"中尺度模型1",
           rate: 123,
           "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f241",
@@ -794,6 +795,7 @@ const proxy = {
         },
         {
           pk: 2,
+          name: '9',
           "testModelObjName":"中尺度模型2",
           "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f244",
           "layingSchemeName":"集成方案2",
@@ -809,6 +811,7 @@ const proxy = {
         },
         {
           pk: 3,
+          name: '中尺度模型14',
           "testModelObjName":"中尺度模型3",
           "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f247",
           "layingSchemeName":"集成方案3",
@@ -824,6 +827,7 @@ const proxy = {
         },
         {
           pk: 4,
+          name: '中尺度模型4',
           "testModelObjName":"中尺度模型4",
           "testModelObjPk":"587d69fe-0e0b-4cd8-8ecf-5d5686c85f24",
           "layingSchemeName":"集成方4",

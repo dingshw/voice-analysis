@@ -100,13 +100,30 @@ export default class SoundMetaData extends Component {
     }
   }
 
+  sortName = (order, obj1, obj2) => {
+    const reg = /(\d+)$/g
+    const reg1 = /(\d+)$/g
+    const result1 = reg.exec(obj1.name)
+    const result2 = reg1.exec(obj2.name)
+    if(order === 'descend') {
+      if(result1 && result2 && (obj1.name.substr(0,result1.index) === obj2.name.substr(0,result2.index))) {
+        return Number(result1[0]) > Number(result2[0])
+      } else {
+        return obj1.name > obj2.name
+      }
+    } else if(result1 && result2 && (obj1.name.substr(0,result1.index) === obj2.name.substr(0,result2.index))) {
+        return Number(result1[0]) <= Number(result2[0])
+      } else {
+        return obj1.name <= obj2.name
+      }
+  }
+
   handelChange = (pagination, filters, sorter) => {
     if(sorter.columnKey === 'name') {
       const {soundMetaData} = this.props
       for(let i=0; i<soundMetaData.length-1; i++) {
         for(let j=0; j<soundMetaData.length-1-i; j++) {
-          if(sorter.order === 'descend' ? soundMetaData[j].name>
-          soundMetaData[j+1].name:soundMetaData[j].name<soundMetaData[j+1].name){
+          if(this.sortName(sorter.order, soundMetaData[j], soundMetaData[j+1])){
             const temp=soundMetaData[j];
             soundMetaData[j]=soundMetaData[j+1];
             soundMetaData[j+1]=temp;
