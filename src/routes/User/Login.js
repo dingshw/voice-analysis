@@ -51,7 +51,7 @@ export default class LoginPage extends Component {
     return (
       <div className={styles.main}>
         <Login defaultActiveKey={type} onTabChange={this.onTabChange} onSubmit={this.handleSubmit}>
-          <Tab key="account" tab="账户密码登录">
+          <Tab key="account" tab="账户密码登录" className={styles.autoSumit}>
             {login.status === 'error' &&
               login.type === 'account' &&
               !submitting &&
@@ -61,13 +61,13 @@ export default class LoginPage extends Component {
           </Tab>
           <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-              自动登录
+              <span className={styles.autoSumit}>自动登录</span>
             </Checkbox>
           </div>
           <Submit loading={submitting}>登录</Submit>
           <div className={styles.other}>
             <Link className={styles.register} to="/user/register">
-              注册账户
+              {/* 注册账户 */}
             </Link>
           </div>
         </Login>

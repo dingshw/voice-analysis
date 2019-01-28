@@ -44,7 +44,7 @@ export default class TestSystem extends Component {
               </Carousel>
             </div>
             <ul className={styles.itemUl}>
-              <li><span>名称</span><span>{testData.name || ''}</span></li>
+              <li><span>名称</span><span title={testData.name|| ''}>{testData.name || ''}</span></li>
               <li><span>介绍</span></li>
               <TextArea className={styles.textarea} value={testData.describe || ''} />
             </ul>

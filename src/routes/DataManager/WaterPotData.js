@@ -341,9 +341,9 @@ export default class WaterPotData extends Component {
                 {
                   selectMap[key].map(item => {
                     if(_.isObject(item)) {
-                      return (<Option key={item.name}>{item.name}</Option>)
+                      return (<Option key={item.name} title={item.name}>{item.name}</Option>)
                     } else {
-                      return (<Option key={item}>{item}</Option>)
+                      return (<Option key={item} title={item}>{item}</Option>)
                     }
                   })
                 }
@@ -353,7 +353,7 @@ export default class WaterPotData extends Component {
           <div className={styles.filteritem}>
             压力
             <Select
-              className={styles.iteminput}
+              className={styles.smaleItemInput}
               onChange={this.handleChange.bind(this, 'press')}
               allowClear
             >
@@ -371,7 +371,7 @@ export default class WaterPotData extends Component {
           <div className={styles.filteritem}>
             温度
             <Select
-              className={styles.iteminput}
+              className={styles.smaleItemInput}
               onChange={this.handleChange.bind(this, 'temparture')}
               allowClear
             >

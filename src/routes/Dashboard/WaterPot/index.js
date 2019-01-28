@@ -150,7 +150,7 @@ export default class SoundPipe extends Component {
             onChange={this.handleSampleChange.bind(this)}
           >
             {
-              _.uniqBy(bigSampleData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(bigSampleData, 'name').map(item => <Option key={item.name} title={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
           <span>试验模型选择</span>
@@ -162,7 +162,7 @@ export default class SoundPipe extends Component {
             onChange={this.handleExperimentChange.bind(this)}
           >
             {
-              _.uniqBy(bigTestData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(bigTestData, 'name').map(item => <Option key={item.name} title={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
           <span>测试系统选择</span>
@@ -174,7 +174,7 @@ export default class SoundPipe extends Component {
             onChange={this.handleTestSystemChange.bind(this)}
           >
             {
-              _.uniqBy(bigTestSystemsData, 'name').map(item => <Option key={item.name} value={item.name}>{item.name}</Option>)
+              _.uniqBy(bigTestSystemsData, 'name').map(item => <Option key={item.name} title={item.name} value={item.name}>{item.name}</Option>)
             }
           </Select>
         </div>

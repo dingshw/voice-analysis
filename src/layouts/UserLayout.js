@@ -62,7 +62,7 @@ class UserLayout extends React.PureComponent {
                   <img alt="logo" className={styles.logo} src={logo} />
                 </Link>
               </div>
-              <div className={styles.desc}>声学参数处理与分析系统</div>
+              <div className={styles.desc}></div>
             </div>
             <Switch>
               {getRoutes(match.path, routerData).map(item => (

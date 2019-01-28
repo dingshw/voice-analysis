@@ -47,11 +47,11 @@ export default class ExperimentCondition extends Component {
               </Carousel>
             </div>
             <ul className={styles.itemUl}>
-              <li><span>名称</span><span>{experimentData.name || ''}</span></li>
-              <li><span>时间</span><span>{experimentData.testTime || ''}</span></li>
-              <li><span>地点</span><span>{experimentData.testPlace || ''}</span></li>
-              <li><span>水域深度</span><span>{experimentData.waterDepth || ''}</span></li>
-              <li><span>试验深度</span><span>{experimentData.testDepth || ''}</span></li>
+              <li><span>名称</span><span title={experimentData.name|| ''}>{experimentData.name || ''}</span></li>
+              <li><span>时间</span><span title={experimentData.testTime|| ''}>{experimentData.testTime || ''}</span></li>
+              <li><span>地点</span><span title={experimentData.testPlace|| ''}>{experimentData.testPlace || ''}</span></li>
+              <li><span>水域深度</span><span title={experimentData.waterDepth|| ''}>{experimentData.waterDepth || ''}</span></li>
+              <li><span>试验深度</span><span title={experimentData.testDepth|| ''}>{experimentData.testDepth || ''}</span></li>
               <li>
                 <span>其他</span>
                 <Tooltip

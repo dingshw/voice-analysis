@@ -304,9 +304,9 @@ export default class scaledata extends Component {
                 {
                   selectMap[key].map(item => {
                     if(_.isObject(item)) {
-                      return (<Option key={item.name}>{item.name}</Option>)
+                      return (<Option key={item.name} title={item.name}>{item.name}</Option>)
                     } else {
-                      return (<Option key={item}>{item}</Option>)
+                      return (<Option key={item} title={item}>{item}</Option>)
                     }
                   })
                 }

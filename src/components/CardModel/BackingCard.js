@@ -57,9 +57,9 @@ export default class BackingCard extends Component {
             }
             <ul className={styles.backingItemUl}>
               <span>背衬基本介绍</span>
-              <li><span>背衬名称</span><span>{backingData.name|| ''}</span></li>
-              <li><span>样品前端介质</span><span>{backingData.frontMedium|| ''}</span></li>
-              <li><span>背衬后端介质</span><span>{backingData.endMedium || ''}</span></li>
+              <li><span>背衬名称</span><span title={backingData.name|| ''}>{backingData.name|| ''}</span></li>
+              <li><span>样品前端介质</span><span title={backingData.frontMedium|| ''}>{backingData.frontMedium|| ''}</span></li>
+              <li><span>背衬后端介质</span><span title={backingData.endMedium|| ''}>{backingData.endMedium || ''}</span></li>
               <li>
                 <span>其他</span>
                 <Tooltip
